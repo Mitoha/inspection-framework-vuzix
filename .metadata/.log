@@ -1,0 +1,543 @@
+!SESSION 2015-02-03 14:44:12.379 -----------------------------------------------
+eclipse.buildId=4.4.1.M20140925-0400
+java.version=1.8.0_25
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=de_DE
+Framework arguments:  -product org.eclipse.epp.package.java.product -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.java.product -data C:\Users\micha_000\Documents\GitHub\inspection-framework-vuzix -product org.eclipse.epp.package.java.product
+
+!ENTRY org.eclipse.m2e.logback.configuration 2 0 2015-02-03 14:44:13.692
+!MESSAGE Exception while setting up logging:org.eclipse.osgi.internal.framework.EquinoxConfiguration$1 cannot be cast to java.lang.String
+!STACK 0
+java.lang.ClassCastException: org.eclipse.osgi.internal.framework.EquinoxConfiguration$1 cannot be cast to java.lang.String
+	at org.eclipse.m2e.logback.configuration.LogHelper.logJavaProperties(LogHelper.java:26)
+	at org.eclipse.m2e.logback.configuration.LogPlugin.loadConfiguration(LogPlugin.java:189)
+	at org.eclipse.m2e.logback.configuration.LogPlugin.configureLogback(LogPlugin.java:144)
+	at org.eclipse.m2e.logback.configuration.LogPlugin.access$2(LogPlugin.java:107)
+	at org.eclipse.m2e.logback.configuration.LogPlugin$1.run(LogPlugin.java:62)
+	at java.util.TimerThread.mainLoop(Unknown Source)
+	at java.util.TimerThread.run(Unknown Source)
+
+!ENTRY org.eclipse.ui 4 4 2015-02-03 14:44:16.696
+!MESSAGE Unable to create part
+
+!ENTRY org.eclipse.core.filebuffers 4 0 2015-02-03 14:44:16.696
+!MESSAGE Cannot determine URI for '/InspectionFrame/src/com/example/inspectionframe/MainActivity.java'.
+!STACK 1
+org.eclipse.core.runtime.CoreException: Cannot determine URI for '/InspectionFrame/src/com/example/inspectionframe/MainActivity.java'.
+	at org.eclipse.core.internal.filebuffers.ResourceFileBuffer.create(ResourceFileBuffer.java:238)
+	at org.eclipse.core.internal.filebuffers.TextFileBufferManager.connect(TextFileBufferManager.java:112)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.createFileInfo(TextFileDocumentProvider.java:559)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitDocumentProvider.createFileInfo(CompilationUnitDocumentProvider.java:980)
+	at org.eclipse.ui.editors.text.TextFileDocumentProvider.connect(TextFileDocumentProvider.java:478)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitDocumentProvider.connect(CompilationUnitDocumentProvider.java:1244)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.doSetInput(AbstractTextEditor.java:4233)
+	at org.eclipse.ui.texteditor.StatusTextEditor.doSetInput(StatusTextEditor.java:237)
+	at org.eclipse.ui.texteditor.AbstractDecoratedTextEditor.doSetInput(AbstractDecoratedTextEditor.java:1480)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.internalDoSetInput(JavaEditor.java:2584)
+	at org.eclipse.jdt.internal.ui.javaeditor.JavaEditor.doSetInput(JavaEditor.java:2557)
+	at org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor.doSetInput(CompilationUnitEditor.java:1395)
+	at org.eclipse.ui.texteditor.AbstractTextEditor$19.run(AbstractTextEditor.java:3220)
+	at org.eclipse.ui.internal.WorkbenchWindow.run(WorkbenchWindow.java:2099)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.internalInit(AbstractTextEditor.java:3238)
+	at org.eclipse.ui.texteditor.AbstractTextEditor.init(AbstractTextEditor.java:3265)
+	at org.eclipse.ui.internal.EditorReference.initialize(EditorReference.java:390)
+	at org.eclipse.ui.internal.e4.compatibility.CompatibilityPart.create(CompatibilityPart.java:305)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.e4.core.internal.di.MethodRequestor.execute(MethodRequestor.java:55)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:888)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.processAnnotated(InjectorImpl.java:869)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.inject(InjectorImpl.java:120)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.internalMake(InjectorImpl.java:337)
+	at org.eclipse.e4.core.internal.di.InjectorImpl.make(InjectorImpl.java:258)
+	at org.eclipse.e4.core.contexts.ContextInjectionFactory.make(ContextInjectionFactory.java:162)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.createFromBundle(ReflectionContributionFactory.java:104)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.doCreate(ReflectionContributionFactory.java:73)
+	at org.eclipse.e4.ui.internal.workbench.ReflectionContributionFactory.create(ReflectionContributionFactory.java:55)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ContributedPartRenderer.createWidget(ContributedPartRenderer.java:127)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:983)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:662)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.StackRenderer.showTab(StackRenderer.java:1250)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:100)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:678)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:68)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:674)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$6.run(PartRenderingEngine.java:547)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:531)
+	at org.eclipse.e4.ui.workbench.renderers.swt.ElementReferenceRenderer.createWidget(ElementReferenceRenderer.java:69)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createWidget(PartRenderingEngine.java:983)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:662)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:68)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:185)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:674)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:68)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:185)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:674)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:68)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:185)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:674)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:68)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveRenderer.processContents(PerspectiveRenderer.java:49)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:674)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.showTab(PerspectiveStackRenderer.java:103)
+	at org.eclipse.e4.ui.workbench.renderers.swt.LazyStackRenderer.postProcess(LazyStackRenderer.java:100)
+	at org.eclipse.e4.ui.workbench.renderers.swt.PerspectiveStackRenderer.postProcess(PerspectiveStackRenderer.java:77)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:678)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:68)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SashRenderer.processContents(SashRenderer.java:185)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:674)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.workbench.renderers.swt.SWTPartRenderer.processContents(SWTPartRenderer.java:68)
+	at org.eclipse.e4.ui.workbench.renderers.swt.WBWRenderer.processContents(WBWRenderer.java:664)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:674)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.safeCreateGui(PartRenderingEngine.java:766)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.access$2(PartRenderingEngine.java:737)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$7.run(PartRenderingEngine.java:731)
+	at org.eclipse.core.runtime.SafeRunner.run(SafeRunner.java:42)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.createGui(PartRenderingEngine.java:715)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1078)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1032)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:148)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:636)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:579)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:135)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:380)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:235)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:648)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:603)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+!SUBENTRY 1 org.eclipse.core.filebuffers 4 0 2015-02-03 14:44:16.696
+!MESSAGE Cannot determine URI for '/InspectionFrame/src/com/example/inspectionframe/MainActivity.java'.
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-02-03 14:44:17.368
+!MESSAGE Warning: EGit couldn't detect the installation path "gitPrefix" of native Git. Hence EGit can't respect system level
+Git settings which might be configured in ${gitPrefix}/etc/gitconfig under the native Git installation directory.
+The most important of these settings is core.autocrlf. Git for Windows by default sets this parameter to true in
+this system level configuration. The Git installation location can be configured on the
+Team > Git > Configuration preference page's 'System Settings' tab.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.egit.ui 2 0 2015-02-03 14:44:17.383
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\micha_000'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2015-02-03 14:47:15.117
+!MESSAGE Failed to load properties file for project 'InspectionFramework'
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.400
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_AnalogClock
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.415
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_AutoCompleteTextView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.447
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_AutoCompleteTextView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.462
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_Button
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.478
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_Button
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.478
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_SmallButton
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.478
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_SmallButton
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.494
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_CheckBox
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.494
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_CheckBox
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.509
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_CheckedTextView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.509
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_CheckedTextView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.509
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_DigitalClock
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.509
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_DigitalClock
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.525
+!MESSAGE palette: Couldn't resolve resource @id/PlainText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.540
+!MESSAGE palette: Couldn't resolve resource @id/PlainText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.540
+!MESSAGE palette: Couldn't resolve resource @id/Password
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.540
+!MESSAGE palette: Couldn't resolve resource @id/Password
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.540
+!MESSAGE palette: Couldn't resolve resource @id/PasswordNumeric
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.540
+!MESSAGE palette: Couldn't resolve resource @id/PasswordNumeric
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.540
+!MESSAGE palette: Couldn't resolve resource @id/PersonName
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.540
+!MESSAGE palette: Couldn't resolve resource @id/PersonName
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/Phone
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/Phone
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/PostalAddress
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/PostalAddress
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/MultilineText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/MultilineText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/Date
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/Date
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.556
+!MESSAGE palette: Couldn't resolve resource @id/Time
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/Time
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/Email
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/Email
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/Number
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/Number
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/NumberSigned
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/NumberSigned
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/NumberDecimal
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.572
+!MESSAGE palette: Couldn't resolve resource @id/NumberDecimal
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.587
+!MESSAGE palette: Couldn't resolve resource @id/LargeText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.587
+!MESSAGE palette: Couldn't resolve resource @id/LargeText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.587
+!MESSAGE palette: Couldn't resolve resource @id/MediumText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.587
+!MESSAGE palette: Couldn't resolve resource @id/MediumText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.587
+!MESSAGE palette: Couldn't resolve resource @id/SmallText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.587
+!MESSAGE palette: Couldn't resolve resource @id/SmallText
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.587
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_MultiAutoCompleteTextView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.587
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_MultiAutoCompleteTextView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.603
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ProgressBarNormal
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.603
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ProgressBarHorizontal
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.650
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ProgressBarLarge
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.650
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ProgressBarSmall
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.650
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_QuickContactBadge
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.681
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_RadioButton
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.681
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_RadioButton
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.697
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_RatingBar
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.712
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_SeekBar
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.759
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ListView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.775
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ExpandableListView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.790
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_Spinner
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.790
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_TextView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.790
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_TextView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.790
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ToggleButton
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.822
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ToggleButton
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.822
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ZoomButton
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.837
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_ZoomControls
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.884
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_CalendarView
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:23.962
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_RadioGroup
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2015-02-03 14:47:23.962
+!MESSAGE palette: Unrecognized format
+!STACK 0
+java.util.UnknownFormatConversionException: Conversion = 't'
+	at java.util.Formatter$FormatSpecifier.<init>(Unknown Source)
+	at java.util.Formatter.parse(Unknown Source)
+	at java.util.Formatter.format(Unknown Source)
+	at java.util.Formatter.format(Unknown Source)
+	at java.lang.String.format(Unknown Source)
+	at android.text.format.Time_Delegate.format1(Time_Delegate.java:70)
+	at android.text.format.Time.format1(Time.java)
+	at android.text.format.Time.format(Time.java:391)
+	at android.text.format.DateUtils.formatDateRange(DateUtils.java:1448)
+	at android.text.format.DateUtils.formatDateRange(DateUtils.java:1013)
+	at android.text.format.DateUtils.formatDateRange(DateUtils.java:990)
+	at android.text.format.DateUtils.formatDateTime(DateUtils.java:1602)
+	at android.widget.AnalogClock.updateContentDescription(AnalogClock.java:252)
+	at android.widget.AnalogClock.onTimeChanged(AnalogClock.java:233)
+	at android.widget.AnalogClock.onAttachedToWindow(AnalogClock.java:117)
+	at android.view.View.dispatchAttachedToWindow(View.java:9784)
+	at android.view.ViewGroup.dispatchAttachedToWindow(ViewGroup.java:2206)
+	at android.view.ViewGroup.dispatchAttachedToWindow(ViewGroup.java:2206)
+	at android.view.AttachInfo_Accessor.setAttachInfo(AttachInfo_Accessor.java:37)
+	at com.android.layoutlib.bridge.impl.RenderSessionImpl.inflate(RenderSessionImpl.java:377)
+	at com.android.layoutlib.bridge.Bridge.createSession(Bridge.java:326)
+	at com.android.ide.common.rendering.LayoutLibrary.createSession(LayoutLibrary.java:332)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.RenderService.createRenderSession(RenderService.java:517)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.PreviewIconFactory.render(PreviewIconFactory.java:273)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.PreviewIconFactory.initColors(PreviewIconFactory.java:595)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.PreviewIconFactory.getBackgroundColor(PreviewIconFactory.java:570)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.PaletteControl.reloadPalette(PaletteControl.java:437)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.GraphicalEditorPart.reloadPalette(GraphicalEditorPart.java:1327)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.GraphicalEditorPart.changed(GraphicalEditorPart.java:771)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.GraphicalEditorPart.onTargetChange(GraphicalEditorPart.java:1196)
+	at com.android.ide.eclipse.adt.internal.editors.layout.LayoutEditorDelegate.onDescriptorsChanged(LayoutEditorDelegate.java:916)
+	at com.android.ide.eclipse.adt.internal.editors.layout.LayoutEditorDelegate.delegateInitUiRootNode(LayoutEditorDelegate.java:835)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.GraphicalEditorPart$TargetListener.updateEditor(GraphicalEditorPart.java:953)
+	at com.android.ide.eclipse.adt.internal.editors.layout.gle2.GraphicalEditorPart$TargetListener.onTargetLoaded(GraphicalEditorPart.java:917)
+	at com.android.ide.eclipse.adt.AdtPlugin$11.run(AdtPlugin.java:1749)
+	at org.eclipse.swt.widgets.RunnableLock.run(RunnableLock.java:35)
+	at org.eclipse.swt.widgets.Synchronizer.runAsyncMessages(Synchronizer.java:136)
+	at org.eclipse.swt.widgets.Display.runAsyncMessages(Display.java:4147)
+	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3764)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$9.run(PartRenderingEngine.java:1151)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1032)
+	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:148)
+	at org.eclipse.ui.internal.Workbench$5.run(Workbench.java:636)
+	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:332)
+	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:579)
+	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:150)
+	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:135)
+	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:196)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:134)
+	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:104)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:380)
+	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:235)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:648)
+	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:603)
+	at org.eclipse.equinox.launcher.Main.run(Main.java:1465)
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:24.353
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_Switch
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:24.353
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_Switch
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:24.384
+!MESSAGE palette: Couldn't resolve resource @id/linearLayout1
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:24.400
+!MESSAGE palette: Couldn't resolve resource @id/Tab1
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:24.400
+!MESSAGE palette: Couldn't resolve resource @id/Tab2
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:24.400
+!MESSAGE palette: Couldn't resolve resource @id/Tab3
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:24.447
+!MESSAGE palette: Couldn't resolve resource @id/android_widget_TabWidget
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:24.447
+!MESSAGE palette: Couldn't resolve resource @id/Tab1
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:26.572
+!MESSAGE Unexpected build target format: Vuzix Corporation:Vuzix M100 Add-On:15
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:43.328
+!MESSAGE Unexpected build target format: Vuzix Corporation:Vuzix M100 Add-On:15
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:43.359
+!MESSAGE activity_main.xml: Couldn't resolve resource @id/textView1
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:43.359
+!MESSAGE activity_main.xml: Couldn't resolve resource @id/textView1
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:43.359
+!MESSAGE activity_main.xml: Couldn't resolve resource @id/textView1
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:43.359
+!MESSAGE activity_main.xml: Couldn't resolve resource @id/textView1
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:45.218
+!MESSAGE Unexpected build target format: Vuzix Corporation:Vuzix M100 Add-On:15
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:45.250
+!MESSAGE activity_main.xml: Couldn't resolve resource @id/textView1
+
+!ENTRY com.android.ide.eclipse.adt 2 0 2015-02-03 14:47:45.250
+!MESSAGE activity_main.xml: Couldn't resolve resource @id/textView1
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-02-03 14:49:00.158
+!MESSAGE Exception caught during execution of add command
+!STACK 0
+org.eclipse.jgit.api.errors.JGitInternalException: Exception caught during execution of add command
+	at org.eclipse.jgit.api.AddCommand.call(AddCommand.java:212)
+	at org.eclipse.egit.core.op.CommitOperation.addUntracked(CommitOperation.java:222)
+	at org.eclipse.egit.core.op.CommitOperation.access$4(CommitOperation.java:210)
+	at org.eclipse.egit.core.op.CommitOperation$1.run(CommitOperation.java:195)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.egit.core.op.CommitOperation.execute(CommitOperation.java:206)
+	at org.eclipse.egit.ui.internal.commit.CommitJob.run(CommitJob.java:96)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: java.io.IOException: Der Prozess kann nicht auf die Datei zugreifen, da ein anderer Prozess einen Teil der Datei gesperrt hat
+	at java.io.FileInputStream.readBytes(Native Method)
+	at java.io.FileInputStream.read(Unknown Source)
+	at org.eclipse.jgit.util.IO.readFully(IO.java:302)
+	at org.eclipse.jgit.internal.storage.file.ObjectDirectoryInserter.insert(ObjectDirectoryInserter.java:101)
+	at org.eclipse.jgit.api.AddCommand.call(AddCommand.java:188)
+	... 7 more
+
+!ENTRY org.eclipse.egit.ui 4 0 2015-02-03 14:49:29.968
+!MESSAGE Exception caught during execution of add command
+!STACK 0
+org.eclipse.jgit.api.errors.JGitInternalException: Exception caught during execution of add command
+	at org.eclipse.jgit.api.AddCommand.call(AddCommand.java:212)
+	at org.eclipse.egit.core.op.CommitOperation.addUntracked(CommitOperation.java:222)
+	at org.eclipse.egit.core.op.CommitOperation.access$4(CommitOperation.java:210)
+	at org.eclipse.egit.core.op.CommitOperation$1.run(CommitOperation.java:195)
+	at org.eclipse.core.internal.resources.Workspace.run(Workspace.java:2313)
+	at org.eclipse.egit.core.op.CommitOperation.execute(CommitOperation.java:206)
+	at org.eclipse.egit.ui.internal.commit.CommitJob.run(CommitJob.java:96)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:54)
+Caused by: java.io.IOException: Der Prozess kann nicht auf die Datei zugreifen, da ein anderer Prozess einen Teil der Datei gesperrt hat
+	at java.io.FileInputStream.readBytes(Native Method)
+	at java.io.FileInputStream.read(Unknown Source)
+	at org.eclipse.jgit.util.IO.readFully(IO.java:302)
+	at org.eclipse.jgit.internal.storage.file.ObjectDirectoryInserter.insert(ObjectDirectoryInserter.java:101)
+	at org.eclipse.jgit.api.AddCommand.call(AddCommand.java:188)
+	... 7 more
