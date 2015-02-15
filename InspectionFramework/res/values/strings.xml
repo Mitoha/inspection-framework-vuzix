@@ -2,7 +2,9 @@
 <resources>
 
     <string name="app_name">Inspection Framework</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">ExampleText</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_assignment_list">Assignment List</string>
+    <string name="action_synchronize">Sync</string>
 
 </resources>
