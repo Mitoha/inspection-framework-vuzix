@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
 public class MainActivity extends Activity {
 
     @Override
@@ -17,8 +16,6 @@ public class MainActivity extends Activity {
         //Sets subtitle for Action Bar
         ActionBar actionBar = getActionBar();
         actionBar.setSubtitle("User Login");
-
-
     }
 
 
