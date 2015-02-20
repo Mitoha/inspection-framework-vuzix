@@ -24,7 +24,7 @@
         android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="27dp"
-        android:text="Continue to Assignment List"
+        android:text="Continue to Assignment List2"
         android:onClick="continueButton" />
 
 </RelativeLayout>

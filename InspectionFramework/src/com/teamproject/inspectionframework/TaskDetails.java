@@ -11,6 +11,7 @@ public class TaskDetails extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_details);
+		
 	}
 
 	@Override
@@ -30,5 +31,5 @@ public class TaskDetails extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
+	}	
 }
