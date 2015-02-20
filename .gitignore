@@ -5,3 +5,6 @@
 ./.recommenders
 .metadata
 ./.settings
+.recommenders/*
+.recommenders
+./.recommenders/*
