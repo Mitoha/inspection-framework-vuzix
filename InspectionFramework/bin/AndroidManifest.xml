@@ -2,11 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.teamproject.inspectionframework"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="0.1" >
 
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="15" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"
@@ -29,5 +32,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.teamproject.inspectionframework.MainActivity" />
         </activity>
+        <activity
+            android:name=".TaskList"
+            android:label="@string/title_activity_task_list" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.teamproject.inspectionframework.AssignmentList" />
+        </activity>
+        <activity
+            android:name=".TaskDetails"
+            android:label="@string/title_activity_task_details" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.teamproject.inspectionframework.TaskList" />
+        </activity>
     </application>
+
 </manifest>

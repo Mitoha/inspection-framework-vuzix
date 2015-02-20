@@ -2,11 +2,17 @@ package com.teamproject.inspectionframework;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends Activity {
+	
+	Context ctx = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +39,19 @@ public class MainActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_synchronize) {
-            return true;
+            
+        	//TODO: Add synchronization here
+        	return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    public void continueButton(View view) {
+    	
+    	Log.i("IF","continueButtonPressed");
+    	
+    	// Intent to 
+    	Intent goToAssignmentListIntent = new Intent(ctx,AssignmentList.class);
+    	startActivity(goToAssignmentListIntent);
     }
 }

@@ -6,5 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_assignment_list">Assignment List</string>
     <string name="action_synchronize">Sync</string>
+    <string name="title_activity_task_list">Task List</string>
+    <string name="title_activity_task_details">Task Details</string>
 
 </resources>

@@ -6,25 +6,20 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.teamproject.inspectionframework.MainActivity" >
+    tools:context="com.teamproject.inspectionframework.TaskList" >
 
     <TextView
-        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="A list of possible users will be displayed here"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:text="@string/hello_world" />
 
     <Button
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textView1"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp"
-        android:text="Continue to Assignment List"
-        android:onClick="continueButton" />
+        android:layout_centerVertical="true"
+        android:text="Button"
+        android:onClick="testClick" />
 
 </RelativeLayout>

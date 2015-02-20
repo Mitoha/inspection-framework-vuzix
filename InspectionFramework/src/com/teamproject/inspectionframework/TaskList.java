@@ -9,22 +9,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class AssignmentList extends Activity {
+public class TaskList extends Activity {
 	
 	Context ctx = this;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_assignment_list);
-		
-		//TODO: Load all assignments from the SQLite database
+		setContentView(R.layout.activity_task_list);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.assignment_list, menu);
+		getMenuInflater().inflate(R.menu.task_list, menu);
 		return true;
 	}
 
@@ -45,7 +43,7 @@ public class AssignmentList extends Activity {
 	    	Log.i("M100Dev","continueButtonPressed");
 	    	
 	    	// Intent to 
-	    	Intent goToTaskListIntent = new Intent(ctx,TaskList.class);
-	    	startActivity(goToTaskListIntent);
+	    	Intent goToTaskDetailsIntent = new Intent(ctx,TaskDetails.class);
+	    	startActivity(goToTaskDetailsIntent);
 	    }
 }
