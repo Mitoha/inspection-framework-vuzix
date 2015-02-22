@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Inspection Framework</string>
@@ -7,5 +8,8 @@
     <string name="action_synchronize">Sync</string>
     <string name="title_activity_task_list">Task List</string>
     <string name="title_activity_task_details">Task Details</string>
+    <string name="show_assignment_details">Assignment Details</string>
+    <string name="attachment_finish_assignment">Attachment/Finish</string>
+    <string name="title_activity_assignment_details">Assignment Details</string>
 
 </resources>

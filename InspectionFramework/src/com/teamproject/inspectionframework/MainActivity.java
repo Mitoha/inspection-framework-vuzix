@@ -2,7 +2,6 @@ package com.teamproject.inspectionframework;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,11 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends Activity {
-	
-	Context ctx = this;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {	
+    	
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         
@@ -40,7 +38,7 @@ public class MainActivity extends Activity {
         int id = item.getItemId();
         if (id == R.id.action_synchronize) {
             
-        	//TODO: Add synchronization here
+        	//TODO: Add user synchronization here
         	return true;
         }
         return super.onOptionsItemSelected(item);
@@ -51,7 +49,7 @@ public class MainActivity extends Activity {
     	Log.i("IF","continueButtonPressed");
     	
     	// Intent to 
-    	Intent goToAssignmentListIntent = new Intent(ctx,AssignmentList.class);
+    	Intent goToAssignmentListIntent = new Intent(this,AssignmentList.class);
     	startActivity(goToAssignmentListIntent);
     }
 }

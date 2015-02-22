@@ -1,5 +1,7 @@
 package com.teamproject.inspectionframework.Application_Layer;
 
+import android.util.Log;
+
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.Entities.User;
@@ -9,11 +11,12 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-/**
- * Created by Tobias on 19.01.15.
- */
 public class ParseJSON {
-
+	
+	public void Tester() {
+		Log.i("IF","Region Reached");
+	}
+	
     //Method: Parse User to JSON
     public String userToJson(User user){
         JSONObject jsonObject = new JSONObject();

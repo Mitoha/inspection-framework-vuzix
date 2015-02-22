@@ -64,7 +64,7 @@ import java.util.List;
 
        //Database information
        private static final String DATABASE_NAME = "newTestDatabase.db";
-       private static final int DATABASE_VERSION = 5;
+       private static final int DATABASE_VERSION = 1;
 
        // Assignment Table creation sql statement
        private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE "
@@ -98,7 +98,9 @@ import java.util.List;
                database.execSQL(CREATE_TABLE_TASKS);
                database.execSQL(CREATE_TABLE_USERS);
                database.execSQL(CREATE_TABLE_INSPECTIONOBJECTS);
-           }
+               
+               Log.i("IF", "onCreateDB");
+                          }
 
        @Override
        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -109,8 +111,10 @@ import java.util.List;
            db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASKS);
            db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
            db.execSQL("DROP TABLE IF EXISTS " + TABLE_INSPECTIONOBJECTS);
-           onCreate(db);
+           onCreate(db);  
+           Log.i("IF", "onUpdateDB");
        }
+       
        //create a row User
        public void createUser(String userId, String userName, String firstname, String lastname, String role, String email, String phoneNumber, String mobileNumber){
 

@@ -3,9 +3,19 @@
     tools:context="com.teamproject.inspectionframework.AssignmentList" >
 
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_synchronize_assignments"
         android:orderInCategory="100"
         android:showAsAction="never"
-        android:title="@string/action_settings"/>
+        android:title="@string/action_synchronize"/>
+    <item 
+        android:id="@+id/action_show_assignment_details"
+		android:orderInCategory="101"
+        android:showAsAction="never"
+        android:title="@string/show_assignment_details"></item>
+    <item 
+        android:id="@+id/action_attachment_finish_assignment"
+		android:orderInCategory="102"
+        android:showAsAction="never"
+        android:title="@string/attachment_finish_assignment"></item>
 
 </menu>
