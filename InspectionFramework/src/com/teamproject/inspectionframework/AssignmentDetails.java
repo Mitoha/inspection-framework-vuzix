@@ -1,9 +1,11 @@
 package com.teamproject.inspectionframework;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class AssignmentDetails extends Activity {
 
@@ -11,6 +13,12 @@ public class AssignmentDetails extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_assignment_details);
+		
+		 //Sets subtitle for Action Bar
+        //ActionBar actionBar = getActionBar();
+        //actionBar.setSubtitle(XXXXX);
+		//Toast toast = Toast.makeText(this, "Name: "+ausgabe, Toast.LENGTH_SHORT);
+    	//toast.show();
 	}
 
 	@Override

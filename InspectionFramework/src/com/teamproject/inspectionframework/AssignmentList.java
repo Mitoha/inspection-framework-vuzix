@@ -14,6 +14,7 @@ import com.teamproject.inspectionframework.Entities.User;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class AssignmentList extends Activity {
 
@@ -128,11 +130,8 @@ public class AssignmentList extends Activity {
 						task.setTaskName(jObjectTask.get("taskName").toString());
 
 						String taskName = task.getTaskName();
-
 						String taskId = task.getId();
-
 						String taskDescription = task.getDescription();
-
 						Integer taskState = task.getState();
 
 
@@ -176,11 +175,16 @@ public class AssignmentList extends Activity {
 		// Open Assignment Details for selected assignment
 		case R.id.action_show_assignment_details:
 			// TODO: Code here
+			Intent goToAssignmentDetailsIntent = new Intent(this,AssignmentDetails.class);
+			//goToAssignmentDetailsIntent.putExtra("AssignmentObject",assignment);
+	    	startActivity(goToAssignmentDetailsIntent);
 			break;
 
 		// Show the screen for assignment finishing and attachment adding
 		case R.id.action_attachment_finish_assignment:
 			// TODO: Code here
+			Toast finish = Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT);
+	    	finish.show();
 			break;
 		default:
 			return true;
