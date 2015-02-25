@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.teamproject.inspectionframework.Entities.Assignment;
+import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.Entities.User;
 
 import java.util.ArrayList;
@@ -209,6 +210,25 @@ import java.util.List;
 
            return listAssignments;
        }
+       
+     //get only one assignment
+       public Assignment getAssignment(String assignmentId){
+           String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS + " WHERE "
+                   + A_COLUMN_ASSIGNMENT_ID + " = " + assignmentId;
+           SQLiteDatabase db = this.getReadableDatabase();
+           Cursor c = db.rawQuery(selectQuery, null);
+
+
+           Assignment assignment = new Assignment();
+           assignment.setId(c.getString((c.getColumnIndex(A_COLUMN_ASSIGNMENT_ID))));
+           assignment.setAssignmentName(c.getString((c.getColumnIndex(A_COLUMN_ASSIGNMENTNAME))));
+           assignment.setDescription((c.getString(c.getColumnIndex(A_COLUMN_DESCRIPTION))));
+           assignment.setStartDate((c.getInt(c.getColumnIndex(A_COLUMN_STARTDATE))));
+           assignment.setDueDate((c.getInt(c.getColumnIndex(A_COLUMN_ENDDATE))));
+           assignment.setIsTemplate((c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE))));
+
+           return assignment;
+       }
 
        //get all userName from the local database
        //returns a list with all userNames
@@ -234,6 +254,30 @@ import java.util.List;
            }
 
            return listUserNames;
+       }
+       
+       public List<String> getAllTasks() {
+           List<String> tasks = new ArrayList<String>();
+           String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_TASKS;
+
+
+
+           SQLiteDatabase db = this.getReadableDatabase();
+           Cursor c = db.rawQuery(selectQuery, null);
+
+           // looping through all rows and adding to list
+           if (c.moveToFirst()) {
+               do {
+                   Task task = new Task();
+                   task.setTaskName(c.getString((c.getColumnIndex(T_COLUMN_TASKNAME))));
+
+
+                   // adding to assignment list
+                   tasks.add(task.getTaskName());
+               } while (c.moveToNext());
+           }
+
+           return tasks;
        }
 
        // closing database
