@@ -28,22 +28,28 @@ public class TaskList extends ListActivity {
 	private RESTServices restInstance;
 	private TaskListAdapter adapter;
 	
+	private String assignmentId;
+	private String assignmentName;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
+		
+		//Set Variables
+		this.assignmentId = getIntent().getExtras().getString("AssignmentId");
+		this.assignmentName = getIntent().getExtras().getString("AssignmentName");
 
 		// Adjust Action Bar title
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + getIntent().getExtras().getString("AssignmentName"));
+		actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + assignmentName);
 
 		this.createOutputList();
 	}
 
 	public void createOutputList() {
 		datasource = new MySQLiteHelper(getApplicationContext());
-		List<Task> listWithAllTasksByAssignment = datasource.getTasksByAssignmentId(getIntent().getExtras().getString("AssignmentId"));
-		Log.i("IF","ASS_ID " + getIntent().getExtras().getString("AssignmentId"));
+		List<Task> listWithAllTasksByAssignment = datasource.getTasksByAssignmentId(assignmentId);
 
 		adapter = new TaskListAdapter(this, listWithAllTasksByAssignment);
 		setListAdapter(adapter);
@@ -66,7 +72,12 @@ public class TaskList extends ListActivity {
 		int menuItemId = item.getItemId();
 		switch (menuItemId) {
 		case R.id.action_show_assignment_details:
-			//TODO: fill
+			
+			Intent goToAssignmentDetailsIntent = new Intent(this, AssignmentDetails.class);
+			goToAssignmentDetailsIntent.putExtra("AssignmentName", assignmentName);
+			goToAssignmentDetailsIntent.putExtra("AssignmentId", assignmentId);
+			startActivity(goToAssignmentDetailsIntent);
+			
 			break;
 			
 		case R.id.action_attachment_finish_assignment:

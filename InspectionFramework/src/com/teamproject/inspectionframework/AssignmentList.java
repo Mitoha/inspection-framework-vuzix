@@ -92,7 +92,12 @@ public class AssignmentList extends ListActivity {
 				for (int i = 0; i < jArray.length(); i++) {
 					Assignment ass = new Assignment();
 					JSONObject jObject = jArray.getJSONObject(i);
-
+					
+					//Checks if assignment is template
+					if(jObject.get("isTemplate").toString() == "true") {
+						continue;
+					}
+					
 					// get and set the values for the table assignments
 					ass.setDescription(jObject.get("description").toString());
 					ass.setAssignmentName(jObject.get("assignmentName").toString());

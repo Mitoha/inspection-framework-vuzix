@@ -52,7 +52,7 @@
             android:label="@string/title_activity_assignment_details" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.teamproject.inspectionframework.AssignmentList" />
+                android:value="com.teamproject.inspectionframework.TaskList" />
         </activity>
     </application>
 
