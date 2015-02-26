@@ -76,7 +76,7 @@ import java.util.List;
        //Task Table creation sql statement
        private static final String CREATE_TABLE_TASKS = "CREATE TABLE "
                + TABLE_TASKS + "(" + T_COLUMN_ROWID + " INTEGER, " + T_COLUMN_TASKNAME + " TEXT, " + T_COLUMN_DESCRIPTION + " TEXT, "
-               + T_COLUMN_STATE + " INTEGER, " + T_TASK_ID + " TEXT PRIMARY KEY, " + T_PK + " TEXT, " + " FOREIGN KEY(PK) REFERENCES TABLE_ASSIGNMENTS(assignmentId))";
+               + T_COLUMN_STATE + " INTEGER, " + T_TASK_ID + " TEXT PRIMARY KEY UNIQUE, " + T_PK + " TEXT, " + " FOREIGN KEY(PK) REFERENCES TABLE_ASSIGNMENTS(assignmentId))";
 
        //User Table creation sql statement
        private static final String CREATE_TABLE_USERS = "CREATE TABLE "
@@ -99,8 +99,6 @@ import java.util.List;
                database.execSQL(CREATE_TABLE_TASKS);
                database.execSQL(CREATE_TABLE_USERS);
                database.execSQL(CREATE_TABLE_INSPECTIONOBJECTS);
-               
-               Log.i("IF", "onCreateDB");
                           }
 
        @Override
@@ -113,7 +111,6 @@ import java.util.List;
            db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
            db.execSQL("DROP TABLE IF EXISTS " + TABLE_INSPECTIONOBJECTS);
            onCreate(db);  
-           Log.i("IF", "onUpdateDB");
        }
        
        //create a row User
@@ -132,6 +129,7 @@ import java.util.List;
            values.put(MySQLiteHelper.U_COLUMN_PHONENUMBER, phoneNumber);
 
            long insertId = database.insert(MySQLiteHelper.TABLE_USERS, null, values);
+           database.close();
        }
 
        //create a row Assignment
@@ -152,6 +150,7 @@ import java.util.List;
            //insert row
            long insertId = database.insert(MySQLiteHelper.TABLE_ASSIGNMENTS, null,
                    values);
+           database.close();
        }
 
        //Create a row Task
@@ -167,6 +166,7 @@ import java.util.List;
 
            long insertId = database.insert(MySQLiteHelper.TABLE_TASKS, null,
                    values);
+           database.close();
        }
 
        //Create a row InspectionObject
@@ -183,6 +183,7 @@ import java.util.List;
 
            long insertId = database.insert(MySQLiteHelper.TABLE_INSPECTIONOBJECTS, null,
                    values);
+           database.close();
        }
 
        //get all assignments from the database
@@ -207,7 +208,8 @@ import java.util.List;
                    listAssignments.add(assignment);
                } while (c.moveToNext());
            }
-
+           
+           db.close();
            return listAssignments;
        }
        
@@ -226,7 +228,8 @@ import java.util.List;
            assignment.setStartDate((c.getInt(c.getColumnIndex(A_COLUMN_STARTDATE))));
            assignment.setDueDate((c.getInt(c.getColumnIndex(A_COLUMN_ENDDATE))));
            assignment.setIsTemplate((c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE))));
-
+           
+           db.close();
            return assignment;
        }
 
@@ -252,7 +255,7 @@ import java.util.List;
                    listUserNames.add(user.getUserName());
                } while (c.moveToNext());
            }
-
+           db.close();
            return listUserNames;
        }
        
@@ -271,13 +274,37 @@ import java.util.List;
                    Task task = new Task();
                    task.setTaskName(c.getString((c.getColumnIndex(T_COLUMN_TASKNAME))));
 
-
                    // adding to assignment list
                    tasks.add(task.getTaskName());
                } while (c.moveToNext());
            }
-
+           db.close();
            return tasks;
+       }
+       
+       public List<Task> getTasksByAssignmentId(String assignmentId) {
+           List<Task> taskList = new ArrayList<Task>();
+           String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_TASKS + " WHERE " + T_PK + " = " + "'"+assignmentId+"'";
+
+           SQLiteDatabase db = this.getReadableDatabase();
+           Cursor c = db.rawQuery(selectQuery, null);
+
+           // looping through all rows and adding to list
+           if (c.moveToFirst()) {
+               do {
+                   Task task = new Task();
+                   task.setId(c.getString((c.getColumnIndex(T_TASK_ID))));
+                   task.setTaskName(c.getString((c.getColumnIndex(T_COLUMN_TASKNAME))));
+                   task.setDescription(c.getString((c.getColumnIndex(T_COLUMN_DESCRIPTION))));
+                   task.setState(c.getInt(c.getColumnIndex(T_COLUMN_STATE)));
+                   task.setAssignmentId(c.getString(c.getColumnIndex(T_PK)));
+
+                   // adding to task list
+                   taskList.add(task);
+               } while (c.moveToNext());
+           }
+           db.close();
+           return taskList;
        }
 
        // closing database

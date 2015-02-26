@@ -3,7 +3,6 @@ package com.teamproject.inspectionframework.List_Adapters;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,8 @@ public class AssignmentAdapter extends BaseAdapter {
 
 	List<Assignment> assignmentList;
 	Context context;
-
+	
+	//Constructor; provides the needed context and list of assignments given by the calling method
 	public AssignmentAdapter(Context activityContext, List<Assignment> assignments) {
 		super();
 		this.context = activityContext;
@@ -54,7 +54,11 @@ public class AssignmentAdapter extends BaseAdapter {
 		DueDate.setText(assignment.getDueDate().toString());
 
 		return convertView;
-
+	}
+	
+	//Gives the item per position (needed for ClickListener)
+	public Assignment getClickedAssignment(int position) {
+		return assignmentList.get(position);
 	}
 
 }

@@ -1,25 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Everything in this file will be displayed static, i.e. one time per list view -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.teamproject.inspectionframework.TaskList" >
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
+    <!-- This is a list element; the ID must be android.id.list to be found by the ListActivity -->
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp" >
+    </ListView>
+	
+    <!-- This text will be displayed if the list is empty -->
     <TextView
+        android:id="@android:id/empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Button"
-        android:onClick="testClick" />
+        android:layout_centerInParent="true"
+        android:text="@string/list_noItemsAvailable"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

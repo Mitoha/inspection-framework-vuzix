@@ -1,6 +1,5 @@
 package com.teamproject.inspectionframework;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -20,17 +19,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
 public class AssignmentList extends ListActivity {
 
 	// VAR-declaration
-	ListView listViewAssignmentList;
 	private MySQLiteHelper datasource;
 	private RESTServices restInstance;
+	private AssignmentAdapter adapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,14 +48,26 @@ public class AssignmentList extends ListActivity {
 
 	public void createOutputList() {
 		datasource = new MySQLiteHelper(getApplicationContext());
-
 		List<Assignment> listWithAllStoredAssignments = datasource.getAllAssignments();
 
-		AssignmentAdapter adapter = new AssignmentAdapter(this, listWithAllStoredAssignments);
+		adapter = new AssignmentAdapter(this, listWithAllStoredAssignments);
 		setListAdapter(adapter);
 
 		datasource.close();
 	}
+
+	// Listens to clicks on list entries and calls the adapter for retrieving
+	// the corresponding assignment object
+	protected void onListItemClick(ListView l, android.view.View v, int position, long id) {
+
+		Assignment clickedAssignment = adapter.getClickedAssignment(position);
+		Log.i("IF", "Clicked Assignment " + clickedAssignment.getAssignmentName());
+
+		Intent goToTaskListIntent = new Intent(this, TaskList.class);
+		goToTaskListIntent.putExtra("AssignmentName", clickedAssignment.getAssignmentName());
+		goToTaskListIntent.putExtra("AssignmentId", clickedAssignment.getId());
+		startActivity(goToTaskListIntent);
+	};
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -70,6 +80,7 @@ public class AssignmentList extends ListActivity {
 		// Sync assignments between Heroku server and local database
 		case R.id.action_synchronize_assignments:
 			Log.i("IF", "Assignment Sync activated");
+			datasource = new MySQLiteHelper(getApplicationContext());
 
 			restInstance = new RESTServices();
 
@@ -86,8 +97,8 @@ public class AssignmentList extends ListActivity {
 					ass.setDescription(jObject.get("description").toString());
 					ass.setAssignmentName(jObject.get("assignmentName").toString());
 					ass.setId(jObject.get("id").toString());
-					ass.setStartDate(jObject.getInt("startDate"));
-					ass.setDueDate(jObject.getInt("endDate"));
+					//ass.setStartDate(jObject.getInt("startDate"));
+					//ass.setDueDate(jObject.getInt("endDate"));
 					ass.setInspectionObjectId(jObject.get("isTemplate").toString());
 
 					String assignmentName = ass.getAssignmentName();
@@ -100,6 +111,7 @@ public class AssignmentList extends ListActivity {
 					// Download all tasks assigned to an assignment from the
 					// server
 					// jArrayTask gets the SubJSONObject "tasks"
+
 					JSONArray jArrayTask = new JSONArray(jObject.get("tasks").toString());
 
 					for (int j = 0; j < jArrayTask.length(); j++) {
@@ -107,7 +119,7 @@ public class AssignmentList extends ListActivity {
 						JSONObject jObjectTask = jArrayTask.getJSONObject(j);
 						task.setId(jObjectTask.get("id").toString());
 						task.setDescription(jObjectTask.get("description").toString());
-						// task.setState(jObjectTask.getInt("state"));
+						//task.setState(jObjectTask.getInt("state"));
 						task.setTaskName(jObjectTask.get("taskName").toString());
 
 						String taskName = task.getTaskName();
@@ -119,11 +131,11 @@ public class AssignmentList extends ListActivity {
 						datasource.createTask(taskId, taskName, taskDescription, taskState, id);
 					}
 
-					JSONObject jObjectInspectionObject = new JSONObject(jObject.get("inspectionObject").toString());
-					InspectionObject inspectionObject = new InspectionObject();
-					inspectionObject.setId(jObjectInspectionObject.get("id").toString());
-					String objectId;
-					objectId = inspectionObject.getId();
+					//JSONObject jObjectInspectionObject = new JSONObject(jObject.get("inspectionObject").toString());
+					//InspectionObject inspectionObject = new InspectionObject();
+					//inspectionObject.setId(jObjectInspectionObject.get("id").toString());
+					//String objectId;
+					//objectId = inspectionObject.getId();
 
 					// TODO: Error occurs when userId = null -> Assignments will
 					// not be loaded
@@ -135,7 +147,7 @@ public class AssignmentList extends ListActivity {
 					// String userId = user.getUserId();
 
 					// Store all assignments into the database
-					datasource.createAssignment(id, assignmentName, description, startDate, endDate, objectId, "TestUser", isTemplate);
+					datasource.createAssignment(id, assignmentName, description, startDate, endDate, "TestObject", "TestUser", isTemplate);
 
 				}
 
@@ -147,20 +159,6 @@ public class AssignmentList extends ListActivity {
 			this.createOutputList();
 			break;
 
-		// Open Assignment Details for selected assignment
-		case R.id.action_show_assignment_details:
-			// TODO: Code here
-			Intent goToAssignmentDetailsIntent = new Intent(this, AssignmentDetails.class);
-			// goToAssignmentDetailsIntent.putExtra("AssignmentObject",assignment);
-			startActivity(goToAssignmentDetailsIntent);
-			break;
-
-		// Show the screen for assignment finishing and attachment adding
-		case R.id.action_attachment_finish_assignment:
-			// TODO: Code here
-			Toast finish = Toast.makeText(this, "Not implemented yet", Toast.LENGTH_SHORT);
-			finish.show();
-			break;
 		default:
 			return true;
 		}
