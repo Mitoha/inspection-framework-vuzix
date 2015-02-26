@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_margin="1sp"
         android:text="@+id/assignmentName"
-        android:textSize="24sp" />
+        android:textSize="26sp" />
     
     <TextView
         android:id="@+id/assignmentDueDate"
@@ -21,6 +21,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="3sp"
         android:text="@+id/assignmentDueDate"
-        android:textSize="18sp" />
+        android:textSize="22sp" />
     
 </RelativeLayout> 

@@ -46,7 +46,7 @@ public class RESTServices {
         StringBuilder builder = new StringBuilder();
 
      HttpClient client = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet("https://inspection-framework.herokuapp.com/"+uri);
+        HttpGet httpGet = new HttpGet("http://inspection-framework.herokuapp.com/"+uri);
         try {
             HttpResponse response = client.execute(httpGet);
             StatusLine statusLine = response.getStatusLine();

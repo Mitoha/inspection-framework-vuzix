@@ -1,6 +1,7 @@
 package com.teamproject.inspectionframework;
 
 import com.teamproject.inspectionframework.Entities.Assignment;
+import com.teamproject.inspectionframework.Entities.InspectionObject;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
 import android.app.ActionBar;
@@ -45,7 +46,11 @@ public class AssignmentDetails extends Activity {
 		buildElement = (TextView) findViewById(R.id.tvAssignmentDueDate);
 		buildElement.setText("Due Date: " + assignment.getDueDate());
 		buildElement = (TextView) findViewById(R.id.tvAssignmentInspObj);
-		buildElement.setText("Insp. Object: " + assignment.getInspectionObjectId());
+		
+		if(assignment.getInspectionObjectId()!= null) {
+			buildElement.setText("Insp. Object: " + datasource.getInspectionObjectById(assignment.getInspectionObjectId()).getObjectName());
+		}
+		else {buildElement.setText("Insp. Object: Not found");}
 		buildElement = (TextView) findViewById(R.id.tvAssignmentDescription);
 		buildElement.setText("Description: " + assignment.getDescription());
 		

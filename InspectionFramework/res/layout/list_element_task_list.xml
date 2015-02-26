@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_margin="1sp"
         android:text="@+id/taskName"
-        android:textSize="24sp" />
+        android:textSize="26sp" />
     
     <TextView
         android:id="@+id/taskState"
@@ -21,6 +21,6 @@
         android:layout_alignParentRight="true"
         android:layout_margin="3sp"
         android:text="@+id/taskState"
-        android:textSize="18sp" />
+        android:textSize="22sp" />
     
 </RelativeLayout> 

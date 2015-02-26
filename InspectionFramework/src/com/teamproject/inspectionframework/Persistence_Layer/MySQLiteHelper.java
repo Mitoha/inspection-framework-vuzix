@@ -3,12 +3,12 @@ package com.teamproject.inspectionframework.Persistence_Layer;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.teamproject.inspectionframework.Entities.Assignment;
+import com.teamproject.inspectionframework.Entities.InspectionObject;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.Entities.User;
 
@@ -174,7 +174,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// returns a list with all assignmentNames
 	public List<Assignment> getAllAssignments() {
 		List<Assignment> listAssignments = new ArrayList<Assignment>();
-		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS;
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
 
@@ -188,6 +188,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				assignment.setStartDate((c.getInt(c.getColumnIndex(A_COLUMN_STARTDATE))));
 				assignment.setDueDate((c.getInt(c.getColumnIndex(A_COLUMN_ENDDATE))));
 				assignment.setIsTemplate((c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE))));
+				assignment.setUserId(c.getString(c.getColumnIndex(A_COLUMN_USER_ID)));
+
 				// adding to assignment list
 				listAssignments.add(assignment);
 			} while (c.moveToNext());
@@ -202,25 +204,41 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS + " WHERE " + A_COLUMN_ASSIGNMENT_ID + " = " + "'" + assignmentId + "'";
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
+		c.moveToFirst();
 
 		Assignment assignment = new Assignment();
-		//TODO: Fix this db-access
-	/*	assignment.setId(c.getString(c.getColumnIndex(A_COLUMN_ASSIGNMENT_ID)));
+		assignment.setId(c.getString(c.getColumnIndex(A_COLUMN_ASSIGNMENT_ID)));
 		assignment.setAssignmentName(c.getString((c.getColumnIndex(A_COLUMN_ASSIGNMENTNAME))));
-		assignment.setDescription((c.getString(c.getColumnIndex(A_COLUMN_DESCRIPTION))));
-		assignment.setStartDate((c.getInt(c.getColumnIndex(A_COLUMN_STARTDATE))));
-		assignment.setDueDate((c.getInt(c.getColumnIndex(A_COLUMN_ENDDATE))));
-		assignment.setIsTemplate((c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE))));
-	*/	
+		assignment.setDescription(c.getString(c.getColumnIndex(A_COLUMN_DESCRIPTION)));
+		assignment.setStartDate(c.getInt(c.getColumnIndex(A_COLUMN_STARTDATE)));
+		assignment.setDueDate(c.getInt(c.getColumnIndex(A_COLUMN_ENDDATE)));
+		assignment.setIsTemplate(c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE)));
+		assignment.setUserId(c.getString(c.getColumnIndex(A_COLUMN_USER_ID)));
+
 		db.close();
 		return assignment;
 	}
 
+	public InspectionObject getInspectionObjectById(String inspectionObjectId) {
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_INSPECTIONOBJECTS + " WHERE " + I_COLUMN_OBJECT_ID + " = " + "'" + inspectionObjectId + "'";
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+		c.moveToFirst();
+
+		InspectionObject inspectionObject = new InspectionObject();
+		inspectionObject.setId(c.getString(c.getColumnIndex(I_COLUMN_OBJECT_ID)));
+		inspectionObject.setObjectName(c.getString((c.getColumnIndex(I_COLUMN_OBJECTNAME))));
+		inspectionObject.setDescription(c.getString(c.getColumnIndex(I_COLUMN_DESCRIPTION)));
+		inspectionObject.setCustomerName(c.getString(c.getColumnIndex(I_COLUMN_CUSTOMERNAME)));
+		inspectionObject.setLocation(c.getString(c.getColumnIndex(I_COLUMN_LOCATION)));
+		return inspectionObject;
+	}
+
 	// get all userName from the local database
 	// returns a list with all userNames
-	public List<String> getAllUserNames() {
-		List<String> listUserNames = new ArrayList<String>();
-		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_USERS;
+	public List<User> getAllUsers() {
+		List<User> listUser = new ArrayList<User>();
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_USERS;
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
@@ -229,40 +247,48 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		if (c.moveToFirst()) {
 			do {
 				User user = new User();
-				user.setUserName(c.getString((c.getColumnIndex(U_COLUMN_USERNAME))));
+				user.setUserId(c.getString(c.getColumnIndex(U_COLUMN_USER_ID)));
+				user.setUserName(c.getString(c.getColumnIndex(U_COLUMN_USERNAME)));
+				user.setFirstName(c.getString(c.getColumnIndex(U_COLUMN_FIRSTNAME)));
+				user.setLastName(c.getString(c.getColumnIndex(U_COLUMN_LASTNAME)));
+				user.setMobileNumber(c.getString(c.getColumnIndex(U_COLUMN_MOBILENUMBER)));
+				user.setPhoneNumber(c.getString(c.getColumnIndex(U_COLUMN_PHONENUMBER)));
+				user.setEmail(c.getString(c.getColumnIndex(U_COLUMN_EMAIL)));
+				user.setRole(c.getString(c.getColumnIndex(U_COLUMN_ROLE)));
 
-				// adding to assignment list
-				listUserNames.add(user.getUserName());
+				// adding to user list
+				listUser.add(user);
 			} while (c.moveToNext());
 		}
+		
 		db.close();
-		return listUserNames;
+		return listUser;
 	}
-
-	public List<String> getAllTasks() {
-		List<String> tasks = new ArrayList<String>();
-		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_TASKS;
+	
+	public User getUserById(String userId) {
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_USERS + " WHERE " + A_COLUMN_USER_ID + " = '" + userId + "'";
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
-
-		// looping through all rows and adding to list
-		if (c.moveToFirst()) {
-			do {
-				Task task = new Task();
-				task.setTaskName(c.getString((c.getColumnIndex(T_COLUMN_TASKNAME))));
-
-				// adding to assignment list
-				tasks.add(task.getTaskName());
-			} while (c.moveToNext());
-		}
+		c.moveToFirst();
+			
+				User user = new User();
+				user.setUserId(c.getString(c.getColumnIndex(U_COLUMN_USER_ID)));
+				user.setUserName(c.getString(c.getColumnIndex(U_COLUMN_USERNAME)));
+				user.setFirstName(c.getString(c.getColumnIndex(U_COLUMN_FIRSTNAME)));
+				user.setLastName(c.getString(c.getColumnIndex(U_COLUMN_LASTNAME)));
+				user.setMobileNumber(c.getString(c.getColumnIndex(U_COLUMN_MOBILENUMBER)));
+				user.setPhoneNumber(c.getString(c.getColumnIndex(U_COLUMN_PHONENUMBER)));
+				user.setEmail(c.getString(c.getColumnIndex(U_COLUMN_EMAIL)));
+				user.setRole(c.getString(c.getColumnIndex(U_COLUMN_ROLE)));
+		
 		db.close();
-		return tasks;
+		return user;
 	}
 
 	public List<Task> getTasksByAssignmentId(String assignmentId) {
 		List<Task> taskList = new ArrayList<Task>();
-		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_TASKS + " WHERE " + T_PK + " = " + "'" + assignmentId + "'";
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_TASKS + " WHERE " + T_PK + " = " + "'" + assignmentId + "'";
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);

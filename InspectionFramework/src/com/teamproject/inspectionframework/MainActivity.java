@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
         
         //Sets subtitle for Action Bar
         ActionBar actionBar = getActionBar();
-        actionBar.setSubtitle("User Login");
+        actionBar.setTitle(getString(R.string.app_name) + ": User Login");
     }
 
 
