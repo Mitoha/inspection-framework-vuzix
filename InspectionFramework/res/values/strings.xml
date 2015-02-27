@@ -12,5 +12,7 @@
     <string name="attachment_finish_assignment">Attachment/Finish</string>
     <string name="title_activity_assignment_details">Assignment Details</string>
     <string name="list_noItemsAvailable">No Items Available!</string>
+    <string name="tab_user_login">Login</string>
+    <string name="tab_user_list">User list</string>
 
 </resources>
