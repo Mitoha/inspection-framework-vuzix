@@ -33,6 +33,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String A_COLUMN_USER_ID = "userId";
 	public static final String A_COLUMN_INSPECTIONOBJECT_ID = "inspectionObjectId";
 	public static final String A_COLUMN_ISTEMPLATE = "isTemplate";
+	public static final String A_COLUMN_STATE = "assignmentStates";
 
 	// Column names table tasks
 	public static final String T_COLUMN_ROWID = "_id";
@@ -66,7 +67,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final int DATABASE_VERSION = 1;
 
 	// Assignment Table creation sql statement
-	private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE " + TABLE_ASSIGNMENTS + "(" + A_COLUMN_ROWID + " INTEGER, " + A_COLUMN_ASSIGNMENT_ID + " TEXT PRIMARY KEY UNIQUE, " + A_COLUMN_DESCRIPTION + " TEXT, " + A_COLUMN_ASSIGNMENTNAME + " TEXT, " + A_COLUMN_STARTDATE + " INTEGER, " + A_COLUMN_ENDDATE + " INTEGER, " + A_COLUMN_ISTEMPLATE + " TEXT, " + A_COLUMN_INSPECTIONOBJECT_ID + " TEXT, " + A_COLUMN_USER_ID + " TEXT)";
+	private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE " + TABLE_ASSIGNMENTS + "(" + A_COLUMN_ROWID + " INTEGER, " + A_COLUMN_ASSIGNMENT_ID + " TEXT PRIMARY KEY UNIQUE, " + A_COLUMN_DESCRIPTION + " TEXT, " + A_COLUMN_ASSIGNMENTNAME + " TEXT, " + A_COLUMN_STARTDATE + " LONG, " + A_COLUMN_ENDDATE + " LONG, " + A_COLUMN_ISTEMPLATE + " TEXT, " + A_COLUMN_INSPECTIONOBJECT_ID + " TEXT, " + A_COLUMN_USER_ID + " TEXT, " + A_COLUMN_STATE + " TEXT)";
 
 	// Task Table creation sql statement
 	private static final String CREATE_TABLE_TASKS = "CREATE TABLE " + TABLE_TASKS + "(" + T_COLUMN_ROWID + " INTEGER, " + T_COLUMN_TASKNAME + " TEXT, " + T_COLUMN_DESCRIPTION + " TEXT, " + T_COLUMN_STATE + " INTEGER, " + T_TASK_ID + " TEXT PRIMARY KEY, " + T_PK + " TEXT, " + " FOREIGN KEY(PK) REFERENCES TABLE_ASSIGNMENTS(assignmentId))";
@@ -119,7 +120,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	// create a row Assignment
-	public void createAssignment(String assignmentId, String assignmentName, String description, Integer startDate, Integer endDate, String objectId, String userId, String isTemplate) {
+	public void createAssignment(String assignmentId, String assignmentName, String description, Long startDate, Long endDate, String objectId, String userId, String isTemplate, Integer state) {
 
 		SQLiteDatabase database = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
@@ -132,6 +133,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.A_COLUMN_ISTEMPLATE, isTemplate);
 		values.put(MySQLiteHelper.A_COLUMN_INSPECTIONOBJECT_ID, objectId);
 		values.put(MySQLiteHelper.A_COLUMN_USER_ID, userId);
+		values.put(MySQLiteHelper.A_COLUMN_STATE, state);
 
 		// insert row
 		database.insert(MySQLiteHelper.TABLE_ASSIGNMENTS, null, values);
@@ -182,13 +184,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		if (c.moveToFirst()) {
 			do {
 				Assignment assignment = new Assignment();
-				assignment.setId(c.getString((c.getColumnIndex(A_COLUMN_ASSIGNMENT_ID))));
+				assignment.setId(c.getString(c.getColumnIndex(A_COLUMN_ASSIGNMENT_ID)));
 				assignment.setAssignmentName(c.getString((c.getColumnIndex(A_COLUMN_ASSIGNMENTNAME))));
-				assignment.setDescription((c.getString(c.getColumnIndex(A_COLUMN_DESCRIPTION))));
-				assignment.setStartDate((c.getInt(c.getColumnIndex(A_COLUMN_STARTDATE))));
-				assignment.setDueDate((c.getInt(c.getColumnIndex(A_COLUMN_ENDDATE))));
-				assignment.setIsTemplate((c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE))));
+				assignment.setDescription(c.getString(c.getColumnIndex(A_COLUMN_DESCRIPTION)));
+				assignment.setStartDate(c.getLong(c.getColumnIndex(A_COLUMN_STARTDATE)));
+				assignment.setDueDate(c.getLong(c.getColumnIndex(A_COLUMN_ENDDATE)));
+				assignment.setIsTemplate(c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE)));
 				assignment.setUserId(c.getString(c.getColumnIndex(A_COLUMN_USER_ID)));
+				assignment.setAssignmentState(c.getInt(c.getColumnIndex(A_COLUMN_STATE)));
 
 				// adding to assignment list
 				listAssignments.add(assignment);
@@ -210,10 +213,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		assignment.setId(c.getString(c.getColumnIndex(A_COLUMN_ASSIGNMENT_ID)));
 		assignment.setAssignmentName(c.getString((c.getColumnIndex(A_COLUMN_ASSIGNMENTNAME))));
 		assignment.setDescription(c.getString(c.getColumnIndex(A_COLUMN_DESCRIPTION)));
-		assignment.setStartDate(c.getInt(c.getColumnIndex(A_COLUMN_STARTDATE)));
-		assignment.setDueDate(c.getInt(c.getColumnIndex(A_COLUMN_ENDDATE)));
+		assignment.setStartDate(c.getLong(c.getColumnIndex(A_COLUMN_STARTDATE)));
+		assignment.setDueDate(c.getLong(c.getColumnIndex(A_COLUMN_ENDDATE)));
 		assignment.setIsTemplate(c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE)));
 		assignment.setUserId(c.getString(c.getColumnIndex(A_COLUMN_USER_ID)));
+		assignment.setAssignmentState(c.getInt(c.getColumnIndex(A_COLUMN_STATE)));
 
 		db.close();
 		return assignment;

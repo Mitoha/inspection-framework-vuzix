@@ -6,11 +6,12 @@ public class Assignment {
     String assignmentName;
     String id;
     String description;
-    Integer startDate;
-    Integer dueDate;
+    Long startDate;
+    Long dueDate;
     String userId;
     String inspectionObjectId;
     String isTemplate;
+    Integer assignmentState;
 
 
     //Constructor
@@ -37,12 +38,12 @@ public class Assignment {
         description=description1;
     }
 
-    public void setStartDate(Integer startDate) {
-        this.startDate = startDate;
+    public void setStartDate(Long l) {
+        this.startDate = l;
     }
 
-    public void setDueDate(Integer dueDate) {
-        this.dueDate = dueDate;
+    public void setDueDate(Long l) {
+        this.dueDate = l;
     }
 
     public void setUserId(String userId) {
@@ -51,6 +52,10 @@ public class Assignment {
 
     public void setInspectionObjectId(String inspectionObjectId) {
         this.inspectionObjectId = inspectionObjectId;
+    }
+    
+    public void setAssignmentState(Integer state) {
+    	this.assignmentState = state;
     }
 
     //Getter
@@ -71,13 +76,11 @@ public class Assignment {
         return description;
     }
 
-
-
-    public Integer getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public Integer getDueDate() {
+    public Long getDueDate() {
         return dueDate;
     }
 
@@ -87,6 +90,10 @@ public class Assignment {
 
     public String getInspectionObjectId() {
         return inspectionObjectId;
+    }
+    
+    public Integer getAssignmentState() {
+    	return assignmentState;
     }
 
     @Override

@@ -14,5 +14,6 @@
     <string name="list_noItemsAvailable">No Items Available!</string>
     <string name="tab_user_login">Login</string>
     <string name="tab_user_list">User list</string>
+    <string name="text_pair_smartphone">In order to login, please pair the device with a compatible Android smartphone.\nOtherwise, select a user from the user list.</string>
 
 </resources>

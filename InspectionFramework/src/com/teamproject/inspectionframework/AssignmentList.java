@@ -69,7 +69,7 @@ public class AssignmentList extends ListActivity {
 		startActivity(goToTaskListIntent);
 	};
 
-	//TODO: Create new Java class with this sync process
+	// TODO: Create new Java class with this sync process
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -93,26 +93,29 @@ public class AssignmentList extends ListActivity {
 				for (int i = 0; i < jArray.length(); i++) {
 					Assignment ass = new Assignment();
 					JSONObject jObject = jArray.getJSONObject(i);
-					
-					//Checks if assignment is template
-					if(jObject.get("isTemplate").toString() == "true") {
+
+					// Checks if assignment is template
+					if (jObject.get("isTemplate").toString() == "true") {
 						continue;
 					}
-					
+
 					// get and set the values for the table assignments
 					ass.setDescription(jObject.get("description").toString());
 					ass.setAssignmentName(jObject.get("assignmentName").toString());
 					ass.setId(jObject.get("id").toString());
-					//ass.setStartDate(jObject.getInt("startDate"));
-					//ass.setDueDate(jObject.getInt("endDate"));
+					ass.setStartDate(jObject.getLong("startDate"));
+					ass.setDueDate(jObject.getLong("endDate"));
 					ass.setInspectionObjectId(jObject.get("isTemplate").toString());
+					//TODO: Activate state
+					//ass.setAssignmentState(jObject.getInt("state"));
 
 					String assignmentName = ass.getAssignmentName();
 					String description = ass.getDescription();
 					String id = ass.getId();
-					Integer startDate = ass.getStartDate();
-					Integer endDate = ass.getDueDate();
+					Long startDate = ass.getStartDate();
+					Long endDate = ass.getDueDate();
 					String isTemplate = ass.getIsTemplate();
+					Integer assignmentState = ass.getAssignmentState();
 
 					// Download all tasks assigned to an assignment from the
 					// server
@@ -125,7 +128,7 @@ public class AssignmentList extends ListActivity {
 						JSONObject jObjectTask = jArrayTask.getJSONObject(j);
 						task.setId(jObjectTask.get("id").toString());
 						task.setDescription(jObjectTask.get("description").toString());
-						//task.setState(jObjectTask.getInt("state"));
+						task.setState(jObjectTask.getInt("state"));
 						task.setTaskName(jObjectTask.get("taskName").toString());
 
 						String taskName = task.getTaskName();
@@ -137,23 +140,19 @@ public class AssignmentList extends ListActivity {
 						datasource.createTask(taskId, taskName, taskDescription, taskState, id);
 					}
 
-					//JSONObject jObjectInspectionObject = new JSONObject(jObject.get("inspectionObject").toString());
-					//InspectionObject inspectionObject = new InspectionObject();
-					//inspectionObject.setId(jObjectInspectionObject.get("id").toString());
-					//String objectId;
-					//objectId = inspectionObject.getId();
+					JSONObject jObjectInspectionObject = new JSONObject(jObject.get("inspectionObject").toString());
+					InspectionObject inspectionObject = new InspectionObject();
+					inspectionObject.setId(jObjectInspectionObject.get("id").toString());
+					String objectId;
+					objectId = inspectionObject.getId();
 
-					// TODO: Error occurs when userId = null -> Assignments will
-					// not be loaded
-					// JSONObject jObjectUser = new
-					// JSONObject(jObject.get("user")
-					// .toString());
-					// User user = new User();
-					// user.setUserId(jObjectUser.get("id").toString());
-					// String userId = user.getUserId();
+					JSONObject jObjectUser = new JSONObject(jObject.get("user").toString());
+					User user = new User();
+					user.setUserId(jObjectUser.get("id").toString());
+					String userId = user.getUserId();
 
 					// Store all assignments into the database
-					datasource.createAssignment(id, assignmentName, description, startDate, endDate, "TestObject", "TestUser", isTemplate);
+					datasource.createAssignment(id, assignmentName, description, startDate, endDate, objectId, userId, isTemplate, assignmentState);
 
 				}
 

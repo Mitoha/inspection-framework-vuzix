@@ -85,7 +85,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void continueButton(View view) {
+	public void onClickContinueButton(View view) {
 
 		Log.i("IF", "continueButtonPressed");
 
