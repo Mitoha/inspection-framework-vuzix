@@ -11,7 +11,7 @@ public class Assignment {
     String userId;
     String inspectionObjectId;
     String isTemplate;
-    Integer assignmentState;
+    Integer state;
 
 
     //Constructor
@@ -54,8 +54,8 @@ public class Assignment {
         this.inspectionObjectId = inspectionObjectId;
     }
     
-    public void setAssignmentState(Integer state) {
-    	this.assignmentState = state;
+    public void setState(Integer state) {
+    	this.state = state;
     }
 
     //Getter
@@ -92,8 +92,8 @@ public class Assignment {
         return inspectionObjectId;
     }
     
-    public Integer getAssignmentState() {
-    	return assignmentState;
+    public Integer getState() {
+    	return state;
     }
 
     @Override

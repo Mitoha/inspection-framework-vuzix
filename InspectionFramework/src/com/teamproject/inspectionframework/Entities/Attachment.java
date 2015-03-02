@@ -1,17 +1,35 @@
 package com.teamproject.inspectionframework.Entities;
 
 public class Attachment {
-	
+
     //Var-declaration
     String id;
     String file_type;
     Object binaryObject;
+    String taskId;
+    String assignmentId;
 
     //Constructor
     public Attachment() {
     }
 
     //Getter and Setter
+
+    public String getAssignmentId() {
+        return assignmentId;
+    }
+
+    public void setAssignmentId(String assignmentId) {
+        this.assignmentId = assignmentId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
 
     public String getId() {
         return id;
@@ -37,4 +55,3 @@ public class Attachment {
         this.binaryObject = binaryObject;
     }
 }
-

@@ -1,5 +1,7 @@
 package com.teamproject.inspectionframework;
 
+import java.sql.Date;
+
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.InspectionObject;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
@@ -33,27 +35,31 @@ public class AssignmentDetails extends Activity {
 		// Adjust Action Bar title
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle(getString(R.string.title_activity_assignment_details) + ": " + assignmentName);
-		
-		//Create output
+
+		// Create output
 		datasource = new MySQLiteHelper(getApplicationContext());
+
 		Assignment assignment = datasource.getAssignmentById(assignmentId);
 		TextView buildElement = new TextView(this);
-		
+		Date startDate = new Date(assignment.getStartDate());
+		Date dueDate = new Date(assignment.getDueDate());
+
 		buildElement = (TextView) findViewById(R.id.tvAssignmentName);
 		buildElement.setText("Name: " + assignmentName);
 		buildElement = (TextView) findViewById(R.id.tvAssignmentStartDate);
-		buildElement.setText("Start Date: " + assignment.getStartDate());
+		buildElement.setText("Start Date: " + startDate);
 		buildElement = (TextView) findViewById(R.id.tvAssignmentDueDate);
-		buildElement.setText("Due Date: " + assignment.getDueDate());
+		buildElement.setText("Due Date: " + dueDate);
 		buildElement = (TextView) findViewById(R.id.tvAssignmentInspObj);
-		
-		if(assignment.getInspectionObjectId()!= null) {
-			buildElement.setText("Insp. Object: " + datasource.getInspectionObjectById(assignment.getInspectionObjectId()).getObjectName());
+
+		if (assignment.getInspectionObjectId() != null) {
+			buildElement.setText("Insp. Object: " + datasource.getInspectionObjectById(assignment.getInspectionObjectId()));
+		} else {
+			buildElement.setText("Insp. Object: Not found");
 		}
-		else {buildElement.setText("Insp. Object: Not found");}
 		buildElement = (TextView) findViewById(R.id.tvAssignmentDescription);
 		buildElement.setText("Description: " + assignment.getDescription());
-		
+
 	}
 
 	@Override
@@ -69,7 +75,7 @@ public class AssignmentDetails extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		
+
 		return super.onOptionsItemSelected(item);
 	}
 }

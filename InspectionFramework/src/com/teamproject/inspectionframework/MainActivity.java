@@ -1,10 +1,14 @@
 package com.teamproject.inspectionframework;
 
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
+import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+import com.vuzix.speech.VoiceControl;
+import com.vuzix.speech.Constants;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +23,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
+	private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		vc.on();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		vc.off();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +47,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// Set title for Action Bar
 		actionBar = getActionBar();
 		actionBar.setTitle("User Login");
+
+		// Set Voice Control
+		vc = new VuzixVoiceControl(getBaseContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -43,8 +64,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		for (String tab_name : tabs) {
 			actionBar.addTab(actionBar.newTab().setText(tab_name).setTabListener(this));
 		}
-		
-		//Sets the tab when view is changed by swiping left/right
+
+		// Sets the tab when view is changed by swiping left/right
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			@Override
