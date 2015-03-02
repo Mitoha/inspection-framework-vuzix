@@ -1,5 +1,6 @@
 package com.teamproject.inspectionframework;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,11 +8,22 @@ import android.view.MenuItem;
 
 public class TaskDetails extends Activity {
 
+	private String taskId;
+	private String taskName;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_details);
-		
+
+		// Set variables
+		this.taskId = getIntent().getExtras().getString("taskId");
+		this.taskName = getIntent().getExtras().getString("taskName");
+
+		// Adjust Action Bar title
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(getString(R.string.title_activity_task_details) + ": " + taskName);
+
 	}
 
 	@Override
@@ -27,9 +39,7 @@ public class TaskDetails extends Activity {
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
+
 		return super.onOptionsItemSelected(item);
-	}	
+	}
 }

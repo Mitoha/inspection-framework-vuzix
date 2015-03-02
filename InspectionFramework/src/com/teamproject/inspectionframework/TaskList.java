@@ -5,7 +5,6 @@ import java.util.List;
 import com.teamproject.inspectionframework.Application_Layer.RESTServices;
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.Task;
-import com.teamproject.inspectionframework.List_Adapters.AssignmentAdapter;
 import com.teamproject.inspectionframework.List_Adapters.TaskListAdapter;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
@@ -20,6 +19,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 public class TaskList extends ListActivity {
 
@@ -27,16 +27,16 @@ public class TaskList extends ListActivity {
 	private MySQLiteHelper datasource;
 	private RESTServices restInstance;
 	private TaskListAdapter adapter;
-	
+
 	private String assignmentId;
 	private String assignmentName;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
-		
-		//Set Variables
+
+		// Set Variables
 		this.assignmentId = getIntent().getExtras().getString("AssignmentId");
 		this.assignmentName = getIntent().getExtras().getString("AssignmentName");
 
@@ -57,6 +57,18 @@ public class TaskList extends ListActivity {
 		datasource.close();
 	}
 
+	// Listens to clicks on list entries and calls the adapter for retrieving
+	// the corresponding task object
+	protected void onListItemClick(ListView l, android.view.View v, int position, long id) {
+
+		Task clickedTask = adapter.getClickedTask(position);
+
+		Intent gotToTaskDetailsIntent = new Intent(this, TaskDetails.class);
+		gotToTaskDetailsIntent.putExtra("taskName", clickedTask.getTaskName());
+		gotToTaskDetailsIntent.putExtra("TaskId", clickedTask.getId());
+		startActivity(gotToTaskDetailsIntent);
+	};
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -72,18 +84,23 @@ public class TaskList extends ListActivity {
 		int menuItemId = item.getItemId();
 		switch (menuItemId) {
 		case R.id.action_show_assignment_details:
-			
+
 			Intent goToAssignmentDetailsIntent = new Intent(this, AssignmentDetails.class);
 			goToAssignmentDetailsIntent.putExtra("AssignmentName", assignmentName);
 			goToAssignmentDetailsIntent.putExtra("AssignmentId", assignmentId);
 			startActivity(goToAssignmentDetailsIntent);
-			
+
 			break;
-			
+
 		case R.id.action_attachment_finish_assignment:
-			//TODO: fill
+
+			// TODO: Implement method
+
+			Toast toast = Toast.makeText(this, "Function not implemented yet!", Toast.LENGTH_SHORT);
+			toast.show();
+
 			break;
-			
+
 		default:
 			return true;
 		}

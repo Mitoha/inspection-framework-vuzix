@@ -1,4 +1,5 @@
 package com.teamproject.inspectionframework.vuzixHelpers;
+/*package com.teamproject.inspectionframework.vuzixHelpers;
 
 import android.content.Context;
 import android.util.Log;
@@ -29,3 +30,4 @@ public class VuzixVoiceControl extends VoiceControl {
 	}
 
 }
+*/

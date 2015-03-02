@@ -45,7 +45,7 @@ public class RESTServices {
 		StringBuilder builder = new StringBuilder();
 
 		HttpClient client = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("https://inspection-framework.herokuapp.com/" + uri);
+		HttpGet httpGet = new HttpGet("http://inspection-framework.herokuapp.com/" + uri);
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();
@@ -79,7 +79,7 @@ public class RESTServices {
 		StrictMode.setThreadPolicy(policy);
 
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost("https://inspection-framework.herokuapp.com/" + uri);
+		HttpPost httpPost = new HttpPost("http://inspection-framework.herokuapp.com/" + uri);
 
 		// Create a new JSONObject from the given String
 		try {
@@ -113,7 +113,7 @@ public class RESTServices {
 		StrictMode.setThreadPolicy(policy);
 
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpPut httpPut = new HttpPut("https://inspection-framework.herokuapp.com/" + uri);
+		HttpPut httpPut = new HttpPut("http://inspection-framework.herokuapp.com/" + uri);
 
 		// Create a new JSONObject from the given String
 		try {

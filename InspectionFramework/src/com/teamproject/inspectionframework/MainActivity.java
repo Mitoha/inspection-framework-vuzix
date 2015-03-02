@@ -1,7 +1,7 @@
 package com.teamproject.inspectionframework;
 
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
-import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+//import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.VoiceControl;
 import com.vuzix.speech.Constants;
 
@@ -23,10 +23,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-	private VoiceControl vc;
+//	private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
 
-	@Override
+/*	@Override
 	protected void onResume() {
 		super.onResume();
 		vc.on();
@@ -37,7 +37,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		super.onPause();
 		vc.off();
 	}
-
+	
+	if(vc != null) vc.destroy();
+*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -49,8 +51,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		actionBar.setTitle("User Login");
 
 		// Set Voice Control
-		vc = new VuzixVoiceControl(getBaseContext());
-		vc.addGrammar(Constants.GRAMMAR_BASIC);
+	//	vc = new VuzixVoiceControl(getBaseContext());
+	//	vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -66,6 +68,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 
 		// Sets the tab when view is changed by swiping left/right
+		// TODO: Deactivate swiping possibility
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			@Override
@@ -77,13 +80,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 			@Override
 			public void onPageScrollStateChanged(int arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
-				// TODO Auto-generated method stub
 
 			}
 		});

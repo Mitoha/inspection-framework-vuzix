@@ -53,7 +53,7 @@ public class AssignmentDetails extends Activity {
 		buildElement = (TextView) findViewById(R.id.tvAssignmentInspObj);
 
 		if (assignment.getInspectionObjectId() != null) {
-			buildElement.setText("Insp. Object: " + datasource.getInspectionObjectById(assignment.getInspectionObjectId()));
+			buildElement.setText("Insp. Object: " + datasource.getInspectionObjectById(assignment.getInspectionObjectId()).getObjectName());
 		} else {
 			buildElement.setText("Insp. Object: Not found");
 		}

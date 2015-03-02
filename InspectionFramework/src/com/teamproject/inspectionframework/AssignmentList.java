@@ -106,8 +106,7 @@ public class AssignmentList extends ListActivity {
 					assignment.setStartDate(jObject.getLong("startDate"));
 					assignment.setDueDate(jObject.getLong("endDate"));
 					assignment.setInspectionObjectId(jObject.get("isTemplate").toString());
-					// TODO: Activate state
-					// assignment.setState(jObject.getInt("state"));
+					assignment.setState(jObject.getInt("state"));
 
 					// Download all tasks assigned to an assignment from the
 					// server
@@ -120,7 +119,15 @@ public class AssignmentList extends ListActivity {
 						JSONObject jObjectTask = jArrayTask.getJSONObject(j);
 						task.setId(jObjectTask.get("id").toString());
 						task.setDescription(jObjectTask.get("description").toString());
-						task.setState(jObjectTask.getInt("state"));
+						task.setAssignmentId(assignment.getId());
+
+						// Checks if Task state is set
+						if (jObjectTask.isNull("state")) {
+							task.setState(0);
+						} else {
+							task.setState(jObjectTask.getInt("state"));
+						}
+
 						task.setTaskName(jObjectTask.get("taskName").toString());
 
 						// Store all assigned tasks into the database
@@ -139,11 +146,11 @@ public class AssignmentList extends ListActivity {
 					datasource.createInspectionObject(inspectionObject);
 
 					JSONObject jObjectUser = new JSONObject(jObject.get("user").toString());
-					
+
 					assignment.setUserId(jObjectUser.get("id").toString());
 					assignment.setInspectionObjectId(inspectionObject.getId());
 
-					// Store all assignments into the database
+					// Store all assignments into the databasea
 					datasource.createAssignment(assignment);
 
 				}
