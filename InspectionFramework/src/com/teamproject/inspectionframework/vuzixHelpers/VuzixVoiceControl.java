@@ -1,5 +1,4 @@
 package com.teamproject.inspectionframework.vuzixHelpers;
-/*package com.teamproject.inspectionframework.vuzixHelpers;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,26 +7,27 @@ import android.widget.Toast;
 
 import com.vuzix.speech.VoiceControl;
 
-public class VuzixVoiceControl extends VoiceControl {
+class VuzixVoiceControl extends VoiceControl {
 
-	public VuzixVoiceControl(Context context) {
-		super(context);
+	private Context context;
+	
+	public VuzixVoiceControl(Context ctx) {
+		super(ctx);
 		
 	}
 	
-	public VuzixVoiceControl(Context context, String[] grammars) {
-		super(context, grammars);
+	public VuzixVoiceControl(Context ctx, String[] grammars) {
+		super(ctx, grammars);
 	}
 
 	@Override
 	protected void onRecognition(String cmd) {
 		
 		if(cmd.equals("show help")){
-			
+			Log.i("IF",cmd);
 			
 		}
 		
 	}
 
 }
-*/
