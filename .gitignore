@@ -1,5 +1,6 @@
 ./bin
-./InspectionFramework/bin
+/InspectionFramework/bin/*
+/InspectionFramework/gen/*
 ./InspectionFramework/.classpath
 ./.classpath
 ./.recommenders
