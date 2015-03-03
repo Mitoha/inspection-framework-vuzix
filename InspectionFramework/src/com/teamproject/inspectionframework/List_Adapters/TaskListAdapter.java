@@ -3,6 +3,7 @@ package com.teamproject.inspectionframework.List_Adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +17,9 @@ public class TaskListAdapter extends BaseAdapter {
 
 	List<Task> taskList;
 	Context context;
-	
-	//Constructor; provides the needed context and list of tasks given by the calling method
+
+	// Constructor; provides the needed context and list of tasks given by the
+	// calling method
 	public TaskListAdapter(Context activityContext, List<Task> tasks) {
 		super();
 		this.context = activityContext;
@@ -55,9 +57,9 @@ public class TaskListAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-	
-	//Gives the item per position (needed for ClickListener)
-	public Task getClickedTask (int position) {
+
+	// Gives the item per position (needed for ClickListener)
+	public Task getClickedTask(int position) {
 		return taskList.get(position);
 	}
 
