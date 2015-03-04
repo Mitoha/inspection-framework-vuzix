@@ -131,6 +131,5 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// Not needed
-
 	}
 }

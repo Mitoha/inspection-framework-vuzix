@@ -12,7 +12,7 @@ public class FragmentUserLogin extends Fragment {
             Bundle savedInstanceState) {
  
         View rootView = inflater.inflate(R.layout.fragment_user_login, container, false);
-         
+        
         return rootView;
     }
 }
