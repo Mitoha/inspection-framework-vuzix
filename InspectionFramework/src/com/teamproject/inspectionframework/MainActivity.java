@@ -24,7 +24,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
 //	private VoiceControl vc;
-	private String[] tabs = { "Login", "User list" };
+	private String[] tabs = { "Login", "User list", "TaskAttachments" };
 
 /*	@Override
 	protected void onResume() {
@@ -111,7 +111,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 		Log.i("IF", "continueButtonPressed");
 
-		// Intent to
+		// Intent to Assignment List
 		Intent goToAssignmentListIntent = new Intent(this, AssignmentList.class);
 		startActivity(goToAssignmentListIntent);
 	}
@@ -132,4 +132,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// Not needed
 	}
+	
+//	method that should call the voice recording screen
+	public void voiceRecordingScreen(View view) {
+
+		
+		// Intent to audio recording
+		Intent goToVoiceRecordingIntent = new Intent(this, SoundRecordingActivity.class);
+		startActivity(goToVoiceRecordingIntent);
+	}
+
 }

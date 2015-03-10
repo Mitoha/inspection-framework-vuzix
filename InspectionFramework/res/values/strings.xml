@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Inspection Framework</string>
-    <string name="hello_world">ExampleText</string>
+    <string name="hello_world">Testtext!!!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_assignment_list">Assignment List</string>
     <string name="action_synchronize">Sync (Download only atm)</string>
@@ -16,5 +16,10 @@
     <string name="tab_user_list">User list</string>
     <string name="text_pair_smartphone">In order to login, please pair the device with a compatible Android smartphone.\nOtherwise, select a user from the user list.</string>
     <string name="text_userlogin_button">Continue to AssignmentList!</string>
+    <string name="title_activity_fragment_task_attachment">FragmentTaskAttachment</string>
+    <string name="AttachmentButton_voice">Voice Recording</string>
+    <string name="AttachmentButton_picture">Take picture</string>
+    <string name="AttachmentButton_saveandexit">Save and exit</string>
+    <string name="title_activity_soundrecording">Soundrecording</string>
 
 </resources>

@@ -12,6 +12,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -54,6 +56,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.teamproject.inspectionframework.TaskList" />
+        </activity>
+        <activity
+            android:name=".FragmentTaskAttachment"
+            android:label="@string/title_activity_fragment_task_attachment" >
+        </activity>
+        <activity
+            android:name=".SoundRecordingActivity"
+            android:label="@string/title_activity_soundrecording" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.teamproject.inspectionframework.MainActivity" />
         </activity>
     </application>
 
