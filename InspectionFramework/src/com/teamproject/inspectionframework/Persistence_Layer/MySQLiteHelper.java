@@ -226,6 +226,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				assignment.setIsTemplate(c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE)));
 				assignment.setUserId(c.getString(c.getColumnIndex(A_COLUMN_USER_ID)));
 				assignment.setState(c.getInt(c.getColumnIndex(A_COLUMN_STATE)));
+				assignment.setInspectionObjectId((c.getString(c.getColumnIndex(A_COLUMN_INSPECTIONOBJECT_ID))));
 
 				// adding to assignment list
 				listAssignments.add(assignment);
