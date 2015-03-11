@@ -24,7 +24,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
 //	private VoiceControl vc;
-	private String[] tabs = { "Login", "User list", "TaskAttachments" };
+	private String[] tabs = { "Login", "User list" };
 
 /*	@Override
 	protected void onResume() {

@@ -170,4 +170,9 @@ public class AssignmentList extends ListActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
+// the android app guys have this function in their MainActivity	
+//	protected void onPause(){
+//		datasource.closeDB();
+//		super.onPause();
+//	}
 }
