@@ -1,14 +1,13 @@
 package com.teamproject.inspectionframework;
 
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
-//import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.VoiceControl;
 import com.vuzix.speech.Constants;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -23,36 +22,36 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-//	private VoiceControl vc;
+	private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
+	private String currentScreen;
 
-/*	@Override
 	protected void onResume() {
 		super.onResume();
 		vc.on();
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		vc.off();
-	}
-	
-	if(vc != null) vc.destroy();
-*/
+	// TODO: Clarify if ok when off -> Voice recognition stays on when switching
+	// the activity
+	/*
+	 * @Override protected void onPause() { super.onPause(); vc.off(); }
+	 */
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		currentScreen = "LoginPage";
 
 		// Set title for Action Bar
 		actionBar = getActionBar();
 		actionBar.setTitle("User Login");
 
-		// Set Voice Control
-	//	vc = new VuzixVoiceControl(getBaseContext());
-	//	vc.addGrammar(Constants.GRAMMAR_BASIC);
+		// START VC ACTIVITY
+		Log.i("IF", "Voice control activated");
+		vc = new VuzixVoiceControl(getBaseContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -132,11 +131,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// Not needed
 	}
-	
-//	method that should call the voice recording screen
+
+	// method that should call the voice recording screen
 	public void voiceRecordingScreen(View view) {
 
-		
+		// TODO: Clarify
 		// Intent to audio recording
 		Intent goToVoiceRecordingIntent = new Intent(this, SoundRecordingActivity.class);
 		startActivity(goToVoiceRecordingIntent);
