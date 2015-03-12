@@ -5,9 +5,9 @@ public class Attachment {
     //Var-declaration
     String id;
     String file_type;
-    Object binaryObject;
     String taskId;
     String assignmentId;
+    byte[] binaryObject;
 
     //Constructor
     public Attachment() {
@@ -47,11 +47,11 @@ public class Attachment {
         this.file_type = file_type;
     }
 
-    public Object getBinaryObject() {
+    public byte[] getBinaryObject() {
         return binaryObject;
     }
 
-    public void setBinaryObject(Object binaryObject) {
+    public void setBinaryObject(byte[] binaryObject) {
         this.binaryObject = binaryObject;
     }
 }

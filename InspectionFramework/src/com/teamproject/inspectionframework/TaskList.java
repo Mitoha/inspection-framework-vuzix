@@ -2,7 +2,7 @@ package com.teamproject.inspectionframework;
 
 import java.util.List;
 
-import com.teamproject.inspectionframework.Application_Layer.RESTServices;
+import com.teamproject.inspectionframework.Application_Layer.HttpCustomClient;
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.List_Adapters.TaskListAdapter;
@@ -25,7 +25,7 @@ public class TaskList extends ListActivity {
 
 	// VAR-declaration
 	private MySQLiteHelper datasource;
-	private RESTServices restInstance;
+	private HttpCustomClient restInstance;
 	private TaskListAdapter adapter;
 
 	private String assignmentId;

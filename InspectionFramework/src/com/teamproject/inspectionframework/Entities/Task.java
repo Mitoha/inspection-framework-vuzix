@@ -8,6 +8,7 @@ public class Task {
     String description;
     Integer state;
     String assignmentId;
+    String errorDescription;
 
     //Constructor
     public Task(){
@@ -15,6 +16,15 @@ public class Task {
 
 
     //Setter
+
+    public void setErrorDescription(String errorDescription) {
+        this.errorDescription = errorDescription;
+    }
+
+    public void setAssignmentId(String assignmentId) {
+        this.assignmentId = assignmentId;
+    }
+
     public void setId(String id1){
         id=id1;
     }
@@ -30,12 +40,17 @@ public class Task {
     public void setState(Integer state1){
         state=state1;
     }
-    
-    public void setAssignmentId(String assId) {
-    	assignmentId = assId;
-    }
 
     //Getter
+
+    public String getErrorDescription() {
+        return errorDescription;
+    }
+
+    public String getAssignmentId() {
+        return assignmentId;
+    }
+
     public String getId() {
         return id;
     }
@@ -50,9 +65,5 @@ public class Task {
 
     public Integer getState() {
         return state;
-    }
-    
-    public String getAssignmentId() {
-        return assignmentId;
     }
 }

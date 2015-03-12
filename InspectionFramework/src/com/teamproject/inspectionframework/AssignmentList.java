@@ -5,7 +5,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.teamproject.inspectionframework.Application_Layer.RESTServices;
+import com.teamproject.inspectionframework.Application_Layer.HttpCustomClient;
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.InspectionObject;
 import com.teamproject.inspectionframework.Entities.Task;
@@ -27,7 +27,7 @@ public class AssignmentList extends ListActivity {
 
 	// VAR-declaration
 	private MySQLiteHelper datasource;
-	private RESTServices restInstance;
+	private HttpCustomClient restInstance;
 	private AssignmentAdapter adapter;
 
 	@Override
@@ -83,7 +83,7 @@ public class AssignmentList extends ListActivity {
 			Log.i("IF", "Assignment Sync activated");
 			datasource = new MySQLiteHelper(getApplicationContext());
 
-			restInstance = new RESTServices();
+			restInstance = new HttpCustomClient();
 
 			String inputAssignment = restInstance.readHerokuServer("assignment");
 

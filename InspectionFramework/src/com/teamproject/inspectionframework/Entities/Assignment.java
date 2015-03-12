@@ -21,6 +21,11 @@ public class Assignment {
 
     //Setter
 
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
     public void setIsTemplate(String isTemplate) {
         this.isTemplate = isTemplate;
     }
@@ -38,12 +43,12 @@ public class Assignment {
         description=description1;
     }
 
-    public void setStartDate(Long l) {
-        this.startDate = l;
+    public void setStartDate(Long startDate) {
+        this.startDate = startDate;
     }
 
-    public void setDueDate(Long l) {
-        this.dueDate = l;
+    public void setDueDate(Long dueDate) {
+        this.dueDate = dueDate;
     }
 
     public void setUserId(String userId) {
@@ -53,12 +58,11 @@ public class Assignment {
     public void setInspectionObjectId(String inspectionObjectId) {
         this.inspectionObjectId = inspectionObjectId;
     }
-    
-    public void setState(Integer state) {
-    	this.state = state;
-    }
 
     //Getter
+    public Integer getState() {
+        return state;
+    }
 
     public String getIsTemplate() {
         return isTemplate;
@@ -76,6 +80,8 @@ public class Assignment {
         return description;
     }
 
+
+
     public Long getStartDate() {
         return startDate;
     }
@@ -90,10 +96,6 @@ public class Assignment {
 
     public String getInspectionObjectId() {
         return inspectionObjectId;
-    }
-    
-    public Integer getState() {
-    	return state;
     }
 
     @Override
