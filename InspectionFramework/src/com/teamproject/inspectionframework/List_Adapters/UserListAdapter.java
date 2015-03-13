@@ -12,28 +12,29 @@ import android.widget.TextView;
 
 import com.teamproject.inspectionframework.R;
 import com.teamproject.inspectionframework.Entities.Task;
+import com.teamproject.inspectionframework.Entities.User;
 
-public class TaskListAdapter extends BaseAdapter {
+public class UserListAdapter extends BaseAdapter {
 
-	List<Task> taskList;
+	List<User> userList;
 	Context context;
 
 	// Constructor; provides the needed context and list of tasks given by the
 	// calling method
-	public TaskListAdapter(Context activityContext, List<Task> tasks) {
+	public UserListAdapter(Context activityContext, List<User> users) {
 		super();
 		this.context = activityContext;
-		this.taskList = tasks;
+		this.userList = users;
 	}
 
 	@Override
 	public int getCount() {
-		return taskList.size();
+		return userList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return taskList.get(position);
+		return userList.get(position);
 	}
 
 	@Override
@@ -45,23 +46,23 @@ public class TaskListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		if (convertView == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = inflater.inflate(R.layout.list_element_task_list, parent, false);
+			convertView = inflater.inflate(R.layout.list_element_user_list, parent, false);
 		}
-		TextView Name = (TextView) convertView.findViewById(R.id.taskName);
-		TextView State = (TextView) convertView.findViewById(R.id.taskState);
 
-		Task task = taskList.get(position);
+		TextView userName = (TextView) convertView.findViewById(R.id.userName);
+		TextView realName = (TextView) convertView.findViewById(R.id.firstAndLastName);
 
-		// TODO: Insert conversion from number to real state descr. or logo
-		Name.setText(task.getTaskName());
-		State.setText(String.valueOf(task.getState()));
+		User user = userList.get(position);
+
+		userName.setText(user.getUserName());
+		realName.setText(user.getFirstName() + " " + user.getLastName());
 
 		return convertView;
 	}
 
 	// Gives the item per position (needed for ClickListener)
-	public Task getClickedTask(int position) {
-		return taskList.get(position);
+	public User getClickedUser(int position) {
+		return userList.get(position);
 	}
 
 }

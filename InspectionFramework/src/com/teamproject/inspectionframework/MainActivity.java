@@ -1,6 +1,8 @@
 package com.teamproject.inspectionframework;
 
+import com.teamproject.inspectionframework.Entities.User;
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
+import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.VoiceControl;
 import com.vuzix.speech.Constants;
@@ -22,14 +24,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-	private VoiceControl vc;
+	// private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
-	private String currentScreen;
+	private String currentScreen = "LoginPage";
 
-	protected void onResume() {
-		super.onResume();
-		vc.on();
-	}
+	// protected void onResume() {
+	// super.onResume();
+	// vc.on();
+	// }
 
 	// TODO: Clarify if ok when off -> Voice recognition stays on when switching
 	// the activity
@@ -42,16 +44,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		currentScreen = "LoginPage";
 
 		// Set title for Action Bar
 		actionBar = getActionBar();
 		actionBar.setTitle("User Login");
 
 		// START VC ACTIVITY
-		Log.i("IF", "Voice control activated");
-		vc = new VuzixVoiceControl(getBaseContext());
-		vc.addGrammar(Constants.GRAMMAR_BASIC);
+		// vc = new VuzixVoiceControl(getBaseContext());
+		// vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -107,8 +107,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 
 	public void onClickContinueButton(View view) {
-
-		Log.i("IF", "continueButtonPressed");
 
 		// Intent to Assignment List
 		Intent goToAssignmentListIntent = new Intent(this, AssignmentList.class);

@@ -15,7 +15,11 @@ public class SynchronizationHelper {
 	private MySQLiteHelper datasource;
 	private HttpCustomClient restInstance;
 
-	public SynchronizationHelper(Context ctx) {
+	public SynchronizationHelper() {
+
+	}
+
+	public void SynchronizeAssignments(Context ctx) {
 
 		datasource = new MySQLiteHelper(ctx);
 		restInstance = new HttpCustomClient();

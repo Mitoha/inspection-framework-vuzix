@@ -20,6 +20,7 @@ public class AssignmentList extends ListActivity {
 	// VAR-declaration
 	private MySQLiteHelper datasource;
 	private AssignmentAdapter adapter;
+	private SynchronizationHelper syncHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +71,26 @@ public class AssignmentList extends ListActivity {
 		// Sync assignments between Heroku server and local database
 		case R.id.action_synchronize_assignments:
 
-			new SynchronizationHelper(getApplicationContext());
+			syncHelper = new SynchronizationHelper();
+			syncHelper.SynchronizeAssignments(getApplicationContext());
+			
 
 			// Creates the output list after retrieving updates from the server
 			this.createOutputList();
 			break;
+			
+		case R.id.action_logout_user:
+			
+			//TODO: Perhaps add a security call here that checks if user really wants to logout
+			
+			//Logout: Delete the user entry in the local database and return to login screen
+			datasource = new MySQLiteHelper(getApplicationContext());
+			datasource.deleteUser(getIntent().getExtras().getString("userId"));
+			Log.i("IF",getIntent().getExtras().getString("userId"));
+			
+			Intent goToUserListIntent = new Intent(this, MainActivity.class);
+			startActivity(goToUserListIntent);
+			
 
 		default:
 			return true;

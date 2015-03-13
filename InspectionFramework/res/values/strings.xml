@@ -21,5 +21,6 @@
     <string name="AttachmentButton_picture">Take picture</string>
     <string name="AttachmentButton_saveandexit">Save and exit</string>
     <string name="title_activity_soundrecording">Soundrecording</string>
+    <string name="action_logout_user">User Logout</string>
 
 </resources>

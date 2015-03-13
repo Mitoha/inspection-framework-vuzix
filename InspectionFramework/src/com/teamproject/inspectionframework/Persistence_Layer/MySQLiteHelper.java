@@ -75,7 +75,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	// Database information
 	private static final String DATABASE_NAME = "newTestDatabase.db";
-	private static final int DATABASE_VERSION = 4;
+	private static final int DATABASE_VERSION = 5;
 
 	// Assignment Table creation sql statement
 	private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE " + TABLE_ASSIGNMENTS + "(" + A_COLUMN_ROWID + " INTEGER, " + A_COLUMN_ASSIGNMENT_ID + " TEXT PRIMARY KEY UNIQUE, " + A_COLUMN_DESCRIPTION + " TEXT, " + A_COLUMN_ASSIGNMENTNAME + " TEXT, " + A_COLUMN_STARTDATE + " INTEGER, " + A_COLUMN_ENDDATE + " INTEGER, " + A_COLUMN_ISTEMPLATE + " TEXT, " + A_COLUMN_INSPECTIONOBJECT_ID + " TEXT, " + A_COLUMN_USER_ID + " TEXT, " + A_COLUMN_STATE + " TEXT)";
@@ -274,7 +274,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Delete an assignment
 	public void deleteAssignment(String assignmentId) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_ASSIGNMENTS, A_COLUMN_ROWID + " = ?", new String[] { String.valueOf(assignmentId) });
+		db.delete(TABLE_ASSIGNMENTS, A_COLUMN_ASSIGNMENT_ID + " = ?", new String[] { String.valueOf(assignmentId) });
 	}
 
 	// RUD-Methods for inspectionObjects
@@ -312,7 +312,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Delete an inspectionObject
 	public void deleteInspectionObject(String objectId) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_INSPECTIONOBJECTS, I_COLUMN_ROWID + " = ?", new String[] { String.valueOf(objectId) });
+		db.delete(TABLE_INSPECTIONOBJECTS, I_COLUMN_OBJECT_ID + " = ?", new String[] { String.valueOf(objectId) });
 	}
 
 	// RUD-Methods for User
@@ -320,30 +320,30 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Read all users from the local database
 	// returns a list with all users
 	public List<User> getAllUser() {
-        List<User> listUser = new ArrayList<User>();
-        String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_USERS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectQuery, null);
+		List<User> listUser = new ArrayList<User>();
+		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_USERS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
-        if (c.moveToFirst()) {
-            do {
-                User user = new User();
-                user.setUserName(c.getString((c.getColumnIndex(U_COLUMN_USERNAME))));
-                user.setUserId(c.getString((c.getColumnIndex(U_COLUMN_USER_ID))));
-                user.setFirstName(c.getString((c.getColumnIndex(U_COLUMN_FIRSTNAME))));
-                user.setLastName(c.getString((c.getColumnIndex(U_COLUMN_LASTNAME))));
-                user.setEmail(c.getString((c.getColumnIndex(U_COLUMN_EMAIL))));
-                user.setRole(c.getString((c.getColumnIndex(U_COLUMN_ROLE))));
-                user.setMobileNumber(c.getString((c.getColumnIndex(U_COLUMN_MOBILENUMBER))));
-                user.setPhoneNumber(c.getString(c.getColumnIndex(U_COLUMN_PHONENUMBER)));
-                // adding to assignment list
-                listUser.add(user);
-            } while (c.moveToNext());
-        }
+		// looping through all rows and adding to list
+		if (c.moveToFirst()) {
+			do {
+				User user = new User();
+				user.setUserName(c.getString((c.getColumnIndex(U_COLUMN_USERNAME))));
+				user.setUserId(c.getString((c.getColumnIndex(U_COLUMN_USER_ID))));
+				user.setFirstName(c.getString((c.getColumnIndex(U_COLUMN_FIRSTNAME))));
+				user.setLastName(c.getString((c.getColumnIndex(U_COLUMN_LASTNAME))));
+				user.setEmail(c.getString((c.getColumnIndex(U_COLUMN_EMAIL))));
+				user.setRole(c.getString((c.getColumnIndex(U_COLUMN_ROLE))));
+				user.setMobileNumber(c.getString((c.getColumnIndex(U_COLUMN_MOBILENUMBER))));
+				user.setPhoneNumber(c.getString(c.getColumnIndex(U_COLUMN_PHONENUMBER)));
+				// adding to assignment list
+				listUser.add(user);
+			} while (c.moveToNext());
+		}
 
-        return listUser;
-    }
+		return listUser;
+	}
 
 	// Read a user with a specific ID from the local database
 	// Return a user
@@ -386,34 +386,34 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Delete a user
 	public void deleteUser(String userId) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_USERS, U_COLUMN_ROWID + " = ?", new String[] { String.valueOf(userId) });
+		db.delete(TABLE_USERS, U_COLUMN_USER_ID + " = ?", new String[] { String.valueOf(userId) });
 	}
 
 	// RUD-Methods for tasks
 
 	// Get all tasks stored in the local database
 	public List<Task> getAllTasks() {
-        List<Task> tasks = new ArrayList<Task>();
-        String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_TASKS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectQuery, null);
-        // looping through all rows and adding to list
-        if (c.moveToFirst()) {
-            do {
-                Task task = new Task();
-                task.setTaskName(c.getString((c.getColumnIndex(T_COLUMN_TASKNAME))));
-                task.setState(c.getInt((c.getColumnIndex(T_COLUMN_STATE))));
-                task.setDescription(c.getString((c.getColumnIndex(T_COLUMN_DESCRIPTION))));
-                task.setId(c.getString((c.getColumnIndex(T_COLUMN_TASK_ID))));
-                task.setAssignmentId(c.getString((c.getColumnIndex(T_COLUMN_PK))));
-                task.setErrorDescription(c.getString(c.getColumnIndex(T_COLUMN_ERROR_DESCRIPTION)));
-                // adding to assignment list
-                tasks.add(task);
-            } while (c.moveToNext());
-        }
+		List<Task> tasks = new ArrayList<Task>();
+		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_TASKS;
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+		// looping through all rows and adding to list
+		if (c.moveToFirst()) {
+			do {
+				Task task = new Task();
+				task.setTaskName(c.getString((c.getColumnIndex(T_COLUMN_TASKNAME))));
+				task.setState(c.getInt((c.getColumnIndex(T_COLUMN_STATE))));
+				task.setDescription(c.getString((c.getColumnIndex(T_COLUMN_DESCRIPTION))));
+				task.setId(c.getString((c.getColumnIndex(T_COLUMN_TASK_ID))));
+				task.setAssignmentId(c.getString((c.getColumnIndex(T_COLUMN_PK))));
+				task.setErrorDescription(c.getString(c.getColumnIndex(T_COLUMN_ERROR_DESCRIPTION)));
+				// adding to assignment list
+				tasks.add(task);
+			} while (c.moveToNext());
+		}
 
-        return tasks;
-    }
+		return tasks;
+	}
 
 	// Get all tasks assigned to an assignment using the assignment ID
 	public List<Task> getTasksByAssignmentId(String assignmentId) {
@@ -460,7 +460,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Delete a task
 	public void deleteTask(String taskId) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_TASKS, T_COLUMN_ROWID + " = ?", new String[] { String.valueOf(taskId) });
+		db.delete(TABLE_TASKS, T_COLUMN_TASK_ID + " = ?", new String[] { String.valueOf(taskId) });
 	}
 
 	// RUD-Methods for Attachment
@@ -501,30 +501,29 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Read all attachments by a given assignment ID
 	// Returns a list with all attachments assigned to the assignment
 	public List<Attachment> getAttachmentsByAssignmentId(String assignmentId) {
-        List<Attachment> attachmentList = new ArrayList<Attachment>();
-        String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ATTACHMENTS + " WHERE " + AT_COLUMN_FK_ASSIGNMENT_ID + " = " + "'" + assignmentId + "'";
+		List<Attachment> attachmentList = new ArrayList<Attachment>();
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ATTACHMENTS + " WHERE " + AT_COLUMN_FK_ASSIGNMENT_ID + " = " + "'" + assignmentId + "'";
 
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor c = db.rawQuery(selectQuery, null);
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
 
-        // looping through all rows and adding to list
-        if (c.moveToFirst()) {
-            do {
-                Attachment attachment = new Attachment();
-                attachment.setId(c.getString((c.getColumnIndex(AT_COLUMN_ATTACHMENT_ID))));
-                attachment.setBinaryObject(c.getBlob(c.getColumnIndex(AT_COLUMN_BINARY_OBJECT)));
-                attachment.setFile_type(c.getString((c.getColumnIndex(AT_COLUMN_FILE_TYPE))));
-                attachment.setTaskId(c.getString((c.getColumnIndex(AT_COLUMN_FK_TASK_ID))));
-                attachment.setAssignmentId(c.getString((c.getColumnIndex(AT_COLUMN_FK_ASSIGNMENT_ID))));
+		// looping through all rows and adding to list
+		if (c.moveToFirst()) {
+			do {
+				Attachment attachment = new Attachment();
+				attachment.setId(c.getString((c.getColumnIndex(AT_COLUMN_ATTACHMENT_ID))));
+				attachment.setBinaryObject(c.getBlob(c.getColumnIndex(AT_COLUMN_BINARY_OBJECT)));
+				attachment.setFile_type(c.getString((c.getColumnIndex(AT_COLUMN_FILE_TYPE))));
+				attachment.setTaskId(c.getString((c.getColumnIndex(AT_COLUMN_FK_TASK_ID))));
+				attachment.setAssignmentId(c.getString((c.getColumnIndex(AT_COLUMN_FK_ASSIGNMENT_ID))));
 
-
-                // adding to task list
-                attachmentList.add(attachment);
-            } while (c.moveToNext());
-        }
-        db.close();
-        return attachmentList;
-    }
+				// adding to task list
+				attachmentList.add(attachment);
+			} while (c.moveToNext());
+		}
+		db.close();
+		return attachmentList;
+	}
 
 	// Update an attachment
 	public int updateAttachment(Attachment attachment) {
@@ -543,7 +542,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Delete an attachment
 	public void deleteAttachment(String attachmentId) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		db.delete(TABLE_ATTACHMENTS, AT_COLUMN_ROWID + " = ?", new String[] { String.valueOf(attachmentId) });
+		db.delete(TABLE_ATTACHMENTS, AT_COLUMN_ATTACHMENT_ID + " = ?", new String[] { String.valueOf(attachmentId) });
 	}
 
 	// closing database

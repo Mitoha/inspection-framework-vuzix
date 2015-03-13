@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This file sets the layout for one list element, i.e. it will be displayed multiple times per list -->
+
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="1" >
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="left|top"
+        android:layout_margin="3sp"
+        android:layout_marginLeft="10sp"
+        android:layout_row="0"
+        android:text="@+id/userName"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/firstAndLastName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="left"
+        android:layout_margin="3sp"
+        android:layout_marginLeft="10sp"
+        android:layout_row="1"
+        android:text="@+id/firstAndLastName"
+        android:textSize="22sp" />
+
+</GridLayout>
