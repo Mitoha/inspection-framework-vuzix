@@ -35,7 +35,7 @@ public class FragmentUserList extends ListFragment {
 		List<User> listWithAllStoredUsers = datasource.getAllUser();
 
 		adapter = new UserListAdapter (getActivity(), listWithAllStoredUsers);
-		setListAdapter(adapter);
+		this.setListAdapter(adapter);
 
 		datasource.close();
 	}

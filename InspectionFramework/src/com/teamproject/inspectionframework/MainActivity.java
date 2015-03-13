@@ -1,12 +1,5 @@
 package com.teamproject.inspectionframework;
 
-import com.teamproject.inspectionframework.Entities.User;
-import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
-import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
-import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
-import com.vuzix.speech.VoiceControl;
-import com.vuzix.speech.Constants;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
@@ -14,10 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+
+import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelper;
+import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -106,23 +102,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		return super.onOptionsItemSelected(item);
 	}
 
-	public void onClickContinueButton(View view) {
-
-		// Intent to Assignment List
-		Intent goToAssignmentListIntent = new Intent(this, AssignmentList.class);
-		startActivity(goToAssignmentListIntent);
-	}
-
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		viewPager.setCurrentItem(tab.getPosition());
-
 	}
 
 	@Override
 	public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 		// Not needed
-
 	}
 
 	@Override
@@ -137,6 +124,22 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// Intent to audio recording
 		Intent goToVoiceRecordingIntent = new Intent(this, SoundRecordingActivity.class);
 		startActivity(goToVoiceRecordingIntent);
+	}
+
+	public void onClickLoginButton(View v) {
+		EditText editTextUserName = (EditText) findViewById(R.id.editTextUserName);
+		EditText editPassword = (EditText) findViewById(R.id.editTextUserPassword);
+
+		SynchronizationHelper syncHelper = new SynchronizationHelper();
+		String userId = syncHelper.UserLogin(getApplicationContext(), editTextUserName.getText().toString(), editPassword.getText().toString());
+
+		if (userId != "0") {
+			
+			Intent goToAssignmentIntent = new Intent(getApplicationContext(), AssignmentList.class);
+			goToAssignmentIntent.putExtra("userName", editTextUserName.getText().toString());
+			goToAssignmentIntent.putExtra("userId", userId);
+			startActivity(goToAssignmentIntent);
+		}
 	}
 
 }

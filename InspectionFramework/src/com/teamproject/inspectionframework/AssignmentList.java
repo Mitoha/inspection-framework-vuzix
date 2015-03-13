@@ -11,6 +11,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -28,7 +29,6 @@ public class AssignmentList extends ListActivity {
 		setContentView(R.layout.activity_assignment_list);
 
 		this.createOutputList();
-
 	}
 
 	@Override
@@ -60,6 +60,19 @@ public class AssignmentList extends ListActivity {
 		startActivity(goToTaskListIntent);
 	};
 
+	/**
+	 * This makes sure that when pressing the BACK-Button, the User List is
+	 * up-to-date
+	 */
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+			Intent goToUserListIntent = new Intent(this, MainActivity.class);
+			startActivity(goToUserListIntent);
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
@@ -73,24 +86,24 @@ public class AssignmentList extends ListActivity {
 
 			syncHelper = new SynchronizationHelper();
 			syncHelper.SynchronizeAssignments(getApplicationContext());
-			
 
 			// Creates the output list after retrieving updates from the server
 			this.createOutputList();
 			break;
-			
+
 		case R.id.action_logout_user:
-			
-			//TODO: Perhaps add a security call here that checks if user really wants to logout
-			
-			//Logout: Delete the user entry in the local database and return to login screen
+
+			// TODO: Perhaps add a security call here that checks if user really
+			// wants to logout
+
+			// Logout: Delete the user entry in the local database and return to
+			// login screen
 			datasource = new MySQLiteHelper(getApplicationContext());
 			datasource.deleteUser(getIntent().getExtras().getString("userId"));
-			Log.i("IF",getIntent().getExtras().getString("userId"));
-			
+			Log.i("IF", getIntent().getExtras().getString("userId"));
+
 			Intent goToUserListIntent = new Intent(this, MainActivity.class);
 			startActivity(goToUserListIntent);
-			
 
 		default:
 			return true;

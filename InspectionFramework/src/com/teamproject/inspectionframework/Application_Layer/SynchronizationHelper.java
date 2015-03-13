@@ -3,17 +3,25 @@ package com.teamproject.inspectionframework.Application_Layer;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.teamproject.inspectionframework.AssignmentList;
+import com.teamproject.inspectionframework.FragmentUserList;
+import com.teamproject.inspectionframework.R;
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.InspectionObject;
 import com.teamproject.inspectionframework.Entities.Task;
+import com.teamproject.inspectionframework.Entities.User;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
 import android.content.Context;
+import android.content.Intent;
+import android.widget.EditText;
+import android.widget.Toast;
 
 public class SynchronizationHelper {
 
 	private MySQLiteHelper datasource;
 	private HttpCustomClient restInstance;
+	private InternetConnectionDetector icd;
 
 	public SynchronizationHelper() {
 
@@ -99,5 +107,61 @@ public class SynchronizationHelper {
 			e.printStackTrace();
 		}
 
+	}
+
+	public String UserLogin(Context ctx, String username, String password) {
+
+		datasource = new MySQLiteHelper(ctx);
+		restInstance = new HttpCustomClient();
+		icd = new InternetConnectionDetector(ctx);
+		String userId = "0";
+
+		if (icd.isConnectedToInternet() == true) {
+
+			if (restInstance.postToHerokuServer("login", username, password) == true) {
+
+				try {
+
+					JSONObject jObject = new JSONObject(restInstance.readHerokuServer("users/byusername/" + username));
+
+					User user = new User();
+
+					// Only ROLE_INSPECTOR users can log in
+					if (!(jObject.get("role").toString()).equals("ROLE_INSPECTOR")) {
+						Toast errorToast = Toast.makeText(ctx, "Only Inspectors can login at this client", Toast.LENGTH_SHORT);
+						errorToast.show();
+
+					} else {
+
+						// get and set the values for the table user
+						user.setUserId(jObject.get("id").toString());
+						user.setUserName(jObject.get("userName").toString());
+						user.setFirstName(jObject.get("firstName").toString());
+						user.setLastName(jObject.get("lastName").toString());
+						user.setRole(jObject.get("role").toString());
+						user.setEmail(jObject.get("emailAddress").toString());
+						user.setPhoneNumber(jObject.get("phoneNumber").toString());
+						user.setMobileNumber(jObject.get("mobileNumber").toString());
+
+						userId = user.getUserId();
+
+						datasource.createUser(user);
+						datasource.close();
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			} else {
+				Toast errorToast = Toast.makeText(ctx, "Wrong username or password", Toast.LENGTH_SHORT);
+				errorToast.show();
+			}
+		} else {
+			Toast errorToast = Toast.makeText(ctx, "No Internet connection", Toast.LENGTH_SHORT);
+			errorToast.show();
+
+		}
+		return userId;
 	}
 }

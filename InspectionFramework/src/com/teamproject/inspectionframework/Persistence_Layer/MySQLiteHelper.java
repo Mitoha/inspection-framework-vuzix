@@ -75,7 +75,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	// Database information
 	private static final String DATABASE_NAME = "newTestDatabase.db";
-	private static final int DATABASE_VERSION = 5;
+	private static final int DATABASE_VERSION = 6;
 
 	// Assignment Table creation sql statement
 	private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE " + TABLE_ASSIGNMENTS + "(" + A_COLUMN_ROWID + " INTEGER, " + A_COLUMN_ASSIGNMENT_ID + " TEXT PRIMARY KEY UNIQUE, " + A_COLUMN_DESCRIPTION + " TEXT, " + A_COLUMN_ASSIGNMENTNAME + " TEXT, " + A_COLUMN_STARTDATE + " INTEGER, " + A_COLUMN_ENDDATE + " INTEGER, " + A_COLUMN_ISTEMPLATE + " TEXT, " + A_COLUMN_INSPECTIONOBJECT_ID + " TEXT, " + A_COLUMN_USER_ID + " TEXT, " + A_COLUMN_STATE + " TEXT)";
@@ -268,7 +268,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(A_COLUMN_STATE, assignment.getState());
 
 		// updating row
-		return db.update(TABLE_ASSIGNMENTS, values, A_COLUMN_ROWID + " = ?", new String[] { String.valueOf(assignment.getId()) });
+		return db.update(TABLE_ASSIGNMENTS, values, A_COLUMN_ASSIGNMENT_ID + " = ?", new String[] { String.valueOf(assignment.getId()) });
 	}
 
 	// Delete an assignment
@@ -306,7 +306,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.I_COLUMN_LOCATION, inspectionObject.getLocation());
 		values.put(MySQLiteHelper.I_COLUMN_CUSTOMERNAME, inspectionObject.getCustomerName());
 
-		return database.update(TABLE_INSPECTIONOBJECTS, values, I_COLUMN_ROWID + " = ?", new String[] { String.valueOf(inspectionObject.getId()) });
+		return database.update(TABLE_INSPECTIONOBJECTS, values, I_COLUMN_OBJECT_ID + " = ?", new String[] { String.valueOf(inspectionObject.getId()) });
 	}
 
 	// Delete an inspectionObject
@@ -380,13 +380,14 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.U_COLUMN_MOBILENUMBER, user.getMobileNumber());
 		values.put(MySQLiteHelper.U_COLUMN_PHONENUMBER, user.getPhoneNumber());
 
-		return database.update(TABLE_USERS, values, U_COLUMN_ROWID + " = ?", new String[] { String.valueOf(user.getUserId()) });
+		return database.update(TABLE_USERS, values, U_COLUMN_USER_ID + " = ?", new String[] { String.valueOf(user.getUserId()) });
 	}
 
 	// Delete a user
 	public void deleteUser(String userId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_USERS, U_COLUMN_USER_ID + " = ?", new String[] { String.valueOf(userId) });
+		db.close();
 	}
 
 	// RUD-Methods for tasks
@@ -454,7 +455,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.T_COLUMN_PK, task.getAssignmentId());
 		values.put(MySQLiteHelper.T_COLUMN_ERROR_DESCRIPTION, task.getErrorDescription());
 
-		return database.update(TABLE_TASKS, values, T_COLUMN_ROWID + " = ?", new String[] { String.valueOf(task.getId()) });
+		return database.update(TABLE_TASKS, values, T_COLUMN_TASK_ID + " = ?", new String[] { String.valueOf(task.getId()) });
 	}
 
 	// Delete a task
@@ -536,7 +537,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.AT_COLUMN_FK_TASK_ID, attachment.getTaskId());
 		values.put(MySQLiteHelper.AT_COLUMN_FK_ASSIGNMENT_ID, attachment.getAssignmentId());
 
-		return database.update(TABLE_ATTACHMENTS, values, AT_COLUMN_ROWID + " = ?", new String[] { String.valueOf(attachment.getId()) });
+		return database.update(TABLE_ATTACHMENTS, values, AT_COLUMN_ATTACHMENT_ID + " = ?", new String[] { String.valueOf(attachment.getId()) });
 	}
 
 	// Delete an attachment

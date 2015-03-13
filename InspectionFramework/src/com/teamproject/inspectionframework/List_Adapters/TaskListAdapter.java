@@ -49,6 +49,7 @@ public class TaskListAdapter extends BaseAdapter {
 		}
 		TextView Name = (TextView) convertView.findViewById(R.id.taskName);
 		TextView State = (TextView) convertView.findViewById(R.id.taskState);
+		
 
 		Task task = taskList.get(position);
 

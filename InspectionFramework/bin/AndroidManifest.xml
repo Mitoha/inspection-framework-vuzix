@@ -26,14 +26,14 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.teamproject.inspectionframework.MainActivity" />
             </intent-filter>
         </activity>
         <activity
             android:name=".AssignmentList"
             android:label="@string/title_activity_assignment_list" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.teamproject.inspectionframework.MainActivity" />
         </activity>
         <activity
             android:name=".TaskList"

@@ -1,26 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:columnCount="1" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textViewSmartphonePair"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
+        android:layout_column="0"
+        android:layout_gravity="bottom"
+        android:layout_row="4"
         android:gravity="center"
         android:text="@string/text_pair_smartphone"
         android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="26dp"
-        android:text="@string/text_userlogin_button"
-        android:onClick="onClickContinueButton" />
+    <EditText
+        android:id="@+id/editTextUserName"
+        android:layout_column="0"
+        android:layout_gravity="center_horizontal"
+        android:layout_row="0"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="Username" >
 
-</RelativeLayout>
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editTextUserPassword"
+        android:layout_column="0"
+        android:layout_gravity="center_horizontal"
+        android:layout_row="1"
+        android:ems="10"
+        android:inputType="textPassword" 
+        android:hint="Password" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_column="0"
+        android:layout_gravity="center_horizontal"
+        android:layout_row="2"
+        android:onClick="onClickLoginButton"
+        android:text="@string/text_userlogin_button" />
+
+</GridLayout>
