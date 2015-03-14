@@ -2,19 +2,15 @@ package com.teamproject.inspectionframework;
 
 import java.sql.Date;
 
-import com.teamproject.inspectionframework.Entities.Assignment;
-import com.teamproject.inspectionframework.Entities.InspectionObject;
-import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.teamproject.inspectionframework.Entities.Assignment;
+import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
 public class AssignmentDetails extends Activity {
 

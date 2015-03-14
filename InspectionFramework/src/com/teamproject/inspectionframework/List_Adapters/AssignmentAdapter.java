@@ -1,5 +1,6 @@
 package com.teamproject.inspectionframework.List_Adapters;
 
+import java.sql.Date;
 import java.util.List;
 
 import android.content.Context;
@@ -45,13 +46,15 @@ public class AssignmentAdapter extends BaseAdapter {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.list_element_assignment_list, parent, false);
 		}
+		
 		TextView Name = (TextView) convertView.findViewById(R.id.assignmentName);
 		TextView DueDate = (TextView) convertView.findViewById(R.id.assignmentDueDate);
 
 		Assignment assignment = assignmentList.get(position);
+		Date dueDate = new Date(assignment.getDueDate());
 
 		Name.setText(assignment.getAssignmentName());
-		DueDate.setText(assignment.getDueDate().toString());
+		DueDate.setText(dueDate.toString());
 
 		return convertView;
 	}

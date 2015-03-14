@@ -2,12 +2,8 @@ package com.teamproject.inspectionframework;
 
 import java.util.List;
 
-import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelper;
-import com.teamproject.inspectionframework.Entities.Assignment;
-import com.teamproject.inspectionframework.List_Adapters.AssignmentAdapter;
-import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
-
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +11,11 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+
+import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelper;
+import com.teamproject.inspectionframework.Entities.Assignment;
+import com.teamproject.inspectionframework.List_Adapters.AssignmentAdapter;
+import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
 public class AssignmentList extends ListActivity {
 
@@ -83,18 +84,22 @@ public class AssignmentList extends ListActivity {
 
 		// Sync assignments between Heroku server and local database
 		case R.id.action_synchronize_assignments:
-
+			
+			ProgressDialog progress = new ProgressDialog(this);
+			progress.setTitle("Synchronization");
+			progress.setMessage("Please wait...");
+			progress.show();
+			
 			syncHelper = new SynchronizationHelper();
-			syncHelper.SynchronizeAssignments(getApplicationContext());
-
+			syncHelper.SynchronizeAssignments(getApplicationContext(), getIntent().getExtras().getString("userId"));
+			
+			progress.dismiss();
+			
 			// Creates the output list after retrieving updates from the server
 			this.createOutputList();
 			break;
 
 		case R.id.action_logout_user:
-
-			// TODO: Perhaps add a security call here that checks if user really
-			// wants to logout
 
 			// Logout: Delete the user entry in the local database and return to
 			// login screen

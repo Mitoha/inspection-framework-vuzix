@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,6 +85,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 		});
 	}
+	
+	/**
+	 * This makes sure that when pressing the BACK-Button the User can't go
+	 * 
+	 */
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+			Intent goToMainActivity = new Intent(this, MainActivity.class);
+			startActivity(goToMainActivity);
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
