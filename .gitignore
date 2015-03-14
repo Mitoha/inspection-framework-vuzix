@@ -1,4 +1,4 @@
-./bin
+bin
 /InspectionFramework/bin/*
 /InspectionFramework/gen/*
 ./InspectionFramework/.classpath
