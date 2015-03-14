@@ -99,15 +99,23 @@ public class TaskList extends ListActivity {
 
 			break;
 
-		case R.id.action_attachment_finish_assignment:
+		case R.id.action_show_task_attachment:
 
-			// TODO: Implement method
-
-			Toast toast = Toast.makeText(this, "Function not implemented yet!", Toast.LENGTH_SHORT);
-			toast.show();
+			Intent goToTaskAttachmentIntent = new Intent(this, TaskAttachment.class);
+			//goToTaskAttachmentIntent.putExtra("taskName", task);
+			startActivity(goToTaskAttachmentIntent);
+			//Toast toast = Toast.makeText(this, "Function not implemented yet!", Toast.LENGTH_SHORT);
+			//toast.show();
 
 			break;
 
+		case R.id.action_attachment_finish_assignment:	
+			
+			Toast toast = Toast.makeText(this, "Function not implemented yet!", Toast.LENGTH_SHORT);
+			toast.show();
+			
+			break;
+			
 		default:
 			return true;
 		}

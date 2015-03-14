@@ -7,7 +7,8 @@
     <string name="title_activity_task_list">Task List</string>
     <string name="title_activity_task_details">Task Details</string>
     <string name="show_assignment_details">Assignment Details</string>
-    <string name="attachment_finish_assignment">Add Attachment</string>
+    <string name="show_task_attachment">Add Attachment</string>
+    <string name="attachment_finish_assignment">Finish Assignment</string>
     <string name="title_activity_assignment_details">Assignment Details</string>
     <string name="list_noItemsAvailable">No Items Available!</string>
     <string name="tab_user_login">Login</string>
@@ -16,10 +17,13 @@
     <string name="text_userlogin_button">Login</string>
     <string name="title_activity_fragment_task_attachment">FragmentTaskAttachment</string>
     <string name="AttachmentButton_voice">Voice Recording</string>
-    <string name="AttachmentButton_picture">Take picture</string>
+    <string name="AttachmentButton_picture">Take a picture</string>
     <string name="AttachmentButton_saveandexit">Save and exit</string>
     <string name="title_activity_soundrecording">Soundrecording</string>
     <string name="action_logout_user">User Logout</string>
     <string name="toast_no_internet">No Internet connection available</string>
+    <string name="title_activity_task_attachment">TaskAttachment</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
