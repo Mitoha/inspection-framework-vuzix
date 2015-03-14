@@ -12,6 +12,7 @@ public class Assignment {
     String inspectionObjectId;
     String isTemplate;
     Integer state;
+    Integer version;
 
 
     //Constructor
@@ -58,6 +59,10 @@ public class Assignment {
     public void setInspectionObjectId(String inspectionObjectId) {
         this.inspectionObjectId = inspectionObjectId;
     }
+    
+    public void setVersion(Integer version) {
+    	this.version = version;
+    }
 
     //Getter
     public Integer getState() {
@@ -80,8 +85,6 @@ public class Assignment {
         return description;
     }
 
-
-
     public Long getStartDate() {
         return startDate;
     }
@@ -96,6 +99,10 @@ public class Assignment {
 
     public String getInspectionObjectId() {
         return inspectionObjectId;
+    }
+    
+    public Integer getVersion() {
+    	return version;
     }
 
     @Override

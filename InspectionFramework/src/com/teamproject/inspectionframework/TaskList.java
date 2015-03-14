@@ -62,11 +62,18 @@ public class TaskList extends ListActivity {
 	protected void onListItemClick(ListView l, android.view.View v, int position, long id) {
 
 		Task clickedTask = adapter.getClickedTask(position);
+		
+		clickedTask.setState(2);
+		datasource = new MySQLiteHelper(getApplicationContext());
+		datasource.updateTask(clickedTask);
+		
+		this.createOutputList();
 
-		Intent gotToTaskDetailsIntent = new Intent(this, TaskDetails.class);
-		gotToTaskDetailsIntent.putExtra("taskName", clickedTask.getTaskName());
-		gotToTaskDetailsIntent.putExtra("TaskId", clickedTask.getId());
-		startActivity(gotToTaskDetailsIntent);
+		//TODO: Re-Activate
+//		Intent gotToTaskDetailsIntent = new Intent(this, TaskDetails.class);
+//		gotToTaskDetailsIntent.putExtra("taskName", clickedTask.getTaskName());
+//		gotToTaskDetailsIntent.putExtra("TaskId", clickedTask.getId());
+//		startActivity(gotToTaskDetailsIntent);
 	};
 
 	@Override

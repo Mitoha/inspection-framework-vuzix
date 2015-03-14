@@ -1,5 +1,7 @@
 package com.teamproject.inspectionframework.Application_Layer;
 
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -18,6 +20,7 @@ public class SynchronizationHelper {
 	private MySQLiteHelper datasource;
 	private HttpCustomClient restInstance;
 	private InternetConnectionDetector icd;
+	private ParseJSON parser = new ParseJSON();
 
 	public SynchronizationHelper() {
 
@@ -29,9 +32,44 @@ public class SynchronizationHelper {
 		restInstance = new HttpCustomClient();
 		icd = new InternetConnectionDetector(ctx);
 
-		// DOWNLOAD-PART +++++++++++++++++++++++++++
-		
 		if (icd.isConnectedToInternet() == true) {
+
+			// UPLOAD-PART
+			// TODO: Add error prompt for upload not possible (version conflict)
+			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+			try {
+				String putJObject = null;
+				List<Assignment> listWithAllAssignmentsByUser = datasource.getAssignmentsByUserId(userId);
+
+				for (int i = 0; i < listWithAllAssignmentsByUser.size(); i++) {
+					Assignment assignment = listWithAllAssignmentsByUser.get(i);
+					User user = datasource.getUserByUserId(userId);
+					InspectionObject inspectionObject = datasource.getInspectionObjectById(assignment.getInspectionObjectId());
+
+					List<Task> taskList = datasource.getTasksByAssignmentId(assignment.getId());
+
+					putJObject = parser.completeAssignmentToJson(assignment, taskList, user, inspectionObject);
+
+					restInstance.putToHerokuServer("assignment", putJObject, assignment.getId());
+
+					// Deletes all local instances in the database
+					datasource.deleteAssignment(assignment.getId());
+					datasource.deleteInspectionObject(assignment.getInspectionObjectId());
+
+					for (int j = 0; j < taskList.size(); j++) {
+						Task task = taskList.get(j);
+						datasource.deleteTask(task.getId());
+					}
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			// DOWNLOAD-PART
+			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 			String inputAssignment = restInstance.readHerokuServer("assignment");
 
 			try {
@@ -43,13 +81,9 @@ public class SynchronizationHelper {
 
 					JSONObject jObjectUser = new JSONObject(jObject.get("user").toString());
 
-					// Checks if assignment is template
-					if (jObject.get("isTemplate").toString() == "true") {
-						continue;
-					}
-
-					// Check if user is correct, i.e. the one who is currently logged-in
-					if (!userId.equals(jObjectUser.get("id").toString())) {
+					// Filters the input stream: Don't pick templates,
+					// assignments from other users, finished assignments
+					if (jObject.get("isTemplate").toString() == "true" || !userId.equals(jObjectUser.get("id").toString()) || jObject.getInt("state") == 2) {
 						continue;
 					}
 
@@ -61,6 +95,7 @@ public class SynchronizationHelper {
 					assignment.setDueDate(jObject.getLong("endDate"));
 					assignment.setInspectionObjectId(jObject.get("isTemplate").toString());
 					assignment.setState(jObject.getInt("state"));
+					assignment.setVersion(jObject.getInt("version"));
 
 					// Download all tasks assigned to an assignment from the
 					// server
@@ -104,13 +139,12 @@ public class SynchronizationHelper {
 
 					// Store all assignments into the database
 					datasource.createAssignment(assignment);
-					datasource.close();
-
 				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 		} else {
 			Toast errorToast = Toast.makeText(ctx, R.string.toast_no_internet, Toast.LENGTH_SHORT);
 			errorToast.show();

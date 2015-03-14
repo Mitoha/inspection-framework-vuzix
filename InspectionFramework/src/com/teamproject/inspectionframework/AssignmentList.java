@@ -41,9 +41,9 @@ public class AssignmentList extends ListActivity {
 
 	public void createOutputList() {
 		datasource = new MySQLiteHelper(getApplicationContext());
-		List<Assignment> listWithAllStoredAssignments = datasource.getAllAssignments();
+		List<Assignment> listWithAllAssignmentsByUser = datasource.getAssignmentsByUserId(getIntent().getExtras().getString("userId"));
 
-		adapter = new AssignmentAdapter(this, listWithAllStoredAssignments);
+		adapter = new AssignmentAdapter(this, listWithAllAssignmentsByUser);
 		setListAdapter(adapter);
 
 		datasource.close();
@@ -67,8 +67,8 @@ public class AssignmentList extends ListActivity {
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
-			Intent goToUserListIntent = new Intent(this, MainActivity.class);
-			startActivity(goToUserListIntent);
+			Intent goToMainActivityIntent = new Intent(this, MainActivity.class);
+			startActivity(goToMainActivityIntent);
 		}
 
 		return super.onKeyDown(keyCode, event);

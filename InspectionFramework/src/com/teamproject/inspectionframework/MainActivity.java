@@ -1,6 +1,7 @@
 package com.teamproject.inspectionframework;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -145,9 +146,16 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		EditText editTextUserName = (EditText) findViewById(R.id.editTextUserName);
 		EditText editPassword = (EditText) findViewById(R.id.editTextUserPassword);
 
+		ProgressDialog progress = new ProgressDialog(this);
+		progress.setTitle("Loggin in");
+		progress.setMessage("Please wait...");
+		progress.show();
+		
 		SynchronizationHelper syncHelper = new SynchronizationHelper();
 		String userId = syncHelper.UserLogin(getApplicationContext(), editTextUserName.getText().toString(), editPassword.getText().toString());
 
+		progress.dismiss();
+		
 		if (userId != "0") {
 			
 			Intent goToAssignmentIntent = new Intent(getApplicationContext(), AssignmentList.class);

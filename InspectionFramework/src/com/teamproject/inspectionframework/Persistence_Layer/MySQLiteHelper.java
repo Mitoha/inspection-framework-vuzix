@@ -36,6 +36,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public static final String A_COLUMN_INSPECTIONOBJECT_ID = "inspectionObjectId";
 	public static final String A_COLUMN_ISTEMPLATE = "isTemplate";
 	public static final String A_COLUMN_STATE = "state";
+	public static final String A_COLUMN_VERSION = "version";
 
 	// Column names table tasks
 	public static final String T_COLUMN_ROWID = "_id";
@@ -75,10 +76,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	// Database information
 	private static final String DATABASE_NAME = "newTestDatabase.db";
-	private static final int DATABASE_VERSION = 6;
+	private static final int DATABASE_VERSION = 7;
 
 	// Assignment Table creation sql statement
-	private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE " + TABLE_ASSIGNMENTS + "(" + A_COLUMN_ROWID + " INTEGER, " + A_COLUMN_ASSIGNMENT_ID + " TEXT PRIMARY KEY UNIQUE, " + A_COLUMN_DESCRIPTION + " TEXT, " + A_COLUMN_ASSIGNMENTNAME + " TEXT, " + A_COLUMN_STARTDATE + " INTEGER, " + A_COLUMN_ENDDATE + " INTEGER, " + A_COLUMN_ISTEMPLATE + " TEXT, " + A_COLUMN_INSPECTIONOBJECT_ID + " TEXT, " + A_COLUMN_USER_ID + " TEXT, " + A_COLUMN_STATE + " TEXT)";
+	private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE " + TABLE_ASSIGNMENTS + "(" + A_COLUMN_ROWID + " INTEGER, " + A_COLUMN_ASSIGNMENT_ID + " TEXT PRIMARY KEY UNIQUE, " + A_COLUMN_DESCRIPTION + " TEXT, " + A_COLUMN_ASSIGNMENTNAME + " TEXT, " + A_COLUMN_STARTDATE + " INTEGER, " + A_COLUMN_ENDDATE + " INTEGER, " + A_COLUMN_ISTEMPLATE + " TEXT, " + A_COLUMN_INSPECTIONOBJECT_ID + " TEXT, " + A_COLUMN_USER_ID + " TEXT, " + A_COLUMN_STATE + " TEXT, " + A_COLUMN_VERSION + " Text)";
 
 	// Task Table creation sql statement
 	private static final String CREATE_TABLE_TASKS = "CREATE TABLE " + TABLE_TASKS + "(" + T_COLUMN_ROWID + " INTEGER, " + T_COLUMN_TASKNAME + " TEXT, " + T_COLUMN_DESCRIPTION + " TEXT, " + T_COLUMN_STATE + " INTEGER, " + T_COLUMN_TASK_ID + " TEXT PRIMARY KEY, " + T_COLUMN_ERROR_DESCRIPTION + " TEXT, " + T_COLUMN_PK + " TEXT, " + " FOREIGN KEY(PK) REFERENCES TABLE_ASSIGNMENTS(assignmentId))";
@@ -147,6 +148,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.A_COLUMN_INSPECTIONOBJECT_ID, assignment.getInspectionObjectId());
 		values.put(MySQLiteHelper.A_COLUMN_USER_ID, assignment.getUserId());
 		values.put(MySQLiteHelper.A_COLUMN_STATE, assignment.getState());
+		values.put(MySQLiteHelper.A_COLUMN_VERSION, assignment.getVersion());
 
 		// insert row
 		long insertId = database.insert(MySQLiteHelper.TABLE_ASSIGNMENTS, null, values);
@@ -221,6 +223,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				assignment.setState((c.getInt(c.getColumnIndex(A_COLUMN_STATE))));
 				assignment.setInspectionObjectId((c.getString(c.getColumnIndex(A_COLUMN_INSPECTIONOBJECT_ID))));
 				assignment.setUserId((c.getString(c.getColumnIndex(A_COLUMN_USER_ID))));
+				assignment.setVersion(c.getInt(c.getColumnIndex(A_COLUMN_VERSION)));
+				
 				// adding to assignment list
 				listAssignments.add(assignment);
 			} while (c.moveToNext());
@@ -245,11 +249,41 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		assignment.setIsTemplate(c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE)));
 		assignment.setUserId(c.getString(c.getColumnIndex(A_COLUMN_USER_ID)));
 		assignment.setState((c.getInt(c.getColumnIndex(A_COLUMN_STATE))));
-		assignment.setInspectionObjectId((c.getString(c.getColumnIndex(A_COLUMN_INSPECTIONOBJECT_ID))));
-		assignment.setUserId((c.getString(c.getColumnIndex(A_COLUMN_USER_ID))));
+		assignment.setInspectionObjectId(c.getString(c.getColumnIndex(A_COLUMN_INSPECTIONOBJECT_ID)));
+		assignment.setVersion(c.getInt(c.getColumnIndex(A_COLUMN_VERSION)));
 
 		db.close();
 		return assignment;
+	}
+	
+	//Get all assignments for a given user ID
+	public List<Assignment> getAssignmentsByUserId(String ID) {
+		List<Assignment> listAssignments = new ArrayList<Assignment>();
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS + " WHERE " + A_COLUMN_USER_ID + " = " + "'" + ID + "'";
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		// looping through all rows and adding to list
+		if (c.moveToFirst()) {
+			do {
+				Assignment assignment = new Assignment();
+				assignment.setId(c.getString((c.getColumnIndex(A_COLUMN_ASSIGNMENT_ID))));
+				assignment.setAssignmentName(c.getString((c.getColumnIndex(A_COLUMN_ASSIGNMENTNAME))));
+				assignment.setDescription((c.getString(c.getColumnIndex(A_COLUMN_DESCRIPTION))));
+				assignment.setStartDate((c.getLong(c.getColumnIndex(A_COLUMN_STARTDATE))));
+				assignment.setDueDate((c.getLong(c.getColumnIndex(A_COLUMN_ENDDATE))));
+				assignment.setIsTemplate((c.getString(c.getColumnIndex(A_COLUMN_ISTEMPLATE))));
+				assignment.setState((c.getInt(c.getColumnIndex(A_COLUMN_STATE))));
+				assignment.setInspectionObjectId((c.getString(c.getColumnIndex(A_COLUMN_INSPECTIONOBJECT_ID))));
+				assignment.setUserId((c.getString(c.getColumnIndex(A_COLUMN_USER_ID))));
+				assignment.setVersion(c.getInt(c.getColumnIndex(A_COLUMN_VERSION)));
+				
+				// adding to assignment list
+				listAssignments.add(assignment);
+			} while (c.moveToNext());
+		}
+
+		return listAssignments;
 	}
 
 	// Update an assignment
@@ -266,6 +300,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(A_COLUMN_STARTDATE, assignment.getStartDate());
 		values.put(A_COLUMN_ENDDATE, assignment.getDueDate());
 		values.put(A_COLUMN_STATE, assignment.getState());
+		values.put(A_COLUMN_VERSION, assignment.getVersion());
 
 		// updating row
 		return db.update(TABLE_ASSIGNMENTS, values, A_COLUMN_ASSIGNMENT_ID + " = ?", new String[] { String.valueOf(assignment.getId()) });
@@ -408,6 +443,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				task.setId(c.getString((c.getColumnIndex(T_COLUMN_TASK_ID))));
 				task.setAssignmentId(c.getString((c.getColumnIndex(T_COLUMN_PK))));
 				task.setErrorDescription(c.getString(c.getColumnIndex(T_COLUMN_ERROR_DESCRIPTION)));
+				
 				// adding to assignment list
 				tasks.add(task);
 			} while (c.moveToNext());

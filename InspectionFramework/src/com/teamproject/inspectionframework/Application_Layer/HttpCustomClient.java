@@ -224,14 +224,14 @@ public class HttpCustomClient {
 	// Receives the URI where the object should be put at and the String
 	// Should be used than an existing object of the server database should be
 	// updated
-	public void putToHerokuServer(String uri, String jsonObject) {
+	public void putToHerokuServer(String uri, String jsonObject, String assignmentId) {
 		JSONObject jO;
 
 		// Allow internet connection
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		// set URL for Put-request
-		HttpPut httpPut = new HttpPut("http://inspection-framework.herokuapp.com/" + uri);
+		HttpPut httpPut = new HttpPut("http://inspection-framework.herokuapp.com/" + uri + "/" + assignmentId);
 
 		// Create a new JSONObject from the given String
 		try {
