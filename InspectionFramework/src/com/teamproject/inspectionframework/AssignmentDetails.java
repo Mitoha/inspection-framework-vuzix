@@ -5,6 +5,7 @@ import java.sql.Date;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -12,50 +13,51 @@ import android.widget.TextView;
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
+//TODO: Make this screen look nicer
 public class AssignmentDetails extends Activity {
 
 	// VAR-Declaration
-	private String assignmentId;
-	private String assignmentName;
 	private MySQLiteHelper datasource;
+	private MyApplication myApp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_assignment_details);
-
-		// Set Variables
-		this.assignmentId = getIntent().getExtras().getString("AssignmentId");
-		this.assignmentName = getIntent().getExtras().getString("AssignmentName");
+		myApp = (MyApplication) getApplicationContext();
 
 		// Adjust Action Bar title
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(getString(R.string.title_activity_assignment_details) + ": " + assignmentName);
+		actionBar.setTitle(getString(R.string.title_activity_assignment_details) + ": " + myApp.getAssignment().getAssignmentName());
 
 		// Create output
 		datasource = new MySQLiteHelper(getApplicationContext());
 
-		Assignment assignment = datasource.getAssignmentById(assignmentId);
+		Assignment assignment = myApp.getAssignment();
 		TextView buildElement = new TextView(this);
 		Date startDate = new Date(assignment.getStartDate());
 		Date dueDate = new Date(assignment.getDueDate());
 
 		buildElement = (TextView) findViewById(R.id.tvAssignmentName);
-		buildElement.setText("Name: " + assignmentName);
+		buildElement.setText("Name: " + assignment.getAssignmentName());
 		buildElement = (TextView) findViewById(R.id.tvAssignmentStartDate);
 		buildElement.setText("Start Date: " + startDate);
 		buildElement = (TextView) findViewById(R.id.tvAssignmentDueDate);
 		buildElement.setText("Due Date: " + dueDate);
-		buildElement = (TextView) findViewById(R.id.tvAssignmentInspObj);
 
+		buildElement = (TextView) findViewById(R.id.tvAssignmentInspObj);
 		if (assignment.getInspectionObjectId() != null) {
 			buildElement.setText("Insp. Object: " + datasource.getInspectionObjectById(assignment.getInspectionObjectId()).getObjectName());
 		} else {
 			buildElement.setText("Insp. Object: Not found");
 		}
-		buildElement = (TextView) findViewById(R.id.tvAssignmentDescription);
-		buildElement.setText("Description: " + assignment.getDescription());
 
+		buildElement = (TextView) findViewById(R.id.tvAssignmentDescription);
+		if (assignment.getDescription() != null) {
+			buildElement.setText("Description: " + assignment.getDescription());
+		} else {
+			buildElement.setText("Description: Not found");
+		}
 	}
 
 	@Override

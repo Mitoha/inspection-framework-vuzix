@@ -76,7 +76,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	// Database information
 	private static final String DATABASE_NAME = "newTestDatabase.db";
-	private static final int DATABASE_VERSION = 7;
+	private static final int DATABASE_VERSION = 8;
 
 	// Assignment Table creation sql statement
 	private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE " + TABLE_ASSIGNMENTS + "(" + A_COLUMN_ROWID + " INTEGER, " + A_COLUMN_ASSIGNMENT_ID + " TEXT PRIMARY KEY UNIQUE, " + A_COLUMN_DESCRIPTION + " TEXT, " + A_COLUMN_ASSIGNMENTNAME + " TEXT, " + A_COLUMN_STARTDATE + " INTEGER, " + A_COLUMN_ENDDATE + " INTEGER, " + A_COLUMN_ISTEMPLATE + " TEXT, " + A_COLUMN_INSPECTIONOBJECT_ID + " TEXT, " + A_COLUMN_USER_ID + " TEXT, " + A_COLUMN_STATE + " TEXT, " + A_COLUMN_VERSION + " Text)";
@@ -310,6 +310,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public void deleteAssignment(String assignmentId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_ASSIGNMENTS, A_COLUMN_ASSIGNMENT_ID + " = ?", new String[] { String.valueOf(assignmentId) });
+		db.close();
 	}
 
 	// RUD-Methods for inspectionObjects
@@ -327,6 +328,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		inspectionObject.setDescription(c.getString(c.getColumnIndex(I_COLUMN_DESCRIPTION)));
 		inspectionObject.setCustomerName(c.getString(c.getColumnIndex(I_COLUMN_CUSTOMERNAME)));
 		inspectionObject.setLocation(c.getString(c.getColumnIndex(I_COLUMN_LOCATION)));
+		
+		db.close();
 		return inspectionObject;
 	}
 
@@ -348,6 +351,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public void deleteInspectionObject(String objectId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_INSPECTIONOBJECTS, I_COLUMN_OBJECT_ID + " = ?", new String[] { String.valueOf(objectId) });
+		db.close();
 	}
 
 	// RUD-Methods for User
@@ -520,6 +524,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public void deleteTask(String taskId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_TASKS, T_COLUMN_TASK_ID + " = ?", new String[] { String.valueOf(taskId) });
+		db.close();
 	}
 
 	// RUD-Methods for Attachment
@@ -602,6 +607,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	public void deleteAttachment(String attachmentId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_ATTACHMENTS, AT_COLUMN_ATTACHMENT_ID + " = ?", new String[] { String.valueOf(attachmentId) });
+		db.close();
 	}
 
 	// closing database

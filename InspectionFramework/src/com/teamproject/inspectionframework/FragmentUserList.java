@@ -19,10 +19,13 @@ public class FragmentUserList extends ListFragment {
 	// VAR-declaration
 		private MySQLiteHelper datasource;
 		private UserListAdapter adapter;
+		private MyApplication myApp;
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+		
+		myApp = (MyApplication) getActivity().getApplicationContext();
  
         View rootView = inflater.inflate(R.layout.fragment_user_list, container, false);
         
@@ -44,9 +47,9 @@ public class FragmentUserList extends ListFragment {
 
 		User clickedUser = adapter.getClickedUser(position);
 
-		Intent goToAssignmentIntent = new Intent(getActivity(), AssignmentList.class);
-		goToAssignmentIntent.putExtra("userName", clickedUser.getUserName());
-		goToAssignmentIntent.putExtra("userId", clickedUser.getUserId());
+		Intent goToAssignmentIntent = new Intent(getActivity(), AssignmentList.class);		
+		myApp.setUser(clickedUser.getUserId());
+		
 		startActivity(goToAssignmentIntent);
 	};
 }

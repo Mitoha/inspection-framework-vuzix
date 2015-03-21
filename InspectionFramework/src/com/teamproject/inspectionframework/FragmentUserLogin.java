@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 
 public class FragmentUserLogin extends Fragment {
 
+	private MyApplication myApp;
+	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
         View rootView = inflater.inflate(R.layout.fragment_user_login, container, false);
+        myApp = (MyApplication) getActivity().getApplicationContext();
         
         return rootView;
     }

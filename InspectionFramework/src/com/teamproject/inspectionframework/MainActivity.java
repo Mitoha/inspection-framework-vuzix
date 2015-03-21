@@ -24,6 +24,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ActionBar actionBar;
 	// private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
+	private MyApplication myApp;
 
 	// protected void onResume() {
 	// super.onResume();
@@ -41,6 +42,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		myApp = (MyApplication) getApplicationContext();
 
 		// Set title for Action Bar
 		actionBar = getActionBar();
@@ -85,9 +87,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			}
 		});
 	}
-	
+
 	/**
-	 * This makes sure that when pressing the BACK-Button the User can't go back to assignment list
+	 * This makes sure that when pressing the BACK-Button the User can't go back
+	 * to assignment list
 	 * 
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -98,7 +101,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 		return super.onKeyDown(keyCode, event);
 	}
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,26 +135,26 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 
 	// method that should call the voice recording screen
-	public void voiceRecordingScreen(View view) {
-
-		// TODO: Clarify
-		// Intent to audio recording
-		Intent goToVoiceRecordingIntent = new Intent(this, SoundRecordingActivity.class);
-		startActivity(goToVoiceRecordingIntent);
-	}
+	// public void voiceRecordingScreen(View view) {
+	//
+	// TODO: Clarify
+	// // Intent to audio recording
+	// Intent goToVoiceRecordingIntent = new Intent(this,
+	// SoundRecordingActivity.class);
+	// startActivity(goToVoiceRecordingIntent);
+	// }
 
 	public void onClickLoginButton(View v) {
 		EditText editTextUserName = (EditText) findViewById(R.id.editTextUserName);
 		EditText editPassword = (EditText) findViewById(R.id.editTextUserPassword);
-		
+
 		SynchronizationHelper syncHelper = new SynchronizationHelper();
 		String userId = syncHelper.UserLogin(getApplicationContext(), editTextUserName.getText().toString(), editPassword.getText().toString());
-		
+
 		if (userId != "0") {
-			
+
 			Intent goToAssignmentIntent = new Intent(getApplicationContext(), AssignmentList.class);
-			goToAssignmentIntent.putExtra("userName", editTextUserName.getText().toString());
-			goToAssignmentIntent.putExtra("userId", userId);
+			myApp.setUser(userId);
 			startActivity(goToAssignmentIntent);
 		}
 	}

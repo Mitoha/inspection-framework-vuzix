@@ -23,11 +23,13 @@ public class AssignmentList extends ListActivity {
 	private MySQLiteHelper datasource;
 	private AssignmentAdapter adapter;
 	private SynchronizationHelper syncHelper;
+	private MyApplication myApp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_assignment_list);
+		myApp = (MyApplication) getApplicationContext();
 
 		this.createOutputList();
 	}
@@ -41,7 +43,7 @@ public class AssignmentList extends ListActivity {
 
 	public void createOutputList() {
 		datasource = new MySQLiteHelper(getApplicationContext());
-		List<Assignment> listWithAllAssignmentsByUser = datasource.getAssignmentsByUserId(getIntent().getExtras().getString("userId"));
+		List<Assignment> listWithAllAssignmentsByUser = datasource.getAssignmentsByUserId(myApp.getUser().getUserId());
 
 		adapter = new AssignmentAdapter(this, listWithAllAssignmentsByUser);
 		setListAdapter(adapter);
@@ -56,8 +58,7 @@ public class AssignmentList extends ListActivity {
 		Assignment clickedAssignment = adapter.getClickedAssignment(position);
 
 		Intent goToTaskListIntent = new Intent(this, TaskList.class);
-		goToTaskListIntent.putExtra("AssignmentName", clickedAssignment.getAssignmentName());
-		goToTaskListIntent.putExtra("AssignmentId", clickedAssignment.getId());
+		myApp.setAssignment(clickedAssignment);
 		startActivity(goToTaskListIntent);
 	};
 
@@ -84,17 +85,10 @@ public class AssignmentList extends ListActivity {
 
 		// Sync assignments between Heroku server and local database
 		case R.id.action_synchronize_assignments:
-			
-			ProgressDialog progress = new ProgressDialog(this);
-			progress.setTitle("Synchronization");
-			progress.setMessage("Please wait...");
-			progress.show();
-			
+
 			syncHelper = new SynchronizationHelper();
-			syncHelper.SynchronizeAssignments(getApplicationContext(), getIntent().getExtras().getString("userId"));
-			
-			progress.dismiss();
-			
+			syncHelper.SynchronizeAssignments(getApplicationContext(), myApp.getUser().getUserId());
+
 			// Creates the output list after retrieving updates from the server
 			this.createOutputList();
 			break;
@@ -103,10 +97,9 @@ public class AssignmentList extends ListActivity {
 
 			// Logout: Delete the user entry in the local database and return to
 			// login screen
+			// TODO: Add logout process: Delete all assignments etc.
 			datasource = new MySQLiteHelper(getApplicationContext());
-			datasource.deleteUser(getIntent().getExtras().getString("userId"));
-			Log.i("IF", getIntent().getExtras().getString("userId"));
-
+			datasource.deleteUser(myApp.getUser().getUserId());
 			Intent goToUserListIntent = new Intent(this, MainActivity.class);
 			startActivity(goToUserListIntent);
 

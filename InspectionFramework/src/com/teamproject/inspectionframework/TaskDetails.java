@@ -9,38 +9,37 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class TaskDetails extends FragmentActivity implements ActionBar.TabListener {
 
-	private String taskId;
-	private Task task;
 	private MySQLiteHelper datasource;
-
 	private ViewPager viewPager;
 	private TabAdapterTaskDetails mAdapter;
 	private ActionBar actionBar;
 	private String[] tabs = { "Details", "Attachments" };
+	private MyApplication myApp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_details);
-
-		// Set variables
-		datasource = new MySQLiteHelper(getApplicationContext());
-		this.taskId = getIntent().getExtras().getString("taskId");
-		this.task = datasource.getTaskById(taskId);
+		
+		myApp = (MyApplication) getApplicationContext();
 
 		// Adjust Action Bar title
 		actionBar = getActionBar();
 		String taskStateWording = "initial";
-		switch (task.getState()) {
+		switch (myApp.getTask().getState()) {
 		case 0:
 			taskStateWording = "open";
 			break;
@@ -51,7 +50,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 			taskStateWording = "Error";
 			break;
 		}
-		actionBar.setTitle(getString(R.string.title_activity_task_details) + ": " + task.getTaskName() + " [" + taskStateWording + "]");
+		actionBar.setTitle(getString(R.string.title_activity_task_details) + ": " + myApp.getTask().getTaskName() + " [" + taskStateWording + "]");
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -119,5 +118,32 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// Not needed
+	}
+
+	/**
+	 * Handles the click on the buttons setting the task state
+	 * 
+	 * @author Michael Hartl
+	 * @param view
+	 */
+	public void onClick(View view) {
+		String clickedButtonTag = (String) view.getTag();
+
+		if (clickedButtonTag.equals("buttonOk")) {
+			myApp.getTask().setState(1);
+		}
+		if (clickedButtonTag.equals("buttonError")) {
+			myApp.getTask().setState(2);
+		}
+		if (clickedButtonTag.equals("buttonOpen")) {
+			myApp.getTask().setState(0);
+		}
+		datasource = new MySQLiteHelper(getApplicationContext());
+		datasource.updateTask(myApp.getTask());
+		datasource.close();
+
+		// Go back to task list
+		Intent goToTaskList = new Intent(this, TaskList.class);
+		startActivity(goToTaskList);
 	}
 }

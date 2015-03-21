@@ -2,24 +2,20 @@ package com.teamproject.inspectionframework;
 
 import java.util.List;
 
+import android.app.ActionBar;
+import android.app.ListActivity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.teamproject.inspectionframework.Application_Layer.HttpCustomClient;
-import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.List_Adapters.TaskListAdapter;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
-
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.ListActivity;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.Toast;
 
 public class TaskList extends ListActivity {
 
@@ -27,29 +23,25 @@ public class TaskList extends ListActivity {
 	private MySQLiteHelper datasource;
 	private HttpCustomClient restInstance;
 	private TaskListAdapter adapter;
-
-	private String assignmentId;
-	private String assignmentName;
+	
+	private MyApplication myApp;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
-
-		// Set Variables
-		this.assignmentId = getIntent().getExtras().getString("AssignmentId");
-		this.assignmentName = getIntent().getExtras().getString("AssignmentName");
+		myApp = (MyApplication) getApplicationContext();
 
 		// Adjust Action Bar title
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + assignmentName);
+		actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + myApp.getAssignment().getAssignmentName());
 
 		this.createOutputList();
 	}
 
 	public void createOutputList() {
 		datasource = new MySQLiteHelper(getApplicationContext());
-		List<Task> listWithAllTasksByAssignment = datasource.getTasksByAssignmentId(assignmentId);
+		List<Task> listWithAllTasksByAssignment = datasource.getTasksByAssignmentId(myApp.getAssignment().getId());
 
 		adapter = new TaskListAdapter(this, listWithAllTasksByAssignment);
 		setListAdapter(adapter);
@@ -64,9 +56,18 @@ public class TaskList extends ListActivity {
 		Task clickedTask = adapter.getClickedTask(position);
 
 		Intent gotToTaskDetailsIntent = new Intent(this, TaskDetails.class);
-		gotToTaskDetailsIntent.putExtra("taskId", clickedTask.getId());
+		myApp.setTask(clickedTask);
 		startActivity(gotToTaskDetailsIntent);
 	};
+	
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+			Intent goToAssignmentList = new Intent(this, AssignmentList.class);
+			startActivity(goToAssignmentList);
+		}
+
+		return super.onKeyDown(keyCode, event);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -85,24 +86,20 @@ public class TaskList extends ListActivity {
 		case R.id.action_show_assignment_details:
 
 			Intent goToAssignmentDetailsIntent = new Intent(this, AssignmentDetails.class);
-			goToAssignmentDetailsIntent.putExtra("AssignmentName", assignmentName);
-			goToAssignmentDetailsIntent.putExtra("AssignmentId", assignmentId);
 			startActivity(goToAssignmentDetailsIntent);
 
 			break;
 
 		case R.id.action_show_task_attachment:
 
+			//TODO: IMPLEMENT METHOD AND CHANGE TO ASSIGNMENT ATTACHMENT!
 			Intent goToTaskAttachmentIntent = new Intent(this, TaskAttachment.class);
-			//goToTaskAttachmentIntent.putExtra("taskName", task);
 			startActivity(goToTaskAttachmentIntent);
-			//Toast toast = Toast.makeText(this, "Function not implemented yet!", Toast.LENGTH_SHORT);
-			//toast.show();
-
 			break;
 
 		case R.id.action_attachment_finish_assignment:	
 			
+			//TODO: Implement method!
 			Toast toast = Toast.makeText(this, "Function not implemented yet!", Toast.LENGTH_SHORT);
 			toast.show();
 			

@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.teamproject.inspectionframework.MyApplication;
 import com.teamproject.inspectionframework.R;
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.InspectionObject;
@@ -70,7 +71,7 @@ public class SynchronizationHelper {
 			// DOWNLOAD-PART
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-			String inputAssignment = restInstance.readHerokuServer("assignment");
+			String inputAssignment = restInstance.readHerokuServer("assignment?user_id=" + userId);
 
 			try {
 				JSONArray jArray = new JSONArray(inputAssignment);
@@ -81,9 +82,9 @@ public class SynchronizationHelper {
 
 					JSONObject jObjectUser = new JSONObject(jObject.get("user").toString());
 
-					// Filters the input stream: Don't pick templates,
-					// assignments from other users, finished assignments
-					if (jObject.get("isTemplate").toString() == "true" || !userId.equals(jObjectUser.get("id").toString()) || jObject.getInt("state") == 2) {
+					// Filters the input stream: Don't pick templates and
+					// finished assignments
+					if (jObject.get("isTemplate").toString() == "true" || jObject.getInt("state") == 2) {
 						continue;
 					}
 
