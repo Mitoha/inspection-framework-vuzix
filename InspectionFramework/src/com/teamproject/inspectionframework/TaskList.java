@@ -21,9 +21,8 @@ public class TaskList extends ListActivity {
 
 	// VAR-declaration
 	private MySQLiteHelper datasource;
-	private HttpCustomClient restInstance;
 	private TaskListAdapter adapter;
-	
+
 	private MyApplication myApp;
 
 	@Override
@@ -34,7 +33,12 @@ public class TaskList extends ListActivity {
 
 		// Adjust Action Bar title
 		ActionBar actionBar = getActionBar();
-		actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + myApp.getAssignment().getAssignmentName());
+
+		if (myApp.getAssignment().getState() == 2) {
+			actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + myApp.getAssignment().getAssignmentName() + " [finished]");
+		} else {
+			actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + myApp.getAssignment().getAssignmentName());
+		}
 
 		this.createOutputList();
 	}
@@ -59,7 +63,7 @@ public class TaskList extends ListActivity {
 		myApp.setTask(clickedTask);
 		startActivity(gotToTaskDetailsIntent);
 	};
-	
+
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			Intent goToAssignmentList = new Intent(this, AssignmentList.class);
@@ -92,19 +96,37 @@ public class TaskList extends ListActivity {
 
 		case R.id.action_show_task_attachment:
 
-			//TODO: IMPLEMENT METHOD AND CHANGE TO ASSIGNMENT ATTACHMENT!
+			// TODO: IMPLEMENT METHOD AND CHANGE TO ASSIGNMENT ATTACHMENT!
 			Intent goToTaskAttachmentIntent = new Intent(this, TaskAttachment.class);
 			startActivity(goToTaskAttachmentIntent);
 			break;
 
-		case R.id.action_attachment_finish_assignment:	
+		case R.id.action_finish_assignment:
+
+			ActionBar actionBar = getActionBar();
+
+			if (myApp.getAssignment().getState() != 2) {
+				myApp.getAssignment().setState(2);
+				
+				Toast toast = Toast.makeText(this, "Assignment marked as 'finished'!", Toast.LENGTH_SHORT);
+				toast.show();
+				actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + myApp.getAssignment().getAssignmentName() + " [finished]");
+			}
+			else {
+				myApp.getAssignment().setState(0);
+
+				Toast toast = Toast.makeText(this, "Assignment marked as 'not finished'!", Toast.LENGTH_SHORT);
+				toast.show();
+				actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + myApp.getAssignment().getAssignmentName());
+			}
 			
-			//TODO: Implement method!
-			Toast toast = Toast.makeText(this, "Function not implemented yet!", Toast.LENGTH_SHORT);
-			toast.show();
-			
+			datasource = new MySQLiteHelper(getApplicationContext());
+			datasource.updateAssignment(myApp.getAssignment());
+			datasource.close();
+
+
 			break;
-			
+
 		default:
 			return true;
 		}

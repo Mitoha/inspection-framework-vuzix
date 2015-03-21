@@ -8,7 +8,7 @@
     <string name="title_activity_task_details">Task Details</string>
     <string name="show_assignment_details">Assignment Details</string>
     <string name="show_task_attachment">Add Attachment</string>
-    <string name="attachment_finish_assignment">Finish Assignment</string>
+    <string name="finish_assignment">(Un-)finish assignment</string>
     <string name="title_activity_assignment_details">Assignment Details</string>
     <string name="list_noItemsAvailable">No Items Available!</string>
     <string name="tab_user_login">Login</string>
