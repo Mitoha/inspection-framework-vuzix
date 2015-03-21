@@ -224,7 +224,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				assignment.setInspectionObjectId((c.getString(c.getColumnIndex(A_COLUMN_INSPECTIONOBJECT_ID))));
 				assignment.setUserId((c.getString(c.getColumnIndex(A_COLUMN_USER_ID))));
 				assignment.setVersion(c.getInt(c.getColumnIndex(A_COLUMN_VERSION)));
-				
+
 				// adding to assignment list
 				listAssignments.add(assignment);
 			} while (c.moveToNext());
@@ -255,8 +255,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.close();
 		return assignment;
 	}
-	
-	//Get all assignments for a given user ID
+
+	// Get all assignments for a given user ID
 	public List<Assignment> getAssignmentsByUserId(String ID) {
 		List<Assignment> listAssignments = new ArrayList<Assignment>();
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS + " WHERE " + A_COLUMN_USER_ID + " = " + "'" + ID + "'";
@@ -277,7 +277,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				assignment.setInspectionObjectId((c.getString(c.getColumnIndex(A_COLUMN_INSPECTIONOBJECT_ID))));
 				assignment.setUserId((c.getString(c.getColumnIndex(A_COLUMN_USER_ID))));
 				assignment.setVersion(c.getInt(c.getColumnIndex(A_COLUMN_VERSION)));
-				
+
 				// adding to assignment list
 				listAssignments.add(assignment);
 			} while (c.moveToNext());
@@ -443,7 +443,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				task.setId(c.getString((c.getColumnIndex(T_COLUMN_TASK_ID))));
 				task.setAssignmentId(c.getString((c.getColumnIndex(T_COLUMN_PK))));
 				task.setErrorDescription(c.getString(c.getColumnIndex(T_COLUMN_ERROR_DESCRIPTION)));
-				
+
 				// adding to assignment list
 				tasks.add(task);
 			} while (c.moveToNext());
@@ -477,6 +477,28 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		}
 		db.close();
 		return taskList;
+	}
+
+	// Get a Task by its TaskId
+	public Task getTaskById(String taskId) {
+		Task task = new Task();
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_TASKS + " WHERE " + T_COLUMN_TASK_ID + " = " + "'" + taskId + "'";
+
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c.moveToFirst()) {
+
+			task.setId(c.getString((c.getColumnIndex(T_COLUMN_TASK_ID))));
+			task.setTaskName(c.getString((c.getColumnIndex(T_COLUMN_TASKNAME))));
+			task.setDescription(c.getString((c.getColumnIndex(T_COLUMN_DESCRIPTION))));
+			task.setState(c.getInt(c.getColumnIndex(T_COLUMN_STATE)));
+			task.setAssignmentId(c.getString(c.getColumnIndex(T_COLUMN_PK)));
+			task.setErrorDescription(c.getString(c.getColumnIndex(T_COLUMN_ERROR_DESCRIPTION)));
+		}
+		
+		db.close();
+		return task;
 	}
 
 	// Update a task

@@ -24,7 +24,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ActionBar actionBar;
 	// private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
-	private String currentScreen = "LoginPage";
 
 	// protected void onResume() {
 	// super.onResume();
@@ -88,7 +87,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 	
 	/**
-	 * This makes sure that when pressing the BACK-Button the User can't go
+	 * This makes sure that when pressing the BACK-Button the User can't go back to assignment list
 	 * 
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -145,16 +144,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onClickLoginButton(View v) {
 		EditText editTextUserName = (EditText) findViewById(R.id.editTextUserName);
 		EditText editPassword = (EditText) findViewById(R.id.editTextUserPassword);
-
-		ProgressDialog progress = new ProgressDialog(this);
-		progress.setTitle("Loggin in");
-		progress.setMessage("Please wait...");
-		progress.show();
 		
 		SynchronizationHelper syncHelper = new SynchronizationHelper();
 		String userId = syncHelper.UserLogin(getApplicationContext(), editTextUserName.getText().toString(), editPassword.getText().toString());
-
-		progress.dismiss();
 		
 		if (userId != "0") {
 			
