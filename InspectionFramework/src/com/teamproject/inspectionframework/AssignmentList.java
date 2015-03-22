@@ -2,11 +2,10 @@ package com.teamproject.inspectionframework;
 
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.ListActivity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +29,9 @@ public class AssignmentList extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_assignment_list);
 		myApp = (MyApplication) getApplicationContext();
+		
+		ActionBar actionBar = getActionBar();
+		actionBar.setTitle(getString(R.string.title_activity_assignment_list) + " for " + myApp.getUser().getUserName());
 
 		this.createOutputList();
 	}

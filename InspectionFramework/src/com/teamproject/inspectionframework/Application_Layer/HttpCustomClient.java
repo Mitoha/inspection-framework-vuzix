@@ -224,8 +224,16 @@ public class HttpCustomClient {
 	// Receives the URI where the object should be put at and the String
 	// Should be used than an existing object of the server database should be
 	// updated
-	public void putToHerokuServer(String uri, String jsonObject, String assignmentId) {
+	/**
+	 * Puts an object on the Heroku Server
+	 * @param uri Identifies the object type
+	 * @param jsonObject The object that should be put on the server
+	 * @param assignmentId The ID for which the update is performed
+	 * @return Integer
+	 */
+	public Integer putToHerokuServer(String uri, String jsonObject, String assignmentId) {
 		JSONObject jO;
+		Integer statusCode = 0;
 
 		// Allow internet connection
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -245,7 +253,8 @@ public class HttpCustomClient {
 				httpPut.setHeader("Accept", "application/json");
 				httpPut.setHeader("Content-type", "application/json");
 				try {
-					client.execute(httpPut);
+					HttpResponse response = client.execute(httpPut);
+					statusCode = response.getStatusLine().getStatusCode();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -255,6 +264,6 @@ public class HttpCustomClient {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		return statusCode;
 	}
-
 }

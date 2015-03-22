@@ -33,7 +33,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_details);
-		
+
 		myApp = (MyApplication) getApplicationContext();
 
 		// Adjust Action Bar title
@@ -140,6 +140,13 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		}
 		datasource = new MySQLiteHelper(getApplicationContext());
 		datasource.updateTask(myApp.getTask());
+
+		// Update assignment state to 'in progress' if not current state
+		if(myApp.getAssignment().getState() != 1) {
+			myApp.getAssignment().setState(1);
+			datasource.updateAssignment(myApp.getAssignment());
+		}
+
 		datasource.close();
 
 		// Go back to task list

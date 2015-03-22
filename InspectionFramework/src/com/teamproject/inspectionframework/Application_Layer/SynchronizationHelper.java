@@ -1,11 +1,14 @@
 package com.teamproject.inspectionframework.Application_Layer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.Toast;
 
 import com.teamproject.inspectionframework.MyApplication;
@@ -22,6 +25,7 @@ public class SynchronizationHelper {
 	private HttpCustomClient restInstance;
 	private InternetConnectionDetector icd;
 	private ParseJSON parser = new ParseJSON();
+	private MyApplication myApp;
 
 	public SynchronizationHelper() {
 
@@ -32,11 +36,13 @@ public class SynchronizationHelper {
 		datasource = new MySQLiteHelper(ctx);
 		restInstance = new HttpCustomClient();
 		icd = new InternetConnectionDetector(ctx);
+		myApp = (MyApplication) ctx;
+		
+		List<String> noSyncList = new ArrayList<String>();
 
 		if (icd.isConnectedToInternet() == true) {
 
 			// UPLOAD-PART
-			// TODO: Add error prompt for upload not possible (version conflict)
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 			try {
@@ -52,7 +58,17 @@ public class SynchronizationHelper {
 
 					putJObject = parser.completeAssignmentToJson(assignment, taskList, user, inspectionObject);
 
-					restInstance.putToHerokuServer("assignment", putJObject, assignment.getId());
+					Integer statusResponse = restInstance.putToHerokuServer("assignment", putJObject, assignment.getId());
+
+					// TODO: Add AlertDialog if version conflict
+					// Gives the user to the choice to delete or keep the local
+					// version if upload is not possible
+					if (statusResponse == 400) {
+						Toast.makeText(ctx, assignment.getAssignmentName() + ": Versioning error; local file is kept", Toast.LENGTH_SHORT).show();
+						noSyncList.add(assignment.getId());
+						
+						continue;
+					}
 
 					// Deletes all local instances in the database
 					datasource.deleteAssignment(assignment.getId());
@@ -82,9 +98,10 @@ public class SynchronizationHelper {
 
 					JSONObject jObjectUser = new JSONObject(jObject.get("user").toString());
 
-					// Filters the input stream: Don't pick templates and
-					// finished assignments
-					if (jObject.get("isTemplate").toString() == "true" || jObject.getInt("state") == 2) {
+					// Filters the input stream: Don't pick templates,
+					// finished assignments and assignments that don't get
+					// updated
+					if (jObject.get("isTemplate").toString() == "true" || jObject.getInt("state") == 2 || noSyncList.contains(jObject.getString("id"))) {
 						continue;
 					}
 
