@@ -76,7 +76,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	// Database information
 	private static final String DATABASE_NAME = "newTestDatabase.db";
-	private static final int DATABASE_VERSION = 8;
+	private static final int DATABASE_VERSION = 9;
 
 	// Assignment Table creation sql statement
 	private static final String CREATE_TABLE_ASSIGNMENTS = "CREATE TABLE " + TABLE_ASSIGNMENTS + "(" + A_COLUMN_ROWID + " INTEGER, " + A_COLUMN_ASSIGNMENT_ID + " TEXT PRIMARY KEY UNIQUE, " + A_COLUMN_DESCRIPTION + " TEXT, " + A_COLUMN_ASSIGNMENTNAME + " TEXT, " + A_COLUMN_STARTDATE + " INTEGER, " + A_COLUMN_ENDDATE + " INTEGER, " + A_COLUMN_ISTEMPLATE + " TEXT, " + A_COLUMN_INSPECTIONOBJECT_ID + " TEXT, " + A_COLUMN_USER_ID + " TEXT, " + A_COLUMN_STATE + " TEXT, " + A_COLUMN_VERSION + " Text)";
@@ -132,6 +132,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.U_COLUMN_PHONENUMBER, user.getPhoneNumber());
 
 		long insertId = database.insert(MySQLiteHelper.TABLE_USERS, null, values);
+		database.close();
 	}
 
 	// create a row Assignment
@@ -152,6 +153,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 		// insert row
 		long insertId = database.insert(MySQLiteHelper.TABLE_ASSIGNMENTS, null, values);
+		database.close();
 
 	}
 
@@ -169,6 +171,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.T_COLUMN_ERROR_DESCRIPTION, task.getErrorDescription());
 
 		long insertId = database.insert(MySQLiteHelper.TABLE_TASKS, null, values);
+		database.close();
 	}
 
 	// Create a row InspectionObject
@@ -183,6 +186,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.I_COLUMN_CUSTOMERNAME, inspectionObject.getCustomerName());
 
 		long insertId = database.insert(MySQLiteHelper.TABLE_INSPECTIONOBJECTS, null, values);
+		database.close();
 	}
 
 	// Create a row attachment
@@ -198,6 +202,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.AT_COLUMN_FK_ASSIGNMENT_ID, attachment.getAssignmentId());
 
 		long insertId = database.insert(MySQLiteHelper.TABLE_ATTACHMENTS, null, values);
+		database.close();
 	}
 
 	// RUD-Methods for Assignments are coded below

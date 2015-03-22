@@ -89,7 +89,7 @@ public class AssignmentList extends ListActivity {
 		case R.id.action_synchronize_assignments:
 
 			syncHelper = new SynchronizationHelper();
-			syncHelper.SynchronizeAssignments(getApplicationContext(), myApp.getUser().getUserId());
+			syncHelper.SynchronizeAssignments(getApplicationContext(), myApp.getUser().getUserId(), AssignmentList.this);
 
 			// Creates the output list after retrieving updates from the server
 			this.createOutputList();

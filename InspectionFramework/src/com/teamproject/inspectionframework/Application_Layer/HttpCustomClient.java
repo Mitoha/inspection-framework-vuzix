@@ -257,7 +257,8 @@ public class HttpCustomClient {
 					statusCode = response.getStatusLine().getStatusCode();
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
+					statusCode = 400;
+				} 
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}

@@ -6,9 +6,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.widget.Toast;
 
 import com.teamproject.inspectionframework.MyApplication;
@@ -25,19 +29,18 @@ public class SynchronizationHelper {
 	private HttpCustomClient restInstance;
 	private InternetConnectionDetector icd;
 	private ParseJSON parser = new ParseJSON();
-	private MyApplication myApp;
+	private boolean mResult = false;
 
 	public SynchronizationHelper() {
 
 	}
 
-	public void SynchronizeAssignments(Context ctx, String userId) {
+	public void SynchronizeAssignments(Context ctx, String userId, Activity activity) {
 
 		datasource = new MySQLiteHelper(ctx);
 		restInstance = new HttpCustomClient();
 		icd = new InternetConnectionDetector(ctx);
-		myApp = (MyApplication) ctx;
-		
+
 		List<String> noSyncList = new ArrayList<String>();
 
 		if (icd.isConnectedToInternet() == true) {
@@ -64,10 +67,18 @@ public class SynchronizationHelper {
 					// Gives the user to the choice to delete or keep the local
 					// version if upload is not possible
 					if (statusResponse == 400) {
-						Toast.makeText(ctx, assignment.getAssignmentName() + ": Versioning error; local file is kept", Toast.LENGTH_SHORT).show();
-						noSyncList.add(assignment.getId());
-						
-						continue;
+						boolean userChoice = alertDialogHandler(assignment.getAssignmentName() + ": Version error", "A versioning error occured. Which version should be kept on this device?", activity);
+
+						// Keep local version
+						if (userChoice == true) {
+							noSyncList.add(assignment.getId());
+							continue;
+						}
+
+						// Download remote version
+						if (userChoice == false) {
+							// Continue with program
+						}
 					}
 
 					// Deletes all local instances in the database
@@ -101,7 +112,7 @@ public class SynchronizationHelper {
 					// Filters the input stream: Don't pick templates,
 					// finished assignments and assignments that don't get
 					// updated
-					if (jObject.get("isTemplate").toString() == "true" || jObject.getInt("state") == 2 || noSyncList.contains(jObject.getString("id"))) {
+					if (jObject.get("isTemplate").toString() == "true" || jObject.getInt("state") == 2 || noSyncList.contains(jObject.get("id").toString())) {
 						continue;
 					}
 
@@ -136,6 +147,7 @@ public class SynchronizationHelper {
 						}
 
 						task.setTaskName(jObjectTask.get("taskName").toString());
+						task.setErrorDescription(jObjectTask.get("errorDescription").toString());
 
 						// Store all assigned tasks into the database
 						datasource.createTask(task);
@@ -167,6 +179,43 @@ public class SynchronizationHelper {
 			Toast errorToast = Toast.makeText(ctx, R.string.toast_no_internet, Toast.LENGTH_SHORT);
 			errorToast.show();
 		}
+	}
+
+	public boolean alertDialogHandler(String title, String message, Activity activity) {
+		// make a handler that throws a runtime exception when a message is
+		// received
+		final Handler handler = new Handler() {
+			@Override
+			public void handleMessage(Message mesg) {
+				throw new RuntimeException();
+			}
+		};
+
+		// make a text input dialog and show it
+		AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+		alert.setTitle(title);
+		alert.setMessage(message);
+		alert.setPositiveButton("Keep local version", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				mResult = true;
+				handler.sendMessage(handler.obtainMessage());
+			}
+		});
+		alert.setNegativeButton("Download remote version", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int whichButton) {
+				mResult = false;
+				handler.sendMessage(handler.obtainMessage());
+			}
+		});
+		alert.show();
+
+		// loop till a runtime exception is triggered.
+		try {
+			Looper.loop();
+		} catch (RuntimeException e2) {
+		}
+
+		return mResult;
 	}
 
 	public String UserLogin(Context ctx, String username, String password) {
