@@ -63,7 +63,6 @@ public class SynchronizationHelper {
 
 					Integer statusResponse = restInstance.putToHerokuServer("assignment", putJObject, assignment.getId());
 
-					// TODO: Add AlertDialog if version conflict
 					// Gives the user to the choice to delete or keep the local
 					// version if upload is not possible
 					if (statusResponse == 400) {

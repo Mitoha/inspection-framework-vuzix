@@ -99,7 +99,6 @@ public class AssignmentList extends ListActivity {
 
 			// Logout: Delete the user entry in the local database and return to
 			// login screen
-			// TODO: Add logout process: Delete all assignments etc.
 			datasource = new MySQLiteHelper(getApplicationContext());
 			datasource.deleteUser(myApp.getUser().getUserId());
 			Intent goToUserListIntent = new Intent(this, MainActivity.class);

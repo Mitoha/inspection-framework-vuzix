@@ -18,10 +18,12 @@ public class VuzixVoiceControl extends VoiceControl {
 
 	@Override
 	public void onRecognition(String cmd) {
+		
+		System.out.println(cmd);
 
 		// General commands: Mapping commands to buttons
 		if(cmd.equals("show help")) {
-			Log.i("IF",cmd);
+
 			//Instrumentation inst = new Instrumentation();
            // inst.sendKeyDownUpSync(KeyEvent.KEYCODE_DPAD_LEFT);
 		}

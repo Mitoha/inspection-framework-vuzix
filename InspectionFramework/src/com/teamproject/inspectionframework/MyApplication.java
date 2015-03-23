@@ -8,8 +8,9 @@ import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import android.app.Application;
 import android.content.res.Configuration;
 
-/*
+/**
  * This class stores application-wide used values
+ * 
  */
 public class MyApplication extends Application {
 
@@ -27,8 +28,6 @@ public class MyApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-
-		// TODO: Perhaps here VoiceControl???
 	}
 
 	@Override

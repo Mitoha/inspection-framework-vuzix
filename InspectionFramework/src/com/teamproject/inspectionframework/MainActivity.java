@@ -1,7 +1,6 @@
 package com.teamproject.inspectionframework;
 
 import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -22,14 +21,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-	// private VoiceControl vc;
+	//private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-	// protected void onResume() {
-	// super.onResume();
-	// vc.on();
-	// }
+//	 protected void onResume() {
+//	 super.onResume();
+//	 vc.on();
+//	 }
 
 	// TODO: Clarify if ok when off -> Voice recognition stays on when switching
 	// the activity
@@ -48,9 +47,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		actionBar = getActionBar();
 		actionBar.setTitle("User Login");
 
-		// START VC ACTIVITY
-		// vc = new VuzixVoiceControl(getBaseContext());
-		// vc.addGrammar(Constants.GRAMMAR_BASIC);
+		 //START VC ACTIVITY
+//		 vc = new VuzixVoiceControl(getApplicationContext());
+//		 vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -122,6 +121,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		viewPager.setCurrentItem(tab.getPosition());
+		
 	}
 
 	@Override
