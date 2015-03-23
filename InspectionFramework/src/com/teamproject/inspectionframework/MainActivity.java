@@ -3,10 +3,13 @@ package com.teamproject.inspectionframework;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+import android.app.Instrumentation;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,26 +18,32 @@ import android.widget.EditText;
 
 import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelper;
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
+import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+import com.vuzix.speech.Constants;
+import com.vuzix.speech.VoiceControl;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-	//private VoiceControl vc;
+	private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-//	 protected void onResume() {
-//	 super.onResume();
-//	 vc.on();
-//	 }
+	protected void onResume() {
+		super.onResume();
+		vc.on();
+	}
 
 	// TODO: Clarify if ok when off -> Voice recognition stays on when switching
 	// the activity
-	/*
-	 * @Override protected void onPause() { super.onPause(); vc.off(); }
-	 */
+
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//		vc.off();
+//	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +56,9 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		actionBar = getActionBar();
 		actionBar.setTitle("User Login");
 
-		 //START VC ACTIVITY
-//		 vc = new VuzixVoiceControl(getApplicationContext());
-//		 vc.addGrammar(Constants.GRAMMAR_BASIC);
+		// START VC ACTIVITY
+		vc = new VuzixVoiceControl(getApplicationContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -121,7 +130,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	@Override
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		viewPager.setCurrentItem(tab.getPosition());
-		
+
 	}
 
 	@Override
