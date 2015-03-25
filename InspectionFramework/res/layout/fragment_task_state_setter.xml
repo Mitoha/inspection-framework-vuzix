@@ -27,6 +27,8 @@
         android:onClick="onClick"
         android:tag="buttonOk"
         android:textColor="@android:color/holo_green_light" >
+        
+        <requestFocus/>
     </Button>
 
     <Button

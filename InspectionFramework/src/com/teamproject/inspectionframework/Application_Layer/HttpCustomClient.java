@@ -58,6 +58,7 @@ public class HttpCustomClient {
 	private Context context;
 	public HttpClient client = new DefaultHttpClient();
 	public CookieStore store = ((DefaultHttpClient) client).getCookieStore();
+	private HttpResponse response;
 
 	// Constructor
 	public HttpCustomClient() {
@@ -233,7 +234,6 @@ public class HttpCustomClient {
 	 */
 	public Integer putToHerokuServer(String uri, String jsonObject, String assignmentId) {
 		JSONObject jO;
-		Integer statusCode = 0;
 
 		// Allow internet connection
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -253,11 +253,10 @@ public class HttpCustomClient {
 				httpPut.setHeader("Accept", "application/json");
 				httpPut.setHeader("Content-type", "application/json");
 				try {
-					HttpResponse response = client.execute(httpPut);
-					statusCode = response.getStatusLine().getStatusCode();
+					response = client.execute(httpPut);
+					
 				} catch (IOException e) {
 					e.printStackTrace();
-					statusCode = 400;
 				} 
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
@@ -265,6 +264,7 @@ public class HttpCustomClient {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
-		return statusCode;
+		
+		return (Integer) response.getStatusLine().getStatusCode();
 	}
 }

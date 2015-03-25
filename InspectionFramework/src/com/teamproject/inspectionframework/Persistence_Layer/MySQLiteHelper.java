@@ -614,6 +614,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		db.delete(TABLE_ATTACHMENTS, AT_COLUMN_ATTACHMENT_ID + " = ?", new String[] { String.valueOf(attachmentId) });
 		db.close();
 	}
+	
+	// Clean the database (delete everything inside)
+		public void cleanDatabase() {
+			SQLiteDatabase db = this.getWritableDatabase();
+			db.delete(TABLE_USERS, null, null);
+			db.delete(TABLE_ASSIGNMENTS, null, null);
+			db.delete(TABLE_ATTACHMENTS, null, null);
+			db.delete(TABLE_INSPECTIONOBJECTS, null, null);
+			db.delete(TABLE_TASKS, null, null);
+			
+			db.close();
+		}
 
 	// closing database
 	public void closeDB() {

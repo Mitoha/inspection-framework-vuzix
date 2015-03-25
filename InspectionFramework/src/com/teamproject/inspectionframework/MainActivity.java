@@ -2,9 +2,11 @@ package com.teamproject.inspectionframework;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -15,9 +17,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelper;
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
+import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.Constants;
 import com.vuzix.speech.VoiceControl;
@@ -27,23 +31,20 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-	private VoiceControl vc;
+	// private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-	protected void onResume() {
-		super.onResume();
-		vc.on();
-	}
-
-	// TODO: Clarify if ok when off -> Voice recognition stays on when switching
-	// the activity
-
-//	@Override
-//	protected void onPause() {
-//		super.onPause();
-//		vc.off();
-//	}
+	// protected void onResume() {
+	// super.onResume();
+	// vc.on();
+	// }
+	//
+	// @Override
+	// protected void onPause() {
+	// super.onPause();
+	// vc.off();
+	// }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,11 +55,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 		// Set title for Action Bar
 		actionBar = getActionBar();
-		actionBar.setTitle("User Login");
+		actionBar.setTitle(getString(R.string.app_name) + ": User Login");
 
 		// START VC ACTIVITY
-		vc = new VuzixVoiceControl(getApplicationContext());
-		vc.addGrammar(Constants.GRAMMAR_BASIC);
+		// vc = new VuzixVoiceControl(getApplicationContext());
+		// vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -124,6 +125,32 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// as you specify a parent activity in AndroidManifest.xml.
 		int menuItemId = item.getItemId();
 
+		switch (menuItemId) {
+		case R.id.action_clean_database:
+			AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+			alert.setTitle("Database Cleaning");
+			alert.setMessage("This action will delete all database entries! Continue?");
+			alert.setPositiveButton("Clean Database", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					// Clean database
+					MySQLiteHelper datasource = new MySQLiteHelper(getApplicationContext());
+					datasource.cleanDatabase();
+					datasource.close();
+					Intent reloadList = new Intent(getApplicationContext(),MainActivity.class);
+					startActivity(reloadList);
+					Toast.makeText(getApplicationContext(), "Database cleaned", Toast.LENGTH_LONG).show();
+
+				}
+			});
+			alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int whichButton) {
+					// ...
+				}
+			});
+			alert.show();
+			break;
+		}
+
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -142,16 +169,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 		// Not needed
 	}
-
-	// method that should call the voice recording screen
-	// public void voiceRecordingScreen(View view) {
-	//
-	// TODO: Clarify
-	// // Intent to audio recording
-	// Intent goToVoiceRecordingIntent = new Intent(this,
-	// SoundRecordingActivity.class);
-	// startActivity(goToVoiceRecordingIntent);
-	// }
 
 	public void onClickLoginButton(View v) {
 		EditText editTextUserName = (EditText) findViewById(R.id.editTextUserName);

@@ -47,6 +47,9 @@ public class VuzixVoiceControl extends VoiceControl {
 				if (cmd.equals("go back")) {
 					inst.sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
 				}
+				if (cmd.equals("show menu")) {
+					inst.sendKeyDownUpSync(KeyEvent.KEYCODE_MENU);
+				}
 			}
 		}).start();
 

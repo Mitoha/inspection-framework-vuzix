@@ -30,6 +30,7 @@ public class SynchronizationHelper {
 	private InternetConnectionDetector icd;
 	private ParseJSON parser = new ParseJSON();
 	private boolean mResult = false;
+	private MyApplication myApp;
 
 	public SynchronizationHelper() {
 
@@ -40,6 +41,7 @@ public class SynchronizationHelper {
 		datasource = new MySQLiteHelper(ctx);
 		restInstance = new HttpCustomClient();
 		icd = new InternetConnectionDetector(ctx);
+		myApp = (MyApplication) ctx;
 
 		List<String> noSyncList = new ArrayList<String>();
 
@@ -64,9 +66,9 @@ public class SynchronizationHelper {
 					Integer statusResponse = restInstance.putToHerokuServer("assignment", putJObject, assignment.getId());
 
 					// Gives the user to the choice to delete or keep the local
-					// version if upload is not possible
+					// version if upload is not possible due to version problems
 					if (statusResponse == 400) {
-						boolean userChoice = alertDialogHandler(assignment.getAssignmentName() + ": Version error", "A versioning error occured. Which version should be kept on this device?", activity);
+						boolean userChoice = alertDialogHandler(assignment.getAssignmentName() + ": Version error", "A versioning error occured. Which version should be kept on this device? If the assignment is already finished, the remote version won't be downloaded.", activity);
 
 						// Keep local version
 						if (userChoice == true) {
@@ -81,8 +83,8 @@ public class SynchronizationHelper {
 					}
 
 					// Deletes all local instances in the database
-					datasource.deleteAssignment(assignment.getId());
 					datasource.deleteInspectionObject(assignment.getInspectionObjectId());
+					datasource.deleteAssignment(assignment.getId());
 
 					for (int j = 0; j < taskList.size(); j++) {
 						Task task = taskList.get(j);
@@ -183,6 +185,7 @@ public class SynchronizationHelper {
 	public boolean alertDialogHandler(String title, String message, Activity activity) {
 		// make a handler that throws a runtime exception when a message is
 		// received
+
 		final Handler handler = new Handler() {
 			@Override
 			public void handleMessage(Message mesg) {
