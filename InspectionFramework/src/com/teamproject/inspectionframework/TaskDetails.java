@@ -135,9 +135,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		if (clickedButtonTag.equals("buttonError")) {
 			myApp.getTask().setState(2);
 		}
-		if (clickedButtonTag.equals("buttonOpen")) {
-			myApp.getTask().setState(0);
-		}
+		
 		datasource = new MySQLiteHelper(getApplicationContext());
 		datasource.updateTask(myApp.getTask());
 

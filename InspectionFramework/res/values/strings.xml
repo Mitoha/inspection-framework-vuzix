@@ -26,5 +26,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="action_clean_database">Clean Database</string>
+    <string name="toast_sync_success">Synchronization finished!</string>
 
 </resources>

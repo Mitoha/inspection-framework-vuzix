@@ -31,16 +31,6 @@
         <requestFocus/>
     </Button>
 
-    <Button
-        android:id="@+id/buttonOPEN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="2"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_row="0"
-        android:onClick="onClick"
-        android:tag="buttonOpen"
-        android:text="Open" />
 
     <Button
         android:id="@+id/buttonError"

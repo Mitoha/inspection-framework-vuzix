@@ -33,6 +33,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,9 +50,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Created by Tobias on 06.03.15.
- */
 public class HttpCustomClient {
 
 	// Var-declaration
@@ -84,23 +82,27 @@ public class HttpCustomClient {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();
 			int statusCode = statusLine.getStatusCode();
-			System.out.println(statusCode);
+			System.out.println("GET:" + statusCode);
 			if (statusCode == 200) {
 				HttpEntity entity = response.getEntity();
 				InputStream content = entity.getContent();
 				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+
 				String line;
 				while ((line = reader.readLine()) != null) {
 					builder.append(line);
 				}
+				content.close();
 			} else {
 				Log.e(ParseJSON.class.toString(), "Download not possible!");
 			}
+
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		return builder.toString();
 
 	}
@@ -128,12 +130,11 @@ public class HttpCustomClient {
 
 			StatusLine statusLine = response.getStatusLine();
 			int statusCode = statusLine.getStatusCode();
-			System.out.println(statusCode);
-			System.out.println(response);
+			System.out.println("POST:" + statusCode);
+			System.out.println("POST Response:" + response);
 			if (statusCode == 200) {
 				status = true;
-				// CookieStore store = ((DefaultHttpClient)
-				// client).getCookieStore();
+
 				List<Cookie> cookies = store.getCookies();
 
 				if (cookies != null) {
@@ -144,14 +145,17 @@ public class HttpCustomClient {
 				}
 
 				HttpEntity entity = response.getEntity();
+
 				InputStream content = entity.getContent();
 				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+				content.close();
 				String line;
 				while ((line = reader.readLine()) != null) {
 					builder.append(line);
 				}
+				entity.consumeContent();
 			} else {
-				Log.e(ParseJSON.class.toString(), "Login not possible!");
+				Log.e(ParseJSON.class.toString(), "Download not possible!");
 				status = false;
 			}
 
@@ -161,110 +165,116 @@ public class HttpCustomClient {
 
 		return status;
 	}
-
-	// public void postAttachmentToHerokuServer(String uri, byte[] imageByte) {
-	// // declaration
-	// StringBuilder stringBuilder = new StringBuilder();
-	//
-	// // Allow internet connection
-	// StrictMode.ThreadPolicy policy = new
-	// StrictMode.ThreadPolicy.Builder().permitAll().build();
-	// StrictMode.setThreadPolicy(policy);
-	//
-	// // Set URL for post-request
-	// HttpEntityEnclosingRequestBase httpPost = new
-	// HttpPost("http://inspection-framework.herokuapp.com/" + uri);
-	//
-	// // creates a new MultipartEntity and sets the browser policy
-	// MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
-	// multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-	//
-	// // Create a new inputStreamBody and add the bytearray(picture) to it
-	// // Give names for the picture
-	// InputStreamBody inputStreamBody = new InputStreamBody(new
-	// ByteArrayInputStream(imageByte), "Pic.jpg");
-	//
-	// // Add the filebody to the multipartEntity
-	// // Specified from serverside it must be "fileUpload
-	// multipartEntity.addPart("fileUpload", inputStreamBody);
-	//
-	// try {
-	//
-	// httpPost.setEntity(multipartEntity.build());
-	// HttpResponse response = client.execute(httpPost);
-	//
-	// StatusLine statusLine = response.getStatusLine();
-	// int statusCode = statusLine.getStatusCode();
-	// System.out.println(statusCode);
-	// System.out.println(response);
-	//
-	// // If everything is ok
-	// if (statusCode == 200) {
-	//
-	// System.out.println("Upload succesfull");
-	// HttpEntity entity = response.getEntity();
-	// InputStream content = entity.getContent();
-	// BufferedReader reader = new BufferedReader(new
-	// InputStreamReader(content));
-	// String line;
-	// while ((line = reader.readLine()) != null) {
-	// stringBuilder.append(line);
-	// }
-	// } else {
-	// Log.e(ParseJSON.class.toString(), "Upload not possible!");
-	//
-	// }
-	//
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	//
-	// }
+	//TODO: ENABLE ATTACHMENT POSTING (needed: http-client-android 4.3.5)
+	
+	// Post an attachment as a byte[] to the server
+//	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] imageByte) {
+//		// declaration
+//		StringBuilder stringBuilder = new StringBuilder();
+//
+//		// Allow internet connection
+//		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//		StrictMode.setThreadPolicy(policy);
+//		String URL = "http://inspection-framework.herokuapp.com/assignment" + "/" + assignmentId + "/" + "task" + "/" + taskId + "/" + "attachment";
+//		// Set URL for post-request
+//		HttpEntityEnclosingRequestBase httpPost = new HttpPost(URL);
+//
+//		// creates a new MultipartEntity and sets the browser policy
+//		MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+//		multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+//
+//		// Create a new inputStreamBody and add the bytearray(picture) to it
+//		// Give names for the picture
+//		InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Pic.jpg");
+//		//
+//		// Add the filebody to the multipartEntity
+//		// Specified from serverside it must be "fileUpload
+//		multipartEntity.addPart("fileUpload", inputStreamBody);
+//		//
+//		//
+//
+//		try {
+//
+//			httpPost.setEntity(multipartEntity.build());
+//			HttpResponse response = client.execute(httpPost);
+//
+//			StatusLine statusLine = response.getStatusLine();
+//			int statusCode = statusLine.getStatusCode();
+//			System.out.println(statusCode);
+//			System.out.println(response);
+//
+//			// If everything is ok
+//			if (statusCode == 200) {
+//
+//				System.out.println("Upload succesfull");
+//				HttpEntity entity = response.getEntity();
+//				InputStream content = entity.getContent();
+//				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+//				String line;
+//				while ((line = reader.readLine()) != null) {
+//					stringBuilder.append(line);
+//					System.out.println(line);
+//				}
+//				client.getConnectionManager().shutdown();
+//			} else {
+//				Log.e(ParseJSON.class.toString(), "Upload not possible!");
+//
+//			}
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	// Putmethod
 	// Receives the URI where the object should be put at and the String
 	// Should be used than an existing object of the server database should be
 	// updated
-	/**
-	 * Puts an object on the Heroku Server
-	 * @param uri Identifies the object type
-	 * @param jsonObject The object that should be put on the server
-	 * @param assignmentId The ID for which the update is performed
-	 * @return Integer
-	 */
-	public Integer putToHerokuServer(String uri, String jsonObject, String assignmentId) {
-		JSONObject jO;
-
+	public Integer putToHerokuServer(String uri, String jsonObject, String Id) {
+		// JSONObject jO;
+		String name = null;
+		HttpResponse response1 = null;
+		String value = null;
 		// Allow internet connection
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
-		// set URL for Put-request
-		HttpPut httpPut = new HttpPut("http://inspection-framework.herokuapp.com/" + uri + "/" + assignmentId);
 
-		// Create a new JSONObject from the given String
+		// set URL for Put-request
+		System.out.println("ID:" + Id);
+		HttpPut httpPut = new HttpPut("http://inspection-framework.herokuapp.com/" + uri + "/" + Id);
+
+		// store.clear();
+
+		StringEntity se = null;
 		try {
-			jO = new JSONObject(jsonObject);
-			// passes the results to a string builder/entity
-			try {
-				StringEntity se = new StringEntity(jO.toString());
-				httpPut.setEntity(se);
-				// sets a request header so the page receving the request
-				// will know what to do with it
-				httpPut.setHeader("Accept", "application/json");
-				httpPut.setHeader("Content-type", "application/json");
-				try {
-					response = client.execute(httpPut);
-					
-				} catch (IOException e) {
-					e.printStackTrace();
-				} 
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		} catch (JSONException e) {
+			se = new StringEntity(jsonObject, HTTP.UTF_8);
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		
-		return (Integer) response.getStatusLine().getStatusCode();
+
+		// sets a request header so the page receving the request
+		// will know what to do with it
+		// se.setContentType(new BasicHeader(HTTP.CONTENT_TYPE,
+		// "application/json"));
+		httpPut.setHeader("Accept", "application/json");
+		httpPut.setHeader("Content-type", "application/json");
+
+		client.getConnectionManager().closeExpiredConnections();
+		httpPut.setEntity(se);
+		// String-Builder for output String
+		// StringBuilder builder = new StringBuilder();
+
+		try {
+			response1 = client.execute(httpPut);
+			StatusLine statusLine = response1.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return (Integer) response1.getStatusLine().getStatusCode();
 	}
 }
