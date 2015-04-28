@@ -30,6 +30,9 @@ import org.apache.http.entity.StringEntity;
 //import org.apache.http.entity.mime.MultipartEntityBuilder;
 //import org.apache.http.entity.mime.content.InputStreamBody;
 
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
+import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
@@ -168,63 +171,63 @@ public class HttpCustomClient {
 	//TODO: ENABLE ATTACHMENT POSTING (needed: http-client-android 4.3.5)
 	
 	// Post an attachment as a byte[] to the server
-//	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] imageByte) {
-//		// declaration
-//		StringBuilder stringBuilder = new StringBuilder();
-//
-//		// Allow internet connection
-//		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//		StrictMode.setThreadPolicy(policy);
-//		String URL = "http://inspection-framework.herokuapp.com/assignment" + "/" + assignmentId + "/" + "task" + "/" + taskId + "/" + "attachment";
-//		// Set URL for post-request
-//		HttpEntityEnclosingRequestBase httpPost = new HttpPost(URL);
-//
-//		// creates a new MultipartEntity and sets the browser policy
-//		MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
-//		multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-//
-//		// Create a new inputStreamBody and add the bytearray(picture) to it
-//		// Give names for the picture
-//		InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Pic.jpg");
-//		//
-//		// Add the filebody to the multipartEntity
-//		// Specified from serverside it must be "fileUpload
-//		multipartEntity.addPart("fileUpload", inputStreamBody);
-//		//
-//		//
-//
-//		try {
-//
-//			httpPost.setEntity(multipartEntity.build());
-//			HttpResponse response = client.execute(httpPost);
-//
-//			StatusLine statusLine = response.getStatusLine();
-//			int statusCode = statusLine.getStatusCode();
-//			System.out.println(statusCode);
-//			System.out.println(response);
-//
-//			// If everything is ok
-//			if (statusCode == 200) {
-//
-//				System.out.println("Upload succesfull");
-//				HttpEntity entity = response.getEntity();
-//				InputStream content = entity.getContent();
-//				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-//				String line;
-//				while ((line = reader.readLine()) != null) {
-//					stringBuilder.append(line);
-//					System.out.println(line);
-//				}
-//				client.getConnectionManager().shutdown();
-//			} else {
-//				Log.e(ParseJSON.class.toString(), "Upload not possible!");
-//
-//			}
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] imageByte) {
+		// declaration
+		StringBuilder stringBuilder = new StringBuilder();
+
+		// Allow internet connection
+		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+		StrictMode.setThreadPolicy(policy);
+		String URL = "http://inspection-framework.herokuapp.com/assignment" + "/" + assignmentId + "/" + "task" + "/" + taskId + "/" + "attachment";
+		// Set URL for post-request
+		HttpEntityEnclosingRequestBase httpPost = new HttpPost(URL);
+
+		// creates a new MultipartEntity and sets the browser policy
+		MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+		multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+		// Create a new inputStreamBody and add the bytearray(picture) to it
+		// Give names for the picture
+		InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Pic.jpg");
+		//
+		// Add the filebody to the multipartEntity
+		// Specified from serverside it must be "fileUpload
+		multipartEntity.addPart("fileUpload", inputStreamBody);
+		//
+		//
+
+		try {
+
+			httpPost.setEntity(multipartEntity.build());
+			HttpResponse response = client.execute(httpPost);
+
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			System.out.println(statusCode);
+			System.out.println(response);
+
+			// If everything is ok
+			if (statusCode == 200) {
+
+				System.out.println("Upload succesfull");
+				HttpEntity entity = response.getEntity();
+				InputStream content = entity.getContent();
+				BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					stringBuilder.append(line);
+					System.out.println(line);
+				}
+				client.getConnectionManager().shutdown();
+			} else {
+				Log.e(ParseJSON.class.toString(), "Upload not possible!");
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	// Putmethod
 	// Receives the URI where the object should be put at and the String
