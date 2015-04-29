@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.teamproject.inspectionframework.R;
 import com.teamproject.inspectionframework.Entities.Assignment;
+import com.teamproject.inspectionframework.Entities.Attachment;
 import com.teamproject.inspectionframework.Entities.InspectionObject;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.Entities.User;
@@ -29,8 +30,8 @@ public class SynchronizationHelper {
 	private InternetConnectionDetector icd;
 	private ParseJSON parser = new ParseJSON();
 	private boolean mResult = false;
-    private boolean uploadReady;
-    private boolean downloadReady;
+	private boolean uploadReady;
+	private boolean downloadReady;
 
 	public SynchronizationHelper() {
 
@@ -65,7 +66,7 @@ public class SynchronizationHelper {
                     InspectionObject inspectionObject = datasource.getInspectionObjectById(assignment.getInspectionObjectId());
 
                     List<Task> taskList = datasource.getTasksByAssignmentId(assignment.getId());
-
+                    //Upload the assignment with all related tasks
                     putJObject = parser.completeAssignmentToJson(assignment, taskList, user, inspectionObject);
                     System.out.println(putJObject);
                     Integer statusResponse = restInstance.putToHerokuServer("assignment", putJObject, assignment.getId());
@@ -74,12 +75,15 @@ public class SynchronizationHelper {
                     // Gives the user to the choice to delete or keep the local
                     // version if upload is not possible due to version problems
                    if (statusResponse == 400) {
-                        boolean userChoice = alertDialogHandler(assignment.getAssignmentName() + ": Version error", "A versioning error occured. Which version should be kept on this device? If the assignment is already finished, the remote version won't be downloaded.", activity);
+                       System.out.println("YEAH!");
 
+
+                        boolean userChoice = alertDialogHandler(assignment.getAssignmentName() + ": Version error", "A versioning error occured. Which version should be kept on this device? If the assignment is already finished, the remote version won't be downloaded.", activity);
+                        System.out.println("Here we go");
                         // Keep local version
                         if (userChoice == true) {
                             noSyncList.add(assignment.getId());
-                            continue;
+
                         }
 
                         // Download remote version
@@ -89,19 +93,32 @@ public class SynchronizationHelper {
                     }
 
                     if (statusResponse == 204){
+                        //Post all attachments related to an assignment
+                        List<Attachment> attachmentList = new ArrayList<Attachment>();
+                        attachmentList = datasource.getAttachmentsByAssignmentId(assignment.getId());
+
+                        if(attachmentList != null) {
+                            for (int j = 0; j < attachmentList.size(); j++) {
+                                Attachment attachment = attachmentList.get(j);
+                                restInstance.postAttachmentToHerokuServer(assignment.getId(), attachment.getTaskId(), attachment.getBinaryObject());
+                            }
+                        }
                         uploadReady = true;
                     }
 
-                    // Deletes all local instances in the database
-                    datasource.deleteInspectionObject(assignment.getInspectionObjectId());
-                    datasource.deleteAssignment(assignment.getId());
-
-                    for (int j = 0; j < taskList.size(); j++) {
-                        Task task = taskList.get(j);
-                        datasource.deleteTask(task.getId());
+                    // Deletes all local instances in the database only when the assignment is final (state 2)
+                    if (assignment.getState() == 2) {
+                        datasource.deleteInspectionObject(assignment.getInspectionObjectId());
+                        datasource.deleteAssignment(assignment.getId());
+                        for (int j = 0; j < taskList.size(); j++) {
+                            Task task = taskList.get(j);
+                            datasource.deleteTask(task.getId());
+                        }
                     }
-                }
 
+
+                }
+            System.out.println("Nicht gesynct: "+noSyncList);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -126,7 +143,7 @@ public class SynchronizationHelper {
                     // Filters the input stream: Don't pick templates,
                     // finished assignments and assignments that don't get
                     // updated
-                    if (jObject.get("isTemplate").toString() == "true" || jObject.getInt("state") == 2 || noSyncList.contains(jObject.get("id").toString())) {
+                    if (jObject.get("isTemplate").toString() == "true" || jObject.getInt("state") == 2) {
                         continue;
                     }
 
@@ -165,6 +182,17 @@ public class SynchronizationHelper {
                         task.setErrorDescription(jObjectTask.get("errorDescription").toString());
 
                         // Store all assigned tasks into the database
+                        List<Task> taskList = new ArrayList<Task>();
+                        taskList = datasource.getTasksByAssignmentId(assignment.getId());
+                        for (int m=0; m<taskList.size(); m++){
+                            Task task1 = new Task();
+                            task1 = taskList.get(m);
+                            if (task.getId().equals(task1.getId())){
+                                datasource.deleteTask(task1.getId());
+
+                            }
+                        }
+
                         datasource.createTask(task);
                     }
 
@@ -183,8 +211,46 @@ public class SynchronizationHelper {
                     assignment.setInspectionObjectId(inspectionObject.getId());
 
                     // Store all assignments into the database
-                    datasource.createAssignment(assignment);
+                    // Store all assigned tasks into the database
+                    List<Assignment> assignmentList = new ArrayList<Assignment>();
+                    assignmentList = datasource.getAllAssignments();
+                    int state = 0;
+                    System.out.println("Status: 0");
+
+                    for (int m=0; m<assignmentList.size(); m++){
+                        Assignment assignment1 = new Assignment();
+                        assignment1 = assignmentList.get(m);
+
+                        if (assignment.getId().equals(assignment1.getId())){
+                        state = 1;
+                            System.out.println("Status: 1");
+                        for (int b = 0; b < noSyncList.size(); b++){
+                            String noSyncedId = noSyncList.get(b);
+                            if (assignment.getId().equals(noSyncedId)) {
+                                assignment1.setVersion(assignment.getVersion());
+                                datasource.updateAssignment(assignment1);
+                                state = 2;
+
+                            }
+                            if (state == 2){
+                                System.out.println("Status: 2");
+                                break;
+                        }
+                    }
+
+
+
                 }
+                    //Handles accorcing to the state
+                    if (state == 1){
+                        datasource.updateAssignment(assignment);
+                        break;
+                    }
+               }
+                    if(state==0){
+                        datasource.createAssignment(assignment);
+                    }
+              }
 
             } catch (Exception e) {
                 e.printStackTrace();
