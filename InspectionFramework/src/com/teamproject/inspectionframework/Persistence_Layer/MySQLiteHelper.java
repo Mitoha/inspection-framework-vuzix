@@ -264,7 +264,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Get all assignments for a given user ID
 	public List<Assignment> getAssignmentsByUserId(String ID) {
 		List<Assignment> listAssignments = new ArrayList<Assignment>();
-		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS + " WHERE " + A_COLUMN_USER_ID + " = " + "'" + ID + "'";
+		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS + " WHERE " + A_COLUMN_USER_ID + " = " + "'" + ID + "' ORDER BY " + A_COLUMN_ASSIGNMENTNAME;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
 
@@ -365,7 +365,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// returns a list with all users
 	public List<User> getAllUser() {
 		List<User> listUser = new ArrayList<User>();
-		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_USERS;
+		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_USERS + " ORDER BY " + U_COLUMN_USERNAME;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);
 

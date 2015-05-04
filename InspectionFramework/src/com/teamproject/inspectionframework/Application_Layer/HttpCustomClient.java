@@ -105,7 +105,7 @@ public class HttpCustomClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println(builder.toString());
 		return builder.toString();
 
 	}
@@ -168,8 +168,7 @@ public class HttpCustomClient {
 
 		return status;
 	}
-	//TODO: ENABLE ATTACHMENT POSTING (needed: http-client-android 4.3.5)
-	
+
 	// Post an attachment as a byte[] to the server
 	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] imageByte) {
 		// declaration
@@ -277,7 +276,7 @@ public class HttpCustomClient {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		System.out.println(response1);
 		return (Integer) response1.getStatusLine().getStatusCode();
 	}
 }
