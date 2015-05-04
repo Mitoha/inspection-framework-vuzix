@@ -10,20 +10,33 @@
     tools:context="com.teamproject.inspectionframework.Soundrecording" >
 
     <Button
-        android:id="@+id/start"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="152dp"
-        android:text="start" />
-
-    <Button
         android:id="@+id/stop"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/start"
-        android:layout_marginLeft="68dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/task_att_lbl1"
+        android:onClick="stopRecording"
         android:text="stop" />
+
+    <Button
+        android:id="@+id/start"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/task_att_lbl1"
+        android:layout_toLeftOf="@+id/task_att_lbl1"
+        android:onClick="startRecording"
+        android:text="start" />
+
+    <TextView
+        android:id="@+id/task_att_lbl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/stop"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp"
+        android:text="Voice Recording"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

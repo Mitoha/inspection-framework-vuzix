@@ -53,29 +53,13 @@ public class TaskAttachment extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
 	public void takePicture(View v) {
 
         dispatchTakePictureIntent();
 
     }
-	
-	public void voiceRecording(View v) {
-
-        dispatchVoiceRecordingIntent();
-
-    }
-	
-	public void dispatchVoiceRecordingIntent(){
-		Intent voiceRecordingIntent = new Intent(MediaStore.Audio.Media.RECORD_SOUND_ACTION);
-		
-		if (voiceRecordingIntent.resolveActivity(getPackageManager()) != null) {
-			//startActivityForResult(voiceRecordingIntent, REQUESTCODE_RECORDING);
-			startActivityForResult(voiceRecordingIntent, ACTIVITY_RECORD_SOUND);
-		}
-	
-	}
-	
-	
 	
 	public void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -84,13 +68,5 @@ public class TaskAttachment extends Activity {
         }
     }
 
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            //imageBitmap = (Bitmap) extras.get("data");
-//            IMG.setImageBitmap(imageBitmap);
-//        }
-//    }
-	
 	
 }

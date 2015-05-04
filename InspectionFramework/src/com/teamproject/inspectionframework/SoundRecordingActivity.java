@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,20 +25,15 @@ public class SoundRecordingActivity extends Activity {
   private static final String TAG = "SoundRecordingActivity";
   private View startButton;
   private View stopButton;
-
+  
+   
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
+    setContentView(R.layout.activity_soundrecordingactivity);
     startButton = findViewById(R.id.start);
     stopButton = findViewById(R.id.stop);
-  }
-
-  public void startRecording(View view) throws IOException {
-
-    startButton.setEnabled(false);
-    stopButton.setEnabled(true);
-
+    
     File sampleDir = Environment.getExternalStorageDirectory();
     try {
       audiofile = File.createTempFile("sound", ".3gp", sampleDir);
@@ -50,9 +46,34 @@ public class SoundRecordingActivity extends Activity {
     recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
     recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
     recorder.setOutputFile(audiofile.getAbsolutePath());
-    recorder.prepare();
-    recorder.start();
+    
+    
   }
+  @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.soundrecording, menu);
+		return true;
+	}
+
+  public void startRecording(View view) throws IOException {
+
+    try{
+    	recorder.prepare();
+        recorder.start();
+    } catch (IOException e){
+    	//prepare() fails
+    	e.printStackTrace();
+    } catch (IllegalStateException e){
+    	// start() before prepare; prepare() after start() or before setOutputFormat()
+    	e.printStackTrace();
+    }
+    startButton.setEnabled(false);
+    stopButton.setEnabled(true);
+    
+    Toast.makeText(getApplicationContext(), "Start recording...",
+    		Toast.LENGTH_SHORT).show();
+  }		
 
   public void stopRecording(View view) {
     startButton.setEnabled(true);

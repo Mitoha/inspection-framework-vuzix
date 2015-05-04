@@ -31,20 +31,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-	// private VoiceControl vc;
+//	private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-	// protected void onResume() {
-	// super.onResume();
-	// vc.on();
-	// }
-	//
-	// @Override
-	// protected void onPause() {
-	// super.onPause();
-	// vc.off();
-	// }
+//	@Override
+//	 protected void onResume() {
+//	 super.onResume();
+//	 vc.on();
+//	 }
+//	
+//	 @Override
+//	 protected void onPause() {
+//	 super.onPause();
+//	 vc.off();
+//	 }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
