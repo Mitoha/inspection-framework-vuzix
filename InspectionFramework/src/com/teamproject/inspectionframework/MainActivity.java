@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-<<<<<<< HEAD
+
 //	@Override
 //	 protected void onResume() {
 //	 super.onResume();
@@ -47,7 +47,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 //	 super.onPause();
 //	 vc.off();
 //	 }
-=======
+
 //	protected void onResume() {
 //		super.onResume();
 //		vc.on();
@@ -58,7 +58,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 //		super.onPause();
 //		vc.off();
 //	}
->>>>>>> fb6682f141823390c23b0577d240404158c6e0b9
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

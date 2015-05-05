@@ -1,4 +1,4 @@
-//work in progress
+//play ground
 package com.teamproject.inspectionframework;
 
 import java.io.File;
@@ -23,16 +23,16 @@ public class SoundRecordingActivity extends Activity {
   MediaRecorder recorder;
   File audiofile = null;
   private static final String TAG = "SoundRecordingActivity";
-  private View startButton;
-  private View stopButton;
+  private View startButton2;
+  private View stopButton2;
   
    
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_soundrecordingactivity);
-    startButton = findViewById(R.id.start);
-    stopButton = findViewById(R.id.stop);
+    startButton2 = findViewById(R.id.start);
+    stopButton2 = findViewById(R.id.stop);
     
     File sampleDir = Environment.getExternalStorageDirectory();
     try {
@@ -56,7 +56,7 @@ public class SoundRecordingActivity extends Activity {
 		return true;
 	}
 
-  public void startRecording(View view) throws IOException {
+  public void startRecording2(View view) throws IOException {
 
     try{
     	recorder.prepare();
@@ -68,22 +68,22 @@ public class SoundRecordingActivity extends Activity {
     	// start() before prepare; prepare() after start() or before setOutputFormat()
     	e.printStackTrace();
     }
-    startButton.setEnabled(false);
-    stopButton.setEnabled(true);
+    startButton2.setEnabled(false);
+    stopButton2.setEnabled(true);
     
     Toast.makeText(getApplicationContext(), "Start recording...",
     		Toast.LENGTH_SHORT).show();
   }		
 
-  public void stopRecording(View view) {
-    startButton.setEnabled(true);
-    stopButton.setEnabled(false);
+  public void stopRecording2(View view) {
+    startButton2.setEnabled(true);
+    stopButton2.setEnabled(false);
     recorder.stop();
     recorder.release();
-    addRecordingToMediaLibrary();
+    addRecordingToMediaLibrary2();
   }
 
-  protected void addRecordingToMediaLibrary() {
+  protected void addRecordingToMediaLibrary2() {
     ContentValues values = new ContentValues(4);
     long current = System.currentTimeMillis();
     values.put(MediaStore.Audio.Media.TITLE, "audio" + audiofile.getName());
