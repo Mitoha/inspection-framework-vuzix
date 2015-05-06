@@ -19,6 +19,19 @@ public class Assignment {
     public Assignment(){
 
     }
+    
+    public Assignment(String name, String id, String description, Long startDate, Long dueDate, String userId, String InspObjId, String isTemplate) {
+    	this.assignmentName=name;
+    	this.id=id;
+    	this.description=description;
+    	this.startDate=startDate;
+    	this.dueDate=dueDate;
+    	this.userId=userId;
+    	this.inspectionObjectId=InspObjId;
+    	this.isTemplate=isTemplate;
+    	this.state=0;
+    	this.version=0;
+    }
 
     //Setter
 

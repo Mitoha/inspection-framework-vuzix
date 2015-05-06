@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="@string/list_noItemsAvailable"
+        android:text="@string/list_noUserAvailable"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

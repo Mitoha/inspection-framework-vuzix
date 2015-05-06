@@ -1,6 +1,7 @@
 package com.teamproject.inspectionframework.List_Adapters;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import android.content.Context;
@@ -52,9 +53,10 @@ public class AssignmentAdapter extends BaseAdapter {
 
 		Assignment assignment = assignmentList.get(position);
 		Date dueDate = new Date(assignment.getDueDate());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 
 		Name.setText(assignment.getAssignmentName());
-		DueDate.setText(dueDate.toString());
+		DueDate.setText(dateFormat.format(dueDate));
 
 		return convertView;
 	}

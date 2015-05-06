@@ -16,6 +16,17 @@ public class User {
     //Constructor
     public User() {
     }
+    
+    public User(String userId, String userName, String email, String role, String firstName, String lastName, String phoneNumber, String mobileNumber) {
+    	this.userId=userId;
+    	this.userName=userName;
+    	this.email=email;
+    	this.role=role;
+    	this.firstName=firstName;
+    	this.lastName=lastName;
+    	this.phoneNumber=phoneNumber;
+    	this.mobileNumber=mobileNumber;
+    }
 
     //Getter and setter
     public String getUserId() {

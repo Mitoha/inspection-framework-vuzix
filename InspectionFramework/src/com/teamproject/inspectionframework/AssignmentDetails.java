@@ -1,6 +1,7 @@
 package com.teamproject.inspectionframework;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
-//TODO: Make this screen look nicer
 public class AssignmentDetails extends Activity {
 
 	// VAR-Declaration
@@ -35,28 +35,29 @@ public class AssignmentDetails extends Activity {
 
 		Assignment assignment = myApp.getAssignment();
 		TextView buildElement = new TextView(this);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
 		Date startDate = new Date(assignment.getStartDate());
 		Date dueDate = new Date(assignment.getDueDate());
 
 		buildElement = (TextView) findViewById(R.id.tvAssignmentName);
-		buildElement.setText("Name: " + assignment.getAssignmentName());
+		buildElement.setText(assignment.getAssignmentName());
 		buildElement = (TextView) findViewById(R.id.tvAssignmentStartDate);
-		buildElement.setText("Start Date: " + startDate);
+		buildElement.setText(dateFormat.format(startDate));
 		buildElement = (TextView) findViewById(R.id.tvAssignmentDueDate);
-		buildElement.setText("Due Date: " + dueDate);
+		buildElement.setText(dateFormat.format(dueDate));
 
 		buildElement = (TextView) findViewById(R.id.tvAssignmentInspObj);
 		if (assignment.getInspectionObjectId() != null) {
-			buildElement.setText("Insp. Object: " + datasource.getInspectionObjectById(assignment.getInspectionObjectId()).getObjectName());
+			buildElement.setText(datasource.getInspectionObjectById(assignment.getInspectionObjectId()).getObjectName());
 		} else {
-			buildElement.setText("Insp. Object: Not found");
+			buildElement.setText("Not found");
 		}
 
 		buildElement = (TextView) findViewById(R.id.tvAssignmentDescription);
 		if (assignment.getDescription() != null) {
-			buildElement.setText("Description: " + assignment.getDescription());
+			buildElement.setText(assignment.getDescription());
 		} else {
-			buildElement.setText("Description: Not found");
+			buildElement.setText("Not found");
 		}
 	}
 

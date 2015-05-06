@@ -1,12 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollbar_ass_details"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="wrap_content"
+    android:fillViewport="true" >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10sp"
         android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tvAssignmentNameHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Assignment Name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvAssignmentName"
@@ -17,12 +29,30 @@
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/tvAssignmentStartDateHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Date"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tvAssignmentStartDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@+id/tvAssignmentStartDate"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvAssignmentDueDateHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Due Date"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvAssignmentDueDate"
@@ -33,12 +63,30 @@
             android:textSize="24sp" />
 
         <TextView
+            android:id="@+id/tvAssignmentInspObjHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Inspection Object"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tvAssignmentInspObj"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@+id/tvAssignmentInspObj"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textSize="24sp" />
+
+        <TextView
+            android:id="@+id/tvAssignmentDescriptionHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvAssignmentDescription"

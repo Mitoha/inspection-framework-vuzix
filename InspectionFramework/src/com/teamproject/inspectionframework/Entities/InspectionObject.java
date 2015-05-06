@@ -12,6 +12,14 @@ public class InspectionObject {
     public InspectionObject() {
     }
 
+    public InspectionObject(String id, String name, String description, String location, String customerName) {
+    	this.id=id;
+    	this.objectName=name;
+    	this.description=description;
+    	this.location=location;
+    	this.customerName=customerName;
+    }
+    
     //Setter
 
     public void setId(String id) {

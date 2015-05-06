@@ -20,6 +20,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelper;
+import com.teamproject.inspectionframework.Entities.Assignment;
+import com.teamproject.inspectionframework.Entities.InspectionObject;
+import com.teamproject.inspectionframework.Entities.Task;
+import com.teamproject.inspectionframework.Entities.User;
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
@@ -31,23 +35,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-//	private VoiceControl vc;
+	// private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-
-//	@Override
-//	 protected void onResume() {
-//	 super.onResume();
-//	 vc.on();
-//	 }
-//	
-//	 @Override
-//	 protected void onPause() {
-//	 super.onPause();
-//	 vc.off();
-//	 }
-
+	// @Override
+	// protected void onResume() {
+	// super.onResume();
+	// vc.on();
+	// }
+	//
+	// @Override
+	// protected void onPause() {
+	// super.onPause();
+	// vc.off();
+	// }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +63,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		actionBar.setTitle(getString(R.string.app_name) + ": User Login");
 
 		// START VC ACTIVITY
-//		vc = new VuzixVoiceControl(getApplicationContext());
-//		vc.addGrammar(Constants.GRAMMAR_BASIC);
-
+		// vc = new VuzixVoiceControl(getApplicationContext());
+		// vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -108,8 +109,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			Intent goToMainActivity = new Intent(this, MainActivity.class);
-//			if (vc != null)
-//				vc.destroy();
+			// if (vc != null)
+			// vc.destroy();
 			startActivity(goToMainActivity);
 		}
 
@@ -142,8 +143,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					datasource.cleanDatabase();
 					datasource.close();
 					Intent reloadList = new Intent(getApplicationContext(), MainActivity.class);
-//					if (vc != null)
-//						vc.destroy();
+					// if (vc != null)
+					// vc.destroy();
 					startActivity(reloadList);
 					Toast.makeText(getApplicationContext(), "Database cleaned", Toast.LENGTH_LONG).show();
 
@@ -155,6 +156,34 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 				}
 			});
 			alert.show();
+			break;
+
+		// TODO: Delete this method after testing
+		case R.id.action_create_testcases:
+			User user = new User("user1", "vTest", "tester@vuzix.com", "ROLE_INSPECTOR", "Vuzix", "Tester", "0123", "0123");
+
+			Long date = new Long("1426633200000");
+			Assignment assignment = new Assignment("Vuzix-Test", "assignment1", "Vuzix Test-Assignment", date, date, "user1", "object1", "false");
+
+			Task task = new Task("task1", "Vuzix TestTask", "A task description", "assignment1");
+			Task task2 = new Task("task2", "Vuzix TestTask No2", "A task description 2", "assignment1");
+
+			InspectionObject inspectionObject = new InspectionObject("object1", "Vuzix Test Object", "A test object", "Mannheim", "IF Team");
+
+			MySQLiteHelper datasource = new MySQLiteHelper(getApplicationContext());
+			datasource.createUser(user);
+			datasource.createAssignment(assignment);
+			datasource.createTask(task);
+			datasource.createTask(task2);
+			datasource.createInspectionObject(inspectionObject);
+			datasource.close();
+
+			Intent reloadList = new Intent(getApplicationContext(), MainActivity.class);
+			// if (vc != null)
+			// vc.destroy();
+			startActivity(reloadList);
+			Toast.makeText(getApplicationContext(), "Testcase Created!", Toast.LENGTH_LONG).show();
+
 			break;
 		}
 
@@ -188,8 +217,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 			Intent goToAssignmentIntent = new Intent(getApplicationContext(), AssignmentList.class);
 			myApp.setUser(userId);
-//			if (vc != null)
-//				vc.destroy();
+			// if (vc != null)
+			// vc.destroy();
 			startActivity(goToAssignmentIntent);
 		}
 	}

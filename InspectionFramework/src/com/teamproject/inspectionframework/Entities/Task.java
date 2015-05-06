@@ -14,6 +14,13 @@ public class Task {
     public Task(){
     }
 
+    public Task(String id, String name, String description, String assignmentId) {
+    	this.id=id;
+    	this.taskName=name;
+    	this.description=description;
+    	this.state=0;
+    	this.assignmentId=assignmentId;
+    }
 
     //Setter
 
