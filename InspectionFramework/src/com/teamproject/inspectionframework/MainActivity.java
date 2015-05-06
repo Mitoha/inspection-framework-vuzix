@@ -35,7 +35,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-<<<<<<< HEAD
+
 //	@Override
 //	 protected void onResume() {
 //	 super.onResume();
@@ -47,18 +47,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 //	 super.onPause();
 //	 vc.off();
 //	 }
-=======
-//	protected void onResume() {
-//		super.onResume();
-//		vc.on();
-//	}
-//
-//	@Override
-//	protected void onPause() {
-//		super.onPause();
-//		vc.off();
-//	}
->>>>>>> fb6682f141823390c23b0577d240404158c6e0b9
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +79,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 
 		// Sets the tab when view is changed by swiping left/right
-		// TODO: Deactivate swiping possibility
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			@Override

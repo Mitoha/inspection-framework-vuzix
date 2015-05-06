@@ -25,23 +25,25 @@ import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
 public class SynchronizationHelper {
 
-	private MySQLiteHelper datasource;
-	private HttpCustomClient restInstance;
-	private InternetConnectionDetector icd;
-	private ParseJSON parser = new ParseJSON();
-	private boolean mResult = false;
-	private boolean uploadReady;
-	private boolean downloadReady;
+    private MySQLiteHelper datasource;
+    private HttpCustomClient restInstance;
+    private HttpCustomClient putrestInstance;
+    private InternetConnectionDetector icd;
+    private ParseJSON parser = new ParseJSON();
+    private boolean mResult = false;
+    private boolean uploadReady;
+    private boolean downloadReady;
 
-	public SynchronizationHelper() {
 
-	}
+    public SynchronizationHelper() {
 
-	public void SynchronizeAssignments(Context ctx, String userId, Activity activity) {
+    }
+
+    public void SynchronizeAssignments(Context ctx, String userId, Activity activity) {
 
         datasource = new MySQLiteHelper(ctx);
         restInstance = new HttpCustomClient();
-
+        putrestInstance = new HttpCustomClient();
         icd = new InternetConnectionDetector(ctx);
         uploadReady = false;
         downloadReady = false;
@@ -69,17 +71,19 @@ public class SynchronizationHelper {
                     //Upload the assignment with all related tasks
                     putJObject = parser.completeAssignmentToJson(assignment, taskList, user, inspectionObject);
                     System.out.println(putJObject);
+                    System.out.println(assignment.getState());
                     Integer statusResponse = restInstance.putToHerokuServer("assignment", putJObject, assignment.getId());
                     System.out.println("PUT:"+statusResponse);
+
 
                     // Gives the user to the choice to delete or keep the local
                     // version if upload is not possible due to version problems
                    if (statusResponse == 400) {
-                       System.out.println("YEAH!");
 
 
-                        boolean userChoice = alertDialogHandler(assignment.getAssignmentName() + ": Version error", "A versioning error occured. Which version should be kept on this device? If the assignment is already finished, the remote version won't be downloaded.", activity);
-                        System.out.println("Here we go");
+
+                        boolean userChoice = alertDialogHandler(assignment.getAssignmentName() + ": Version error", "Download new version and overwrite local or keep local?", activity);
+
                         // Keep local version
                         if (userChoice == true) {
                             noSyncList.add(assignment.getId());
@@ -100,7 +104,8 @@ public class SynchronizationHelper {
                         if(attachmentList != null) {
                             for (int j = 0; j < attachmentList.size(); j++) {
                                 Attachment attachment = attachmentList.get(j);
-                                restInstance.postAttachmentToHerokuServer(assignment.getId(), attachment.getTaskId(), attachment.getBinaryObject());
+                                putrestInstance.postAttachmentToHerokuServer(assignment.getId(), attachment.getTaskId(), attachment.getBinaryObject());
+                                System.out.println("Attachments uploaded!");
                             }
                         }
                         uploadReady = true;
@@ -109,10 +114,14 @@ public class SynchronizationHelper {
                     // Deletes all local instances in the database only when the assignment is final (state 2)
                     if (assignment.getState() == 2) {
                         datasource.deleteInspectionObject(assignment.getInspectionObjectId());
+                        System.out.println("IO gelöscht!");
                         datasource.deleteAssignment(assignment.getId());
+
+                        System.out.println("Assignment deleted!");
                         for (int j = 0; j < taskList.size(); j++) {
                             Task task = taskList.get(j);
                             datasource.deleteTask(task.getId());
+                            System.out.println("Task:"+j);
                         }
                     }
 
@@ -124,6 +133,7 @@ public class SynchronizationHelper {
                 e.printStackTrace();
             }
 
+            restInstance.client.getConnectionManager().closeExpiredConnections();
             // DOWNLOAD-PART
             // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -267,43 +277,43 @@ public class SynchronizationHelper {
 
     }
 
-	public boolean alertDialogHandler(String title, String message, Activity activity) {
-		// make a handler that throws a runtime exception when a message is
-		// received
+    public boolean alertDialogHandler(String title, String message, Activity activity) {
+        // make a handler that throws a runtime exception when a message is
+        // received
 
-		final Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message mesg) {
-				throw new RuntimeException();
-			}
-		};
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message mesg) {
+                throw new RuntimeException();
+            }
+        };
 
-		// make a text input dialog and show it
-		AlertDialog.Builder alert = new AlertDialog.Builder(activity);
-		alert.setTitle(title);
-		alert.setMessage(message);
-		alert.setPositiveButton("Keep local version", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				mResult = true;
-				handler.sendMessage(handler.obtainMessage());
-			}
-		});
-		alert.setNegativeButton("Download remote version", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int whichButton) {
-				mResult = false;
-				handler.sendMessage(handler.obtainMessage());
-			}
-		});
-		alert.show();
+        // make a text input dialog and show it
+        AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+        alert.setTitle(title);
+        alert.setMessage(message);
+        alert.setPositiveButton("Keep", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                mResult = true;
+                handler.sendMessage(handler.obtainMessage());
+            }
+        });
+        alert.setNegativeButton("Download", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                mResult = false;
+                handler.sendMessage(handler.obtainMessage());
+            }
+        });
+        alert.show();
 
-		// loop till a runtime exception is triggered.
-		try {
-			Looper.loop();
-		} catch (RuntimeException e2) {
-		}
+        // loop till a runtime exception is triggered.
+        try {
+            Looper.loop();
+        } catch (RuntimeException e2) {
+        }
 
-		return mResult;
-	}
+        return mResult;
+    }
 
 	public String UserLogin(Context ctx, String username, String password) {
 

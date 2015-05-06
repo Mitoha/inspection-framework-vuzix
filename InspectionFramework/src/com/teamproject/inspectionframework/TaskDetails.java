@@ -66,7 +66,6 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		}
 
 		// Sets the tab when view is changed by swiping left/right
-		// TODO: Deactivate swiping possibility
 		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
 			@Override

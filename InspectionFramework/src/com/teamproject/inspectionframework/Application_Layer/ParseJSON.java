@@ -18,13 +18,7 @@ public class ParseJSON {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", user.getUserId());
-            /*jsonObject.put("userName", user.getUserName());
-            jsonObject.put("emailAddress", user.getEmail());
-            jsonObject.put("role", user.getRole());
-            jsonObject.put("firstName", user.getFirstName());
-            jsonObject.put("lastName", user.getLastName());
-            jsonObject.put("phoneNumber", user.getPhoneNumber());
-            jsonObject.put("mobileNumber", user.getMobileNumber());*/
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -37,11 +31,7 @@ public class ParseJSON {
         JSONObject jsonObjectInspectionObject = new JSONObject();
         try {
             jsonObjectInspectionObject.put("id", inspectionObject.getId());
-            /*jsonObjectInspectionObject.put("objectName", inspectionObject.getObjectName());
-            jsonObjectInspectionObject.put("description", inspectionObject.getDescription());
-            jsonObjectInspectionObject.put("location", inspectionObject.getLocation());
-            jsonObjectInspectionObject.put("customerName", inspectionObject.getCustomerName());
-            jsonObjectInspectionObject.put("attachmentIds", null);*/
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
