@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/task_att_lbl1"
-        android:onClick="stopRecording"
+        android:onClick="stopRecording2"
         android:text="stop" />
 
     <Button
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/task_att_lbl1"
         android:layout_toLeftOf="@+id/task_att_lbl1"
-        android:onClick="startRecording"
+        android:onClick="startRecording2"
         android:text="start" />
 
     <TextView
