@@ -1,47 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="3"
-    android:orientation="horizontal" >
-
-    <TextView
-        android:id="@+id/tvTaskDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="center"
-        android:layout_row="1"
-        android:text="@+id/tvTaskDescription"
-        android:textSize="20sp" />
+    android:columnCount="1"
+    android:orientation="vertical" >
 
     <Button
         android:id="@+id/buttonOk"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="right|top"
-        android:layout_marginRight="59dp"
-        android:layout_row="0"
-        android:text="OK"
+        android:layout_gravity="center_horizontal"
         android:onClick="onClick"
         android:tag="buttonOk"
+        android:text="Mark Task as OKAY"
         android:textColor="@android:color/holo_green_light" >
-        
-        <requestFocus/>
-    </Button>
 
+        <requestFocus />
+    </Button>
 
     <Button
         android:id="@+id/buttonError"
-        android:layout_width="wrap_content"
+        android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="left|top"
-        android:layout_row="1"
+        android:layout_gravity="center_horizontal"
         android:onClick="onClick"
         android:tag="buttonError"
-        android:text="Error"
+        android:text="Mark Task as ERROR"
         android:textColor="@android:color/holo_red_light" />
 
-</GridLayout>
+    <TextView
+        android:id="@+id/tvTaskDescription"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="@+id/tvTaskDescription"
+        android:textSize="20sp" />
+
+</LinearLayout>

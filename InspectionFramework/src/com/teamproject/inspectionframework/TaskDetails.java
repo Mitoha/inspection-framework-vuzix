@@ -52,14 +52,13 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 	private MyApplication myApp;
 	private static final int REQUEST_TAKE_PHOTO = 1;
 	String mCurrentPhotoPath;
-//	int Clicked = 0;
-//	int NoPic=0;
-//	Task task;
-//    BitmapUtility bitmapUtility;
-//    HttpCustomClient client;
-//    Button Picture;
-//    ImageView IMG;
-	//audiorecording vars
+	int Clicked = 0;
+	int NoPic=0;
+	Task task;
+    BitmapUtility bitmapUtility;
+    HttpCustomClient client;
+    ImageView IMG;
+//	audiorecording vars;
     MediaRecorder recorder;
     File audiofile = null;
     private static final String TAG = "SoundRecordingActivity";
@@ -123,6 +122,10 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		});
 		
 		
+		
+		//TODO: AB HIER STARTEN DIE ATTACHMENT-FUNKTIONEN
+		
+		
 		// audiorecording part
 		startButton = findViewById(R.id.task_att_btn2);
 		stopButton = findViewById(R.id.task_att_btn3);
@@ -143,16 +146,13 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		
 		//START ADDITIONAL stuff from the app-guys (class: TaskAttachActivity)
 		//this function should convert the picture into a byte[] and save it into the db, but it DOESNT work
-		
+//		
 //		datasource = new MySQLiteHelper(getApplicationContext());
 //        bitmapUtility = new BitmapUtility();
 //        client = new HttpCustomClient();
-//        this.taskId = getIntent().getExtras().getString("TaskId");
-//        this.taskName = getIntent().getExtras().getString("TaskName");
-//        this.assignmentId = getIntent().getExtras().getString("AssignmentId");
-//        Picture = (Button)findViewById(R.id.task_att_btn1);
+//        Button picture = (Button)findViewById(R.id.task_att_btn1);
 //        
-//        Assignment assignment = datasource.getAssignmentById(assignmentId);
+//        Assignment assignment = myApp.getAssignment();
 //        
 //		
 //        Picture.setOnClickListener(new View.OnClickListener() {
@@ -187,6 +187,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 //                    Toast.makeText(getApplicationContext(), "Attachment updated ",
 //                            Toast.LENGTH_LONG).show();
 //                }
+	    //TODO: weg
 //                task.setState(2);
 //                datasource.updateTask(task);
 //            }
@@ -201,6 +202,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 	
 		
 	}
+	
 	
 	
 
@@ -268,6 +270,11 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		startActivity(goToTaskList);
 	}
 	
+	
+	
+	
+	
+	
 	/**
 	 * Handles all functions used in the attachments tab
 	 * 
@@ -279,6 +286,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
         dispatchTakePictureIntent();
 
     }
+	
 	//This method triggers the camera
 	private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -301,6 +309,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
             }
         }
     }
+	
 	// the name of a picture is specified here
 	private File createImageFile() throws IOException {
         // Create an image file name

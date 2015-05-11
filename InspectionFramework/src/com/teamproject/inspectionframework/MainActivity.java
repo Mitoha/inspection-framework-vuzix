@@ -4,14 +4,11 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
-import android.app.Instrumentation;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,21 +32,21 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private ViewPager viewPager;
 	private TabAdapterLoginScreen mAdapter;
 	private ActionBar actionBar;
-	// private VoiceControl vc;
+	private VoiceControl vc;
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-	// @Override
-	// protected void onResume() {
-	// super.onResume();
-	// vc.on();
-	// }
-	//
-	// @Override
-	// protected void onPause() {
-	// super.onPause();
-	// vc.off();
-	// }
+	 @Override
+	 protected void onResume() {
+	 super.onResume();
+	 vc.on();
+	 }
+	
+	 @Override
+	 protected void onPause() {
+	 super.onPause();
+	 vc.off();
+	 }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +60,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		actionBar.setTitle(getString(R.string.app_name) + ": User Login");
 
 		// START VC ACTIVITY
-		// vc = new VuzixVoiceControl(getApplicationContext());
-		// vc.addGrammar(Constants.GRAMMAR_BASIC);
+		 vc = new VuzixVoiceControl(getApplicationContext());
+		 vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -109,8 +106,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			Intent goToMainActivity = new Intent(this, MainActivity.class);
-			// if (vc != null)
-			// vc.destroy();
+			 if (vc != null)
+			 vc.destroy();
 			startActivity(goToMainActivity);
 		}
 
@@ -143,8 +140,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					datasource.cleanDatabase();
 					datasource.close();
 					Intent reloadList = new Intent(getApplicationContext(), MainActivity.class);
-					// if (vc != null)
-					// vc.destroy();
+					 if (vc != null)
+					 vc.destroy();
 					startActivity(reloadList);
 					Toast.makeText(getApplicationContext(), "Database cleaned", Toast.LENGTH_LONG).show();
 
@@ -179,8 +176,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			datasource.close();
 
 			Intent reloadList = new Intent(getApplicationContext(), MainActivity.class);
-			// if (vc != null)
-			// vc.destroy();
+			 if (vc != null)
+			 vc.destroy();
 			startActivity(reloadList);
 			Toast.makeText(getApplicationContext(), "Testcase Created!", Toast.LENGTH_LONG).show();
 
@@ -217,8 +214,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 
 			Intent goToAssignmentIntent = new Intent(getApplicationContext(), AssignmentList.class);
 			myApp.setUser(userId);
-			// if (vc != null)
-			// vc.destroy();
+			if (vc != null)
+				vc.destroy();
 			startActivity(goToAssignmentIntent);
 		}
 	}

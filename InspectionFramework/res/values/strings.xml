@@ -29,5 +29,6 @@
     <string name="toast_sync_success">Synchronization finished!</string>
     <string name="action_create_testcases">Create Testcases</string>
     <string name="list_noUserAvailable">No User Available!</string>
+    <string name="title_activity_attachment_handler">AttachmentHandler</string>
 
 </resources>

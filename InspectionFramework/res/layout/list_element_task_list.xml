@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:columnCount="4" >
 
-    <TextView
+    <ImageView
         android:id="@+id/taskState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

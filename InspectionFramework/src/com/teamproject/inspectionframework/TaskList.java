@@ -96,9 +96,8 @@ public class TaskList extends ListActivity {
 
 		case R.id.action_show_task_attachment:
 
-			// TODO: IMPLEMENT METHOD AND CHANGE TO ASSIGNMENT ATTACHMENT!
-			Intent goToTaskAttachmentIntent = new Intent(this, TaskAttachment.class);
-			startActivity(goToTaskAttachmentIntent);
+			Intent goToAssignmentAttachmentIntent = new Intent(this, AssignmentAttachment.class);
+			startActivity(goToAssignmentAttachmentIntent);
 			break;
 
 		case R.id.action_finish_assignment:

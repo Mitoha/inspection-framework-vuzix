@@ -8,9 +8,7 @@ import java.nio.ByteBuffer;
 
 public class BitmapUtility {
 
-    // convert from bitmap to byte array
-    // this is needed before storing it to the database
-	public byte[] getBytes(Bitmap bitmap) {
+    public byte[] getBytes(Bitmap bitmap) {
 
         int bytes = bitmap.getByteCount();
 
@@ -19,6 +17,12 @@ public class BitmapUtility {
         byte[] array = buffer.array();
         return array;
     }
-	
-	//TODO: method for converting audiofile to be able to save it in the DB
+
+    // convert from byte array to bitmap
+    // this is needed when data from database is retrieved
+    public Bitmap getImage(byte[] image) {
+        return BitmapFactory.decodeByteArray(image, 0, image.length);
+    }
+    
+    //TODO: ADD FUNCTION FOR VOICE RECORDING ADDING (2x)
 }

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.teamproject.inspectionframework.R;
@@ -48,14 +49,23 @@ public class TaskListAdapter extends BaseAdapter {
 			convertView = inflater.inflate(R.layout.list_element_task_list, parent, false);
 		}
 		TextView Name = (TextView) convertView.findViewById(R.id.taskName);
-		TextView State = (TextView) convertView.findViewById(R.id.taskState);
-		
+		ImageView State = (ImageView) convertView.findViewById(R.id.taskState);
 
 		Task task = taskList.get(position);
 
-		// TODO: Insert conversion from number to real state descr. or logo
 		Name.setText(task.getTaskName());
-		State.setText(String.valueOf(task.getState()));
+
+		switch (task.getState()) {
+		case 0:
+			State.setImageResource(R.drawable.ic_action_help);
+			break;
+		case 1:
+			State.setImageResource(R.drawable.ic_action_accept);
+			break;
+		case 2:
+			State.setImageResource(R.drawable.ic_action_error);
+			break;
+		}
 
 		return convertView;
 	}
