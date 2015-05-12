@@ -5,7 +5,15 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="E:/dev/github/repository/inspection-framework-vuzix/InspectionFramework/libs/httpclient-android-4.3.5.1.jar" sourcepath="libs"/>
-	<classpathentry kind="lib" path="E:/dev/github/repository/inspection-framework-vuzix/InspectionFramework/libs/httpmime-4.3.5.jar" sourcepath="libs"/>
+	<classpathentry kind="lib" path="E:/dev/github/repository/inspection-framework-vuzix/InspectionFramework/libs/httpclient-android-4.3.5.1.jar" sourcepath="libs">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="../InspectionFramework/libs"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="E:/dev/github/repository/inspection-framework-vuzix/InspectionFramework/libs/httpmime-4.3.5.jar" sourcepath="libs">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="../InspectionFramework/libs"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

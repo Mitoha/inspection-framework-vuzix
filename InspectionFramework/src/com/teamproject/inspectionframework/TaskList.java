@@ -94,11 +94,11 @@ public class TaskList extends ListActivity {
 
 			break;
 
-		case R.id.action_show_task_attachment:
-
-			Intent goToAssignmentAttachmentIntent = new Intent(this, AssignmentAttachment.class);
-			startActivity(goToAssignmentAttachmentIntent);
-			break;
+//		case R.id.action_show_task_attachment:
+//
+//			Intent goToAssignmentAttachmentIntent = new Intent(this, AssignmentAttachment.class);
+//			startActivity(goToAssignmentAttachmentIntent);
+//			break;
 
 		case R.id.action_finish_assignment:
 
