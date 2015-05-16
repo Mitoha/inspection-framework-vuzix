@@ -11,7 +11,7 @@
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="onClick"
+        android:onClick="onClickStateSetter"
         android:tag="buttonOk"
         android:text="Mark Task as OKAY"
         android:textColor="@android:color/holo_green_light" >
@@ -24,7 +24,7 @@
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="onClick"
+        android:onClick="onClickStateSetter"
         android:tag="buttonError"
         android:text="Mark Task as ERROR"
         android:textColor="@android:color/holo_red_light" />

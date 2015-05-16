@@ -188,12 +188,10 @@ public class HttpCustomClient {
 		// Create a new inputStreamBody and add the bytearray(picture) to it
 		// Give names for the picture
 		InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Pic.jpg");
-		//
+
 		// Add the filebody to the multipartEntity
-		// Specified from serverside it must be "fileUpload
+		// Specified from serverside it must be "fileUpload"
 		multipartEntity.addPart("fileUpload", inputStreamBody);
-		//
-		//
 
 		try {
 

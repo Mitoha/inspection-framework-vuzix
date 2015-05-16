@@ -5,31 +5,27 @@
     android:layout_height="match_parent"
     android:columnCount="1" >
 
-    <TextView
-        android:id="@+id/task_att_lbl1"
-        android:text="Picture:"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+    <Button
+        android:id="@+id/task_att_btn1"
+        android:layout_width="128dp"
+        android:layout_column="0"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_row="0"
+        android:onClick="onClickTakePicture"
+        android:text="Take a Photo" />
 
     <TextView
         android:id="@+id/task_att_lbl2"
         android:layout_column="0"
-        android:layout_gravity="left|center_vertical"
+        android:layout_gravity="center"
         android:layout_row="0"
         android:text="Voice Recording:"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <Button
-        android:id="@+id/task_att_btn1"
-        android:layout_column="0"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_row="0"
-        android:onClick="takePicture"
-        android:text="Picture" />
-
-    <Button
         android:id="@+id/task_att_btn2"
         android:layout_column="0"
-        android:layout_gravity="center"
+        android:layout_gravity="left|bottom"
         android:layout_row="0"
         android:onClick="startRecording"
         android:text="Start Rec" />
@@ -37,7 +33,7 @@
     <Button
         android:id="@+id/task_att_btn3"
         android:layout_column="0"
-        android:layout_gravity="right|center_vertical"
+        android:layout_gravity="right|bottom"
         android:layout_row="0"
         android:onClick="stopRecording"
         android:text="Stop&amp;Save" />
