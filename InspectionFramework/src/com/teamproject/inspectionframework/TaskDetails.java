@@ -1,55 +1,38 @@
 package com.teamproject.inspectionframework;
 
-import java.io.File;
 import java.io.IOException;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.Chronometer;
 import android.widget.Toast;
 
-import com.teamproject.inspectionframework.Application_Layer.BitmapUtility;
-import com.teamproject.inspectionframework.Application_Layer.HttpCustomClient;
-import com.teamproject.inspectionframework.Entities.Assignment;
-import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterTaskDetails;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import com.teamproject.inspectionframework.vuzixHelpers.AttachmentHandler;
-import com.teamproject.inspectionframework.vuzixHelpers.PhotoHandler;
-import com.vuzix.hardware.VuzixCamera;
+import com.teamproject.inspectionframework.vuzixHelpers.NoSwipeViewPager;
 
 public class TaskDetails extends FragmentActivity implements ActionBar.TabListener {
 
 	private MySQLiteHelper datasource;
-	private ViewPager viewPager;
+	private NoSwipeViewPager viewPager;
 	private TabAdapterTaskDetails mAdapter;
 	private ActionBar actionBar;
 	private String[] tabs = { "Details", "Attachments" };
 	private MyApplication myApp;
-	private VuzixCamera camera;
-	private boolean picAvailable = false;
 	private AttachmentHandler attHandler;
-
-	// TODO: Check what needed here (liste unten)
-
-	// audiorecording vars;
-	MediaRecorder recorder;
-	File audiofile = null;
-	private static final String TAG = "SoundRecordingActivity";
-	private View startButton;
-	private View stopButton;
+	private Button pictureButton;
+	private Button soundRecordingButton;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -75,7 +58,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		actionBar.setTitle(getString(R.string.title_activity_task_details) + ": " + myApp.getTask().getTaskName() + " [" + taskStateWording + "]");
 
 		// Initialization
-		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
+		viewPager = (NoSwipeViewPager) findViewById(R.id.task_details_pager);
 		mAdapter = new TabAdapterTaskDetails(getSupportFragmentManager());
 
 		viewPager.setAdapter(mAdapter);
@@ -88,7 +71,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		}
 
 		// Sets the tab when view is changed by swiping left/right
-		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+		viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 
 			@Override
 			public void onPageSelected(int position) {
@@ -96,36 +79,24 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 				// make respected tab selected
 				actionBar.setSelectedNavigationItem(position);
 			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-			}
 		});
 
 		datasource = new MySQLiteHelper(getApplicationContext());
-		Button picture = (Button) findViewById(R.id.task_att_btn1);
-		Assignment assignment = myApp.getAssignment();
-		Task task = myApp.getTask();
+		pictureButton = (Button) findViewById(R.id.task_att_takePictureButton);
 
 	}
 
-	// Handles the picture processing after a photo was taken
+	// Handles the processing of an intent
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		boolean result = false;
-		
+
 		try {
 			result = attHandler.takePictureResult(requestCode, resultCode, data);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		if(result == true) {
+
+		if (result == true) {
 			Toast.makeText(this, "Picture successfully saved!", Toast.LENGTH_LONG).show();
 		}
 	}
@@ -196,5 +167,47 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 
 	public void onClickTakePicture(View view) {
 		attHandler.takePicture("task");
+	}
+
+	public void onClickRecordingButton(View view) throws IOException {
+
+		soundRecordingButton = (Button) findViewById(R.id.task_att_audioRecordingButton);
+		Chronometer chrono = (Chronometer) findViewById(R.id.task_att_chronometer);
+		Boolean startTrigger = false;
+
+		if (soundRecordingButton.getTag().equals("START")) {
+
+			boolean result = attHandler.startAudioRecording("task");
+			if (result == true) {
+				// Changes button layout
+				soundRecordingButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_stop, 0, 0, 0);
+				soundRecordingButton.setText("Stop Audio Recording");
+				soundRecordingButton.setTag("STOP");
+				startTrigger = true;
+
+				// Triggers Chronometer
+				chrono.setBase(SystemClock.elapsedRealtime());
+				chrono.setVisibility(1);
+				chrono.start();
+				Toast.makeText(this, "Recording started...", Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		if (soundRecordingButton.getTag().equals("STOP") && startTrigger == false) {
+			boolean result = attHandler.stopAudioRecording("task");
+
+			// Changes button layout
+			soundRecordingButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_play, 0, 0, 0);
+			soundRecordingButton.setText("Start Audio Recording");
+			soundRecordingButton.setTag("START");
+
+			// Triggers Chronometer
+			chrono.stop();
+			Toast.makeText(this, "Recording stopped!", Toast.LENGTH_SHORT).show();
+
+			if (result == true) {
+
+			}
+		}
 	}
 }

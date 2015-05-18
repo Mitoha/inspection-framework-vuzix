@@ -77,25 +77,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 
 		// Sets the tab when view is changed by swiping left/right
-		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-			@Override
-			public void onPageSelected(int position) {
-				// on changing the page
-				// make respected tab selected
-				actionBar.setSelectedNavigationItem(position);
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int arg0) {
-
-			}
-
-			@Override
-			public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-			}
-		});
+//		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+//
+//			@Override
+//			public void onPageSelected(int position) {
+//				// on changing the page
+//				// make respected tab selected
+//				actionBar.setSelectedNavigationItem(position);
+//			}
+//
+//			@Override
+//			public void onPageScrollStateChanged(int arg0) {
+//
+//			}
+//
+//			@Override
+//			public void onPageScrolled(int arg0, float arg1, int arg2) {
+//
+//			}
+//		});
 	}
 
 	/**
