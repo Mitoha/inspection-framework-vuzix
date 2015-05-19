@@ -2,26 +2,12 @@ package com.teamproject.inspectionframework.vuzixHelpers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-
-import com.teamproject.inspectionframework.MyApplication;
-import com.teamproject.inspectionframework.R;
-import com.teamproject.inspectionframework.R.id;
-import com.teamproject.inspectionframework.R.layout;
-import com.teamproject.inspectionframework.Application_Layer.BitmapUtility;
-import com.teamproject.inspectionframework.Application_Layer.HttpCustomClient;
-import com.teamproject.inspectionframework.Entities.Assignment;
-import com.teamproject.inspectionframework.Entities.Attachment;
-import com.teamproject.inspectionframework.Entities.Task;
-import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
-import com.vuzix.hardware.VuzixCamera;
-import com.vuzix.hardware.VuzixCamera.PictureCallback;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -31,29 +17,25 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaRecorder;
-import android.media.videoeditor.MediaItem.GetThumbnailListCallback;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import com.teamproject.inspectionframework.MyApplication;
+import com.teamproject.inspectionframework.Entities.Assignment;
+import com.teamproject.inspectionframework.Entities.Attachment;
+import com.teamproject.inspectionframework.Entities.Task;
+import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
 public class AttachmentHandler {
 
 	private MySQLiteHelper datasource;
 	private MyApplication myApp;
-	private Context context;
 	private Activity activity;
 	private Task task;
 	private Assignment assignment;
 	private String photoPath;
-	private String attachmentTarget;
 	private MediaRecorder recorder;
 	private File audiofile;
 	private static final int REQUEST_TAKE_PHOTO = 1;
@@ -61,15 +43,13 @@ public class AttachmentHandler {
 	public AttachmentHandler(Context ctx, Activity activity) {
 		myApp = (MyApplication) ctx;
 		datasource = new MySQLiteHelper(ctx);
-		context = ctx;
 		this.activity = activity;
 
 		assignment = myApp.getAssignment();
 		task = myApp.getTask();
 	}
 
-	public void takePicture(String target) {
-		this.attachmentTarget = target;
+	public void takePicture() {
 
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -118,7 +98,7 @@ public class AttachmentHandler {
 
 	private File createImageFile() throws IOException {
 		// Create an image file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMANY).format(new Date());
 		String imageFileName = "JPEG_" + timeStamp + "_";
 		File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 		File image = File.createTempFile(imageFileName, /* prefix */
@@ -132,9 +112,8 @@ public class AttachmentHandler {
 	}
 
 	// Audio recording methods
-	public boolean startAudioRecording(String target) throws IOException {
+	public boolean startAudioRecording() throws IOException {
 		boolean result = false;
-		this.attachmentTarget = target;
 		audiofile = createAudioFile();
 		try {
 			recorder.prepare();
@@ -154,20 +133,42 @@ public class AttachmentHandler {
 
 	public boolean stopAudioRecording(String target) throws IOException {
 		boolean result = false;
+		FileInputStream fis = null;
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
 		try {
 			recorder.stop();
 			recorder.release();
 			addRecordingToMediaLibrary();
-			
-//			Attachment attachment = new Attachment();
-//			attachment.setTaskId(task.getId());
-//			attachment.setAssignmentId(assignment.getId());
-//			attachment.setFile_type("Photo");
-//			attachment.setBinaryObject(array);
-//
-//			datasource.createAttachment(attachment);
-//			datasource.close();
+
+			try {
+				fis = new FileInputStream(audiofile);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			try {
+				while (fis.available() > 0) {
+					bos.write(fis.read());
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			fis.close();
+
+			byte[] array = bos.toByteArray();
+
+			Attachment attachment = new Attachment();
+			attachment.setTaskId(task.getId());
+			attachment.setAssignmentId(assignment.getId());
+			attachment.setFile_type("Audio");
+			attachment.setBinaryObject(array);
+
+			datasource.createAttachment(attachment);
+			datasource.close();
+
 			result = true;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

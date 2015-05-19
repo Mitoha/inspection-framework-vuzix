@@ -1,14 +1,14 @@
 package com.teamproject.inspectionframework.Application_Layer;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.StrictMode;
-import android.util.Base64;
-import android.util.Log;
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
+import java.util.List;
 
-import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -24,12 +24,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.cookie.Cookie;
 import org.apache.http.entity.StringEntity;
-
-//TODO: Import JARs and enable these imports
-//import org.apache.http.entity.mime.HttpMultipartMode;
-//import org.apache.http.entity.mime.MultipartEntityBuilder;
-//import org.apache.http.entity.mime.content.InputStreamBody;
-
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.InputStreamBody;
@@ -38,28 +32,15 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.protocol.HttpContext;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import android.os.StrictMode;
+import android.util.Log;
 
 public class HttpCustomClient {
 
 	// Var-declaration
-	private Context context;
 	public HttpClient client = new DefaultHttpClient();
 	public CookieStore store = ((DefaultHttpClient) client).getCookieStore();
-	private HttpResponse response;
 
 	// Constructor
 	public HttpCustomClient() {
@@ -231,10 +212,8 @@ public class HttpCustomClient {
 	// Should be used than an existing object of the server database should be
 	// updated
 	public Integer putToHerokuServer(String uri, String jsonObject, String Id) {
-		// JSONObject jO;
-		String name = null;
 		HttpResponse response1 = null;
-		String value = null;
+		
 		// Allow internet connection
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
@@ -261,9 +240,6 @@ public class HttpCustomClient {
 
 		try {
 			response1 = client.execute(httpPut);
-			StatusLine statusLine = response1.getStatusLine();
-
-			int statusCode = statusLine.getStatusCode();
 
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

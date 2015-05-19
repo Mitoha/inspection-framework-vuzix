@@ -3,7 +3,6 @@ package com.teamproject.inspectionframework.List_Adapters;
 import java.util.List;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.teamproject.inspectionframework.R;
-import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.Entities.User;
 
 public class UserListAdapter extends BaseAdapter {

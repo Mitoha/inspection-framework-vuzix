@@ -12,24 +12,42 @@ import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.teamproject.inspectionframework.Application_Layer.HttpCustomClient;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.List_Adapters.TaskListAdapter;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
+import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+import com.vuzix.speech.Constants;
+import com.vuzix.speech.VoiceControl;
 
 public class TaskList extends ListActivity {
 
 	// VAR-declaration
 	private MySQLiteHelper datasource;
 	private TaskListAdapter adapter;
-
+	private VoiceControl vc;
 	private MyApplication myApp;
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		vc.on();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		vc.off();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
 		myApp = (MyApplication) getApplicationContext();
+
+		// START VC ACTIVITY
+		vc = new VuzixVoiceControl(getApplicationContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Adjust Action Bar title
 		ActionBar actionBar = getActionBar();
@@ -61,12 +79,16 @@ public class TaskList extends ListActivity {
 
 		Intent gotToTaskDetailsIntent = new Intent(this, TaskDetails.class);
 		myApp.setTask(clickedTask);
+		if (vc != null)
+			vc.destroy();
 		startActivity(gotToTaskDetailsIntent);
 	};
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			Intent goToAssignmentList = new Intent(this, AssignmentList.class);
+			if (vc != null)
+				vc.destroy();
 			startActivity(goToAssignmentList);
 		}
 
@@ -90,15 +112,11 @@ public class TaskList extends ListActivity {
 		case R.id.action_show_assignment_details:
 
 			Intent goToAssignmentDetailsIntent = new Intent(this, AssignmentDetails.class);
+			if (vc != null)
+				vc.destroy();
 			startActivity(goToAssignmentDetailsIntent);
 
 			break;
-
-//		case R.id.action_show_task_attachment:
-//
-//			Intent goToAssignmentAttachmentIntent = new Intent(this, AssignmentAttachment.class);
-//			startActivity(goToAssignmentAttachmentIntent);
-//			break;
 
 		case R.id.action_finish_assignment:
 
@@ -106,23 +124,21 @@ public class TaskList extends ListActivity {
 
 			if (myApp.getAssignment().getState() != 2) {
 				myApp.getAssignment().setState(2);
-				
+
 				Toast toast = Toast.makeText(this, "Assignment marked as 'finished'!", Toast.LENGTH_SHORT);
 				toast.show();
 				actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + myApp.getAssignment().getAssignmentName() + " [finished]");
-			}
-			else {
+			} else {
 				myApp.getAssignment().setState(0);
 
 				Toast toast = Toast.makeText(this, "Assignment marked as 'not finished'!", Toast.LENGTH_SHORT);
 				toast.show();
 				actionBar.setTitle(getString(R.string.title_activity_task_list) + ": " + myApp.getAssignment().getAssignmentName());
 			}
-			
+
 			datasource = new MySQLiteHelper(getApplicationContext());
 			datasource.updateAssignment(myApp.getAssignment());
 			datasource.close();
-
 
 			break;
 

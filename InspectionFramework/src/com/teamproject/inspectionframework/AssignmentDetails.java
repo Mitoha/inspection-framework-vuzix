@@ -2,23 +2,39 @@ package com.teamproject.inspectionframework;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
+import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+import com.vuzix.speech.Constants;
+import com.vuzix.speech.VoiceControl;
 
 public class AssignmentDetails extends Activity {
 
 	// VAR-Declaration
 	private MySQLiteHelper datasource;
 	private MyApplication myApp;
+	private VoiceControl vc;
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		vc.on();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		vc.off();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +46,16 @@ public class AssignmentDetails extends Activity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle(getString(R.string.title_activity_assignment_details) + ": " + myApp.getAssignment().getAssignmentName());
 
+		// START VC ACTIVITY
+		vc = new VuzixVoiceControl(getApplicationContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
+
 		// Create output
 		datasource = new MySQLiteHelper(getApplicationContext());
 
 		Assignment assignment = myApp.getAssignment();
 		TextView buildElement = new TextView(this);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy",Locale.GERMANY);
 		Date startDate = new Date(assignment.getStartDate());
 		Date dueDate = new Date(assignment.getDueDate());
 
@@ -68,12 +88,13 @@ public class AssignmentDetails extends Activity {
 		return true;
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
+		int menuItem = item.getItemId();
 
 		return super.onOptionsItemSelected(item);
 	}

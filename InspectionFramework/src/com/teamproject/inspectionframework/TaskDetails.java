@@ -20,19 +20,33 @@ import android.widget.Toast;
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterTaskDetails;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import com.teamproject.inspectionframework.vuzixHelpers.AttachmentHandler;
-import com.teamproject.inspectionframework.vuzixHelpers.NoSwipeViewPager;
+import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+import com.vuzix.speech.Constants;
+import com.vuzix.speech.VoiceControl;
 
 public class TaskDetails extends FragmentActivity implements ActionBar.TabListener {
 
 	private MySQLiteHelper datasource;
-	private NoSwipeViewPager viewPager;
+	private ViewPager viewPager;
 	private TabAdapterTaskDetails mAdapter;
 	private ActionBar actionBar;
 	private String[] tabs = { "Details", "Attachments" };
 	private MyApplication myApp;
+	private VoiceControl vc;
 	private AttachmentHandler attHandler;
-	private Button pictureButton;
 	private Button soundRecordingButton;
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		vc.on();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		vc.off();
+	}
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,6 +54,10 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 
 		myApp = (MyApplication) getApplicationContext();
 		attHandler = new AttachmentHandler(getApplicationContext(), this);
+
+		// START VC ACTIVITY
+		vc = new VuzixVoiceControl(getApplicationContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Adjust Action Bar title
 		actionBar = getActionBar();
@@ -58,7 +76,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		actionBar.setTitle(getString(R.string.title_activity_task_details) + ": " + myApp.getTask().getTaskName() + " [" + taskStateWording + "]");
 
 		// Initialization
-		viewPager = (NoSwipeViewPager) findViewById(R.id.task_details_pager);
+		viewPager = (ViewPager) findViewById(R.id.task_details_pager);
 		mAdapter = new TabAdapterTaskDetails(getSupportFragmentManager());
 
 		viewPager.setAdapter(mAdapter);
@@ -82,8 +100,6 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		});
 
 		datasource = new MySQLiteHelper(getApplicationContext());
-		pictureButton = (Button) findViewById(R.id.task_att_takePictureButton);
-
 	}
 
 	// Handles the processing of an intent
@@ -113,6 +129,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
+		@SuppressWarnings("unused")
 		int menuItemId = item.getItemId();
 
 		return super.onOptionsItemSelected(item);
@@ -136,7 +153,6 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 	/**
 	 * Handles the click on the buttons setting the task state
 	 * 
-	 * @author Michael Hartl
 	 * @param view
 	 */
 	public void onClickStateSetter(View view) {
@@ -162,11 +178,13 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 
 		// Go back to task list
 		Intent goToTaskList = new Intent(this, TaskList.class);
+		if (vc != null)
+			vc.destroy();
 		startActivity(goToTaskList);
 	}
 
 	public void onClickTakePicture(View view) {
-		attHandler.takePicture("task");
+		attHandler.takePicture();
 	}
 
 	public void onClickRecordingButton(View view) throws IOException {
@@ -176,8 +194,10 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		Boolean startTrigger = false;
 
 		if (soundRecordingButton.getTag().equals("START")) {
-
-			boolean result = attHandler.startAudioRecording("task");
+			if (vc != null)
+				vc.off();
+			vc.destroy();
+			boolean result = attHandler.startAudioRecording();
 			if (result == true) {
 				// Changes button layout
 				soundRecordingButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_stop, 0, 0, 0);
@@ -196,6 +216,11 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		if (soundRecordingButton.getTag().equals("STOP") && startTrigger == false) {
 			boolean result = attHandler.stopAudioRecording("task");
 
+			// START VC ACTIVITY
+			vc = new VuzixVoiceControl(getApplicationContext());
+			vc.addGrammar(Constants.GRAMMAR_BASIC);
+			vc.on();
+
 			// Changes button layout
 			soundRecordingButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_play, 0, 0, 0);
 			soundRecordingButton.setText("Start Audio Recording");
@@ -203,7 +228,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 
 			// Triggers Chronometer
 			chrono.stop();
-			Toast.makeText(this, "Recording stopped!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Recording stopped & saved!", Toast.LENGTH_SHORT).show();
 
 			if (result == true) {
 

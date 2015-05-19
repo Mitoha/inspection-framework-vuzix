@@ -15,6 +15,9 @@ import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelp
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.List_Adapters.AssignmentAdapter;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
+import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+import com.vuzix.speech.Constants;
+import com.vuzix.speech.VoiceControl;
 
 public class AssignmentList extends ListActivity {
 
@@ -22,14 +25,31 @@ public class AssignmentList extends ListActivity {
 	private MySQLiteHelper datasource;
 	private AssignmentAdapter adapter;
 	private SynchronizationHelper syncHelper;
+	private VoiceControl vc;
 	private MyApplication myApp;
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		vc.on();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		vc.off();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_assignment_list);
 		myApp = (MyApplication) getApplicationContext();
-		
+
+		// START VC ACTIVITY
+		vc = new VuzixVoiceControl(getApplicationContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
+
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle(getString(R.string.title_activity_assignment_list) + " for " + myApp.getUser().getUserName());
 
@@ -61,6 +81,8 @@ public class AssignmentList extends ListActivity {
 
 		Intent goToTaskListIntent = new Intent(this, TaskList.class);
 		myApp.setAssignment(clickedAssignment);
+		if (vc != null)
+			vc.destroy();
 		startActivity(goToTaskListIntent);
 	};
 
@@ -71,6 +93,8 @@ public class AssignmentList extends ListActivity {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			Intent goToMainActivityIntent = new Intent(this, MainActivity.class);
+			if (vc != null)
+				vc.destroy();
 			startActivity(goToMainActivityIntent);
 		}
 
@@ -102,6 +126,8 @@ public class AssignmentList extends ListActivity {
 			datasource = new MySQLiteHelper(getApplicationContext());
 			datasource.deleteUser(myApp.getUser().getUserId());
 			Intent goToUserListIntent = new Intent(this, MainActivity.class);
+			if (vc != null)
+				vc.destroy();
 			startActivity(goToUserListIntent);
 
 		default:

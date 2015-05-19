@@ -36,17 +36,17 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	private String[] tabs = { "Login", "User list" };
 	private MyApplication myApp;
 
-	 @Override
-	 protected void onResume() {
-	 super.onResume();
-	 vc.on();
-	 }
-	
-	 @Override
-	 protected void onPause() {
-	 super.onPause();
-	 vc.off();
-	 }
+	@Override
+	protected void onResume() {
+		super.onResume();
+		vc.on();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		vc.off();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		actionBar.setTitle(getString(R.string.app_name) + ": User Login");
 
 		// START VC ACTIVITY
-		 vc = new VuzixVoiceControl(getApplicationContext());
-		 vc.addGrammar(Constants.GRAMMAR_BASIC);
+		vc = new VuzixVoiceControl(getApplicationContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Initialization
 		viewPager = (ViewPager) findViewById(R.id.loginScreenPager);
@@ -77,25 +77,25 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		}
 
 		// Sets the tab when view is changed by swiping left/right
-//		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-//
-//			@Override
-//			public void onPageSelected(int position) {
-//				// on changing the page
-//				// make respected tab selected
-//				actionBar.setSelectedNavigationItem(position);
-//			}
-//
-//			@Override
-//			public void onPageScrollStateChanged(int arg0) {
-//
-//			}
-//
-//			@Override
-//			public void onPageScrolled(int arg0, float arg1, int arg2) {
-//
-//			}
-//		});
+		viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+			@Override
+			public void onPageSelected(int position) {
+				// on changing the page
+				// make respected tab selected
+				actionBar.setSelectedNavigationItem(position);
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+			}
+		});
 	}
 
 	/**
@@ -104,10 +104,10 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	 * 
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent goToMainActivity = new Intent(this, MainActivity.class);
-			 if (vc != null)
-			 vc.destroy();
+			if (vc != null)
+				vc.destroy();
 			startActivity(goToMainActivity);
 		}
 
@@ -140,8 +140,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					datasource.cleanDatabase();
 					datasource.close();
 					Intent reloadList = new Intent(getApplicationContext(), MainActivity.class);
-					 if (vc != null)
-					 vc.destroy();
+					if (vc != null)
+						vc.destroy();
 					startActivity(reloadList);
 					Toast.makeText(getApplicationContext(), "Database cleaned", Toast.LENGTH_LONG).show();
 
@@ -159,7 +159,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		case R.id.action_create_testcases:
 			User user = new User("user1", "vTest", "tester@vuzix.com", "ROLE_INSPECTOR", "Vuzix", "Tester", "0123", "0123");
 
-			Long date = new Long("1426633200000");
+			Long date = Long.valueOf("1426633200000");
 			Assignment assignment = new Assignment("Vuzix-Test", "assignment1", "Vuzix Test-Assignment", date, date, "user1", "object1", "false");
 
 			Task task = new Task("task1", "Vuzix TestTask", "A task description", "assignment1");
@@ -176,8 +176,8 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			datasource.close();
 
 			Intent reloadList = new Intent(getApplicationContext(), MainActivity.class);
-			 if (vc != null)
-			 vc.destroy();
+			if (vc != null)
+				vc.destroy();
 			startActivity(reloadList);
 			Toast.makeText(getApplicationContext(), "Testcase Created!", Toast.LENGTH_LONG).show();
 

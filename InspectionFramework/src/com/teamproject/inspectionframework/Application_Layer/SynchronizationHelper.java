@@ -48,7 +48,6 @@ public class SynchronizationHelper {
         uploadReady = false;
         downloadReady = false;
 
-
         List<String> noSyncList = new ArrayList<String>();
 
         if (icd.isConnectedToInternet() == true) {

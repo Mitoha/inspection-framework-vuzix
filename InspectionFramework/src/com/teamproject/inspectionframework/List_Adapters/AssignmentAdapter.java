@@ -18,8 +18,9 @@ public class AssignmentAdapter extends BaseAdapter {
 
 	List<Assignment> assignmentList;
 	Context context;
-	
-	//Constructor; provides the needed context and list of assignments given by the calling method
+
+	// Constructor; provides the needed context and list of assignments given by
+	// the calling method
 	public AssignmentAdapter(Context activityContext, List<Assignment> assignments) {
 		super();
 		this.context = activityContext;
@@ -47,7 +48,7 @@ public class AssignmentAdapter extends BaseAdapter {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.list_element_assignment_list, parent, false);
 		}
-		
+
 		TextView Name = (TextView) convertView.findViewById(R.id.assignmentName);
 		TextView DueDate = (TextView) convertView.findViewById(R.id.assignmentDueDate);
 
@@ -60,8 +61,8 @@ public class AssignmentAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-	
-	//Gives the item per position (needed for ClickListener)
+
+	// Gives the item per position (needed for ClickListener)
 	public Assignment getClickedAssignment(int position) {
 		return assignmentList.get(position);
 	}
