@@ -7,6 +7,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.teamproject.inspectionframework.FragmentTaskAttachments;
 import com.teamproject.inspectionframework.FragmentTaskStateSetter;
 
+/**
+ * Creates and handles the list of users in MainActivity.java /
+ * FragmentUserList.java
+ *
+ */
 public class TabAdapterTaskDetails extends FragmentPagerAdapter {
 
 	public TabAdapterTaskDetails(FragmentManager fm) {

@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+/**
+ * Fragment for the task state setter tab
+ *
+ */
 public class FragmentTaskStateSetter extends Fragment {
 
 	private MyApplication myApp;

@@ -1,8 +1,12 @@
 package com.teamproject.inspectionframework.Entities;
 
+/**
+ * Assignment object with attributes and methods for assignments
+ *
+ */
 public class Assignment {
 
-    //Var Declaration
+    //VAR-Declaration
     String assignmentName;
     String id;
     String description;

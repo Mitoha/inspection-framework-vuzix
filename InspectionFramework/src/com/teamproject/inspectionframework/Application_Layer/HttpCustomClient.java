@@ -36,19 +36,27 @@ import org.apache.http.protocol.HttpContext;
 import android.os.StrictMode;
 import android.util.Log;
 
+/**
+ * Provides functions for communication between client and server (REST
+ * Services)
+ *
+ */
 public class HttpCustomClient {
 
-	// Var-declaration
+	// VAR-declaration
 	public HttpClient client = new DefaultHttpClient();
 	public CookieStore store = ((DefaultHttpClient) client).getCookieStore();
 
-	// Constructor
 	public HttpCustomClient() {
 	}
 
-	// Read and Access the server
-	// Receives the URI, from where should be read
-	// Returns the string read from the server
+	/**
+	 * Reads a specific source on the server
+	 * 
+	 * @param uri
+	 *            URI for the type of resource that should be read
+	 * @return String read from the server
+	 */
 	public String readHerokuServer(String uri) {
 
 		// Allow internet access
@@ -91,10 +99,17 @@ public class HttpCustomClient {
 
 	}
 
-	// Postmethod
-	// Receives the uri, where the String should be posted to and the String
-	// Should be used than a new object is send to the server, that is not
-	// already stored in the server database
+	/**
+	 * Posts a new objects to the server (not stored on the server DB so far)
+	 * 
+	 * @param uri
+	 *            Location on the server where the string should be posted
+	 * @param username
+	 *            Username
+	 * @param password
+	 *            Password
+	 * @return The status (true = successful / false = not successful)
+	 */
 	public boolean postToHerokuServer(String uri, String username, String password) {
 		// Var declaration
 		boolean status = false;
@@ -150,7 +165,16 @@ public class HttpCustomClient {
 		return status;
 	}
 
-	// Post an attachment as a byte[] to the server
+	/**
+	 * Posts an attachment as a byte array to the server
+	 * 
+	 * @param assignmentId
+	 *            ID of the corresponding assignment
+	 * @param taskId
+	 *            ID of the corresponding task
+	 * @param imageByte
+	 *            Byte array of the image that is sent to the server
+	 */
 	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] imageByte) {
 		// declaration
 		StringBuilder stringBuilder = new StringBuilder();
@@ -207,19 +231,25 @@ public class HttpCustomClient {
 		}
 	}
 
-	// Putmethod
-	// Receives the URI where the object should be put at and the String
-	// Should be used than an existing object of the server database should be
-	// updated
+	/**
+	 * Update an already existing object on the server's database
+	 * 
+	 * @param uri
+	 *            Location where the objects should be put
+	 * @param jsonObject
+	 *            The object that is sent to the server
+	 * @param Id
+	 *            The object's ID
+	 * @return The response code from the server
+	 */
 	public Integer putToHerokuServer(String uri, String jsonObject, String Id) {
 		HttpResponse response1 = null;
-		
+
 		// Allow internet connection
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 
 		// set URL for Put-request
-		System.out.println("ID:" + Id);
 		HttpPut httpPut = new HttpPut("http://inspection-framework.herokuapp.com/" + uri + "/" + Id);
 
 		StringEntity se = null;

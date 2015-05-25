@@ -19,6 +19,10 @@ import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.Constants;
 import com.vuzix.speech.VoiceControl;
 
+/**
+ * Creates the screen displaying the task list per assignment
+ *
+ */
 public class TaskList extends ListActivity {
 
 	// VAR-declaration
@@ -61,6 +65,9 @@ public class TaskList extends ListActivity {
 		this.createOutputList();
 	}
 
+	/**
+	 * Creates the list of tasks
+	 */
 	public void createOutputList() {
 		datasource = new MySQLiteHelper(getApplicationContext());
 		List<Task> listWithAllTasksByAssignment = datasource.getTasksByAssignmentId(myApp.getAssignment().getId());

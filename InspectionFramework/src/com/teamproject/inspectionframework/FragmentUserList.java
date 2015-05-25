@@ -14,6 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+/**
+ * Fragment for the user list tab
+ *
+ */
 public class FragmentUserList extends ListFragment {
 
 	// VAR-declaration
@@ -32,6 +36,9 @@ public class FragmentUserList extends ListFragment {
 		return rootView;
 	}
 
+	/**
+	 * Creates the user list
+	 */
 	public void createOutputList() {
 		datasource = new MySQLiteHelper(getActivity());
 		List<User> listWithAllStoredUsers = datasource.getAllUser();

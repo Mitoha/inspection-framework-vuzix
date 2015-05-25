@@ -17,16 +17,16 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelper;
-import com.teamproject.inspectionframework.Entities.Assignment;
-import com.teamproject.inspectionframework.Entities.InspectionObject;
-import com.teamproject.inspectionframework.Entities.Task;
-import com.teamproject.inspectionframework.Entities.User;
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterLoginScreen;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.Constants;
 import com.vuzix.speech.VoiceControl;
 
+/**
+ * Creates the screen displaying the user login and user list
+ *
+ */
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 
 	private ViewPager viewPager;
@@ -154,34 +154,6 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 			});
 			alert.show();
 			break;
-
-		// TODO: Delete this method after testing
-		case R.id.action_create_testcases:
-			User user = new User("user1", "vTest", "tester@vuzix.com", "ROLE_INSPECTOR", "Vuzix", "Tester", "0123", "0123");
-
-			Long date = Long.valueOf("1426633200000");
-			Assignment assignment = new Assignment("Vuzix-Test", "assignment1", "Vuzix Test-Assignment", date, date, "user1", "object1", "false");
-
-			Task task = new Task("task1", "Vuzix TestTask", "A task description", "assignment1");
-			Task task2 = new Task("task2", "Vuzix TestTask No2", "A task description 2", "assignment1");
-
-			InspectionObject inspectionObject = new InspectionObject("object1", "Vuzix Test Object", "A test object", "Mannheim", "IF Team");
-
-			MySQLiteHelper datasource = new MySQLiteHelper(getApplicationContext());
-			datasource.createUser(user);
-			datasource.createAssignment(assignment);
-			datasource.createTask(task);
-			datasource.createTask(task2);
-			datasource.createInspectionObject(inspectionObject);
-			datasource.close();
-
-			Intent reloadList = new Intent(getApplicationContext(), MainActivity.class);
-			if (vc != null)
-				vc.destroy();
-			startActivity(reloadList);
-			Toast.makeText(getApplicationContext(), "Testcase Created!", Toast.LENGTH_LONG).show();
-
-			break;
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -203,6 +175,11 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		// Not needed
 	}
 
+	/**
+	 * Handles clicks on the login button
+	 * 
+	 * @param v
+	 */
 	public void onClickLoginButton(View v) {
 		EditText editTextUserName = (EditText) findViewById(R.id.editTextUserName);
 		EditText editPassword = (EditText) findViewById(R.id.editTextUserPassword);

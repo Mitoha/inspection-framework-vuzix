@@ -6,6 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Fragment for the task attachment tab
+ *
+ */
 public class FragmentTaskAttachments extends Fragment {
 
 	@Override

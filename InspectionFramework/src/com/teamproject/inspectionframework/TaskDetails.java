@@ -24,6 +24,11 @@ import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.Constants;
 import com.vuzix.speech.VoiceControl;
 
+/**
+ * Creates the screen displaying the details of a task (state setter and
+ * attachment adding screens)
+ *
+ */
 public class TaskDetails extends FragmentActivity implements ActionBar.TabListener {
 
 	private MySQLiteHelper datasource;
@@ -102,7 +107,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		datasource = new MySQLiteHelper(getApplicationContext());
 	}
 
-	// Handles the processing of an intent
+	// Handles the processing of an intent to take a picture
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		boolean result = false;
 
@@ -187,6 +192,12 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		attHandler.takePicture();
 	}
 
+	/**
+	 * Handles clicks on the voice recording button
+	 * 
+	 * @param view
+	 * @throws IOException
+	 */
 	public void onClickRecordingButton(View view) throws IOException {
 
 		soundRecordingButton = (Button) findViewById(R.id.task_att_audioRecordingButton);
@@ -214,7 +225,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		}
 
 		if (soundRecordingButton.getTag().equals("STOP") && startTrigger == false) {
-			boolean result = attHandler.stopAudioRecording("task");
+			boolean result = attHandler.stopAudioRecording();
 
 			// START VC ACTIVITY
 			vc = new VuzixVoiceControl(getApplicationContext());

@@ -3,6 +3,7 @@ package com.teamproject.inspectionframework.List_Adapters;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,14 +15,18 @@ import android.widget.TextView;
 import com.teamproject.inspectionframework.R;
 import com.teamproject.inspectionframework.Entities.Assignment;
 
-public class AssignmentAdapter extends BaseAdapter {
+/**
+ * Creates and handles the list of assignments in AssignmentList.java
+ *
+ */
+public class AssignmentListAdapter extends BaseAdapter {
 
 	List<Assignment> assignmentList;
 	Context context;
 
 	// Constructor; provides the needed context and list of assignments given by
 	// the calling method
-	public AssignmentAdapter(Context activityContext, List<Assignment> assignments) {
+	public AssignmentListAdapter(Context activityContext, List<Assignment> assignments) {
 		super();
 		this.context = activityContext;
 		this.assignmentList = assignments;
@@ -54,7 +59,7 @@ public class AssignmentAdapter extends BaseAdapter {
 
 		Assignment assignment = assignmentList.get(position);
 		Date dueDate = new Date(assignment.getDueDate());
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
 
 		Name.setText(assignment.getAssignmentName());
 		DueDate.setText(dateFormat.format(dueDate));

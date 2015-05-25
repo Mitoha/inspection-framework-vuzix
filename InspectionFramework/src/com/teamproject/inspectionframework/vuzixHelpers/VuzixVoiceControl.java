@@ -7,6 +7,10 @@ import android.view.KeyEvent;
 
 import com.vuzix.speech.VoiceControl;
 
+/**
+ * Provides voice controlling functions
+ *
+ */
 public class VuzixVoiceControl extends VoiceControl {
 
 	private String cmd;
@@ -20,6 +24,9 @@ public class VuzixVoiceControl extends VoiceControl {
 		super(ctx, grammars);
 	}
 
+	/**
+	 * Listens for voice commands
+	 */
 	@Override
 	protected void onRecognition(String voiceCommand) {
 		Log.i("IF", voiceCommand);

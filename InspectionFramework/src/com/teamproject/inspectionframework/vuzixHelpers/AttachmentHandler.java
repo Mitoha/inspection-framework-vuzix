@@ -28,6 +28,11 @@ import com.teamproject.inspectionframework.Entities.Attachment;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 
+/**
+ * Handles all attachment-related functions for taking photos and making audio
+ * recordings
+ *
+ */
 public class AttachmentHandler {
 
 	private MySQLiteHelper datasource;
@@ -49,6 +54,9 @@ public class AttachmentHandler {
 		task = myApp.getTask();
 	}
 
+	/**
+	 * Handles the intent to take a picture
+	 */
 	public void takePicture() {
 
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -69,6 +77,18 @@ public class AttachmentHandler {
 		}
 	}
 
+	/**
+	 * Handles the processing of a picture after taking picture intent
+	 * 
+	 * @param requestCode
+	 *            Request code of the invoking method
+	 * @param resultCode
+	 *            Result code of the camera application
+	 * @param data
+	 *            Data returned by the photo application
+	 * @return The result of the processing
+	 * @throws IOException
+	 */
 	public boolean takePictureResult(int requestCode, int resultCode, Intent data) throws IOException {
 		boolean result = false;
 
@@ -96,6 +116,12 @@ public class AttachmentHandler {
 		return result;
 	}
 
+	/**
+	 * Creates an image file on the local storage directory
+	 * 
+	 * @return The created file
+	 * @throws IOException
+	 */
 	private File createImageFile() throws IOException {
 		// Create an image file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.GERMANY).format(new Date());
@@ -112,6 +138,14 @@ public class AttachmentHandler {
 	}
 
 	// Audio recording methods
+	// ++++++++++++++++++++++++++++++++++++
+
+	/**
+	 * Starts the audio recording process
+	 * 
+	 * @return The result of the process
+	 * @throws IOException
+	 */
 	public boolean startAudioRecording() throws IOException {
 		boolean result = false;
 		audiofile = createAudioFile();
@@ -131,7 +165,13 @@ public class AttachmentHandler {
 
 	}
 
-	public boolean stopAudioRecording(String target) throws IOException {
+	/**
+	 * Stops the audio recording process
+	 * 
+	 * @return The result of the stopping process
+	 * @throws IOException
+	 */
+	public boolean stopAudioRecording() throws IOException {
 		boolean result = false;
 		FileInputStream fis = null;
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -176,6 +216,12 @@ public class AttachmentHandler {
 		return result;
 	}
 
+	/**
+	 * Creates an audio file on the local storage directory
+	 * 
+	 * @return The created file
+	 * @throws IOException
+	 */
 	private File createAudioFile() throws IOException {
 		File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
 		File audiofile = null;
@@ -194,6 +240,9 @@ public class AttachmentHandler {
 		return audiofile;
 	}
 
+	/**
+	 * Adds the recorded audio file to the media library
+	 */
 	private void addRecordingToMediaLibrary() {
 		ContentValues values = new ContentValues(0);
 		long current = System.currentTimeMillis();

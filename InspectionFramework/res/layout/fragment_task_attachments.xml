@@ -14,7 +14,7 @@
         android:drawableLeft="@drawable/ic_action_camera"
         android:nextFocusRight="@+id/task_att_audioRecordingButton"
         android:onClick="onClickTakePicture"
-        android:text="Take a Photo"
+        android:text="@string/take_a_photo"
         android:textSize="24sp" >
 
         <requestFocus />
@@ -29,7 +29,7 @@
         android:drawableLeft="@android:drawable/ic_media_play"
         android:nextFocusRight="@+id/task_att_takePictureButton"
         android:onClick="onClickRecordingButton"
-        android:text="Start Audio Recording"
+        android:text="@string/start_audio_recording"
         android:tag="START"
         android:textSize="24sp" />
 
@@ -37,7 +37,7 @@
         android:id="@+id/task_att_chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chronometer"
+        android:text="@string/chronometer"
         android:textColor="@android:color/holo_red_light"
         android:visibility="invisible"
         android:textSize="30sp"

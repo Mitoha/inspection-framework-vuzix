@@ -1,76 +1,80 @@
 package com.teamproject.inspectionframework.Entities;
 
+/**
+ * Task object with attributes and methods for tasks
+ *
+ */
 public class Task {
 
-    //Var Declaration
-    String id;
-    String taskName;
-    String description;
-    Integer state;
-    String assignmentId;
-    String errorDescription;
+	// VAR-Declaration
+	String id;
+	String taskName;
+	String description;
+	Integer state;
+	String assignmentId;
+	String errorDescription;
 
-    //Constructor
-    public Task(){
-    }
+	// Constructor
+	public Task() {
+	}
 
-    public Task(String id, String name, String description, String assignmentId) {
-    	this.id=id;
-    	this.taskName=name;
-    	this.description=description;
-    	this.state=0;
-    	this.assignmentId=assignmentId;
-    }
+	public Task(String id, String name, String description, String assignmentId) {
+		this.id = id;
+		this.taskName = name;
+		this.description = description;
+		this.state = 0;
+		this.assignmentId = assignmentId;
+	}
 
-    //Setter
+	// Setter
 
-    public void setErrorDescription(String errorDescription) {
-        this.errorDescription = errorDescription;
-    }
+	public void setErrorDescription(String errorDescription) {
+		this.errorDescription = errorDescription;
+	}
 
-    public void setAssignmentId(String assignmentId) {
-        this.assignmentId = assignmentId;
-    }
+	public void setAssignmentId(String assignmentId) {
+		this.assignmentId = assignmentId;
+	}
 
-    public void setId(String id1){
-        id=id1;
-    }
+	public void setId(String id1) {
+		id = id1;
+	}
 
-    public void setTaskName(String taskName1){
-        taskName=taskName1;
-    }
+	public void setTaskName(String taskName1) {
+		taskName = taskName1;
+	}
 
-    public void setDescription(String description1){
-        description=description1;
-    }
+	public void setDescription(String description1) {
+		description = description1;
+	}
 
-    public void setState(Integer state1){
-        state=state1;
-    }
+	public void setState(Integer state1) {
+		state = state1;
+	}
 
-    //Getter
+	// Getter
 
-    public String getErrorDescription() {
-        return errorDescription;
-    }
+	public String getErrorDescription() {
+		return errorDescription;
+	}
 
-    public String getAssignmentId() {
-        return assignmentId;
-    }
+	public String getAssignmentId() {
+		return assignmentId;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getTaskName() {
-        return taskName;
-    }
+	public String getTaskName() {
+		return taskName;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public Integer getState() {
-        return state;
-    }
+	public Integer getState() {
+		return state;
+	}
 }

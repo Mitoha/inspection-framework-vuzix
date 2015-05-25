@@ -7,6 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+/**
+ * Creates and handles the list of tasks in TaskList.java
+ *
+ */
 public class TabAdapterLoginScreen extends FragmentPagerAdapter {
 
 	public TabAdapterLoginScreen(FragmentManager fm) {

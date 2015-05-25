@@ -16,6 +16,10 @@ import com.teamproject.inspectionframework.Entities.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class that creates the database and handles all database-related functions
+ *
+ */
 public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	// Table names
@@ -117,7 +121,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		onCreate(db);
 	}
 
-	// create a row User
+	/**
+	 * Create a new user
+	 * 
+	 * @param user
+	 *            User object to be created
+	 */
 	public void createUser(User user) {
 		SQLiteDatabase database = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
@@ -131,11 +140,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.U_COLUMN_MOBILENUMBER, user.getMobileNumber());
 		values.put(MySQLiteHelper.U_COLUMN_PHONENUMBER, user.getPhoneNumber());
 
-		long insertId = database.insert(MySQLiteHelper.TABLE_USERS, null, values);
+		database.insert(MySQLiteHelper.TABLE_USERS, null, values);
 		database.close();
 	}
 
-	// create a row Assignment
+	/**
+	 * Create a new assignment
+	 * 
+	 * @param assignment
+	 *            Assignment object to be created
+	 */
 	public void createAssignment(Assignment assignment) {
 		SQLiteDatabase database = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
@@ -152,12 +166,17 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.A_COLUMN_VERSION, assignment.getVersion());
 
 		// insert row
-		long insertId = database.insert(MySQLiteHelper.TABLE_ASSIGNMENTS, null, values);
+		database.insert(MySQLiteHelper.TABLE_ASSIGNMENTS, null, values);
 		database.close();
 
 	}
 
-	// Create a row Task
+	/**
+	 * Create a new task
+	 * 
+	 * @param task
+	 *            Task object to be created
+	 */
 	public void createTask(Task task) {
 
 		SQLiteDatabase database = this.getWritableDatabase();
@@ -170,11 +189,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.T_COLUMN_PK, task.getAssignmentId());
 		values.put(MySQLiteHelper.T_COLUMN_ERROR_DESCRIPTION, task.getErrorDescription());
 
-		long insertId = database.insert(MySQLiteHelper.TABLE_TASKS, null, values);
+		database.insert(MySQLiteHelper.TABLE_TASKS, null, values);
 		database.close();
 	}
 
-	// Create a row InspectionObject
+	/**
+	 * Create a new inspection object
+	 * 
+	 * @param inspectionObject
+	 *            Inspection object to be created
+	 */
 	public void createInspectionObject(InspectionObject inspectionObject) {
 		SQLiteDatabase database = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
@@ -185,11 +209,16 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.I_COLUMN_LOCATION, inspectionObject.getLocation());
 		values.put(MySQLiteHelper.I_COLUMN_CUSTOMERNAME, inspectionObject.getCustomerName());
 
-		long insertId = database.insert(MySQLiteHelper.TABLE_INSPECTIONOBJECTS, null, values);
+		database.insert(MySQLiteHelper.TABLE_INSPECTIONOBJECTS, null, values);
 		database.close();
 	}
 
-	// Create a row attachment
+	/**
+	 * Create a new attachment
+	 * 
+	 * @param attachment
+	 *            Attachment object to be created
+	 */
 	public void createAttachment(Attachment attachment) {
 
 		SQLiteDatabase database = this.getWritableDatabase();
@@ -201,14 +230,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.AT_COLUMN_FK_TASK_ID, attachment.getTaskId());
 		values.put(MySQLiteHelper.AT_COLUMN_FK_ASSIGNMENT_ID, attachment.getAssignmentId());
 
-		long insertId = database.insert(MySQLiteHelper.TABLE_ATTACHMENTS, null, values);
+		database.insert(MySQLiteHelper.TABLE_ATTACHMENTS, null, values);
 		database.close();
 	}
 
-	// RUD-Methods for Assignments are coded below
+	// Methods for assignments
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	// get all assignments from the database
-	// returns a list with all assignments
+	/**
+	 * Get all assignments from the database
+	 * 
+	 * @return List with all assignments
+	 */
 	public List<Assignment> getAllAssignments() {
 		List<Assignment> listAssignments = new ArrayList<Assignment>();
 		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS;
@@ -238,7 +271,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return listAssignments;
 	}
 
-	// Get assignment with given assignment ID
+	/**
+	 * Get assignment with given assignment ID
+	 * 
+	 * @param assignmentId
+	 *            ID of the assignment that should be returned
+	 * @return Assignment object with given ID
+	 */
 	public Assignment getAssignmentById(String assignmentId) {
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS + " WHERE " + A_COLUMN_ASSIGNMENT_ID + " = " + "'" + assignmentId + "'";
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -261,7 +300,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return assignment;
 	}
 
-	// Get all assignments for a given user ID
+	/**
+	 * Get all assignments for a given user ID
+	 * 
+	 * @param ID
+	 *            ID of the user for whom the assignments should be returned
+	 * @return List with all assignments per given user ID
+	 */
 	public List<Assignment> getAssignmentsByUserId(String ID) {
 		List<Assignment> listAssignments = new ArrayList<Assignment>();
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ASSIGNMENTS + " WHERE " + A_COLUMN_USER_ID + " = " + "'" + ID + "' ORDER BY " + A_COLUMN_ASSIGNMENTNAME;
@@ -291,8 +336,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return listAssignments;
 	}
 
-	// Update an assignment
-	public int updateAssignment(Assignment assignment) {
+	/**
+	 * Update an assignment
+	 * 
+	 * @param assignment
+	 *            The new assignment version
+	 */
+	public void updateAssignment(Assignment assignment) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -308,19 +358,32 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(A_COLUMN_VERSION, assignment.getVersion());
 
 		// updating row
-		return db.update(TABLE_ASSIGNMENTS, values, A_COLUMN_ASSIGNMENT_ID + " = ?", new String[] { String.valueOf(assignment.getId()) });
+		db.update(TABLE_ASSIGNMENTS, values, A_COLUMN_ASSIGNMENT_ID + " = ?", new String[] { String.valueOf(assignment.getId()) });
+		db.close();
 	}
 
-	// Delete an assignment
+	/**
+	 * Detele an assignment
+	 * 
+	 * @param assignmentId
+	 *            ID of the assignment that should be deleted
+	 */
 	public void deleteAssignment(String assignmentId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_ASSIGNMENTS, A_COLUMN_ASSIGNMENT_ID + " = ?", new String[] { String.valueOf(assignmentId) });
 		db.close();
 	}
 
-	// RUD-Methods for inspectionObjects
+	// Methods for inspection objects
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	// Read inspectionObject with given object ID
+	/**
+	 * Get inspection object for a insp object ID
+	 * 
+	 * @param inspectionObjectId
+	 *            ID of the inspection object that should be returned
+	 * @return The inspection object for the given ID
+	 */
 	public InspectionObject getInspectionObjectById(String inspectionObjectId) {
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_INSPECTIONOBJECTS + " WHERE " + I_COLUMN_OBJECT_ID + " = " + "'" + inspectionObjectId + "'";
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -333,13 +396,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		inspectionObject.setDescription(c.getString(c.getColumnIndex(I_COLUMN_DESCRIPTION)));
 		inspectionObject.setCustomerName(c.getString(c.getColumnIndex(I_COLUMN_CUSTOMERNAME)));
 		inspectionObject.setLocation(c.getString(c.getColumnIndex(I_COLUMN_LOCATION)));
-		
+
 		db.close();
 		return inspectionObject;
 	}
 
-	// Update an inspectionObject
-	public int updateInspectionObject(InspectionObject inspectionObject) {
+	/**
+	 * Update an inspection object
+	 * 
+	 * @param inspectionObject
+	 *            The new version of the inspection object
+	 */
+	public void updateInspectionObject(InspectionObject inspectionObject) {
 		SQLiteDatabase database = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -349,20 +417,30 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.I_COLUMN_LOCATION, inspectionObject.getLocation());
 		values.put(MySQLiteHelper.I_COLUMN_CUSTOMERNAME, inspectionObject.getCustomerName());
 
-		return database.update(TABLE_INSPECTIONOBJECTS, values, I_COLUMN_OBJECT_ID + " = ?", new String[] { String.valueOf(inspectionObject.getId()) });
+		database.update(TABLE_INSPECTIONOBJECTS, values, I_COLUMN_OBJECT_ID + " = ?", new String[] { String.valueOf(inspectionObject.getId()) });
+		database.close();
 	}
 
-	// Delete an inspectionObject
+	/**
+	 * Delete an inspection object
+	 * 
+	 * @param objectId
+	 *            ID of the inspection object that should be deleted
+	 */
 	public void deleteInspectionObject(String objectId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_INSPECTIONOBJECTS, I_COLUMN_OBJECT_ID + " = ?", new String[] { String.valueOf(objectId) });
 		db.close();
 	}
 
-	// RUD-Methods for User
+	// Methods for users
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	// Read all users from the local database
-	// returns a list with all users
+	/**
+	 * Read all users from the local database
+	 * 
+	 * @return List with all users
+	 */
 	public List<User> getAllUser() {
 		List<User> listUser = new ArrayList<User>();
 		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_USERS + " ORDER BY " + U_COLUMN_USERNAME;
@@ -389,8 +467,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return listUser;
 	}
 
-	// Read a user with a specific ID from the local database
-	// Return a user
+	/**
+	 * Read a user with a specific ID from the local database
+	 * 
+	 * @param userId
+	 *            ID of the user that should be returned
+	 * @return User object
+	 */
 	public User getUserByUserId(String userId) {
 		User user = new User();
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_USERS + " WHERE " + U_COLUMN_USER_ID + " = " + "'" + userId + "'";
@@ -410,8 +493,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return user;
 	}
 
-	// Update a user
-	public int updateUser(User user) {
+	/**
+	 * Update a user
+	 * 
+	 * @param user
+	 *            The new version of the user
+	 */
+	public void updateUser(User user) {
 		SQLiteDatabase database = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -424,19 +512,30 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.U_COLUMN_MOBILENUMBER, user.getMobileNumber());
 		values.put(MySQLiteHelper.U_COLUMN_PHONENUMBER, user.getPhoneNumber());
 
-		return database.update(TABLE_USERS, values, U_COLUMN_USER_ID + " = ?", new String[] { String.valueOf(user.getUserId()) });
+		database.update(TABLE_USERS, values, U_COLUMN_USER_ID + " = ?", new String[] { String.valueOf(user.getUserId()) });
+		database.close();
 	}
 
-	// Delete a user
+	/**
+	 * Delete a user
+	 * 
+	 * @param userId
+	 *            ID of the user that should be deleted
+	 */
 	public void deleteUser(String userId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_USERS, U_COLUMN_USER_ID + " = ?", new String[] { String.valueOf(userId) });
 		db.close();
 	}
 
-	// RUD-Methods for tasks
+	// Methods for tasks
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-	// Get all tasks stored in the local database
+	/**
+	 * Get all tasks that are stored in the local database
+	 * 
+	 * @return List with all tasks
+	 */
 	public List<Task> getAllTasks() {
 		List<Task> tasks = new ArrayList<Task>();
 		String selectQuery = "SELECT  * FROM " + MySQLiteHelper.TABLE_TASKS;
@@ -461,7 +560,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return tasks;
 	}
 
-	// Get all tasks assigned to an assignment using the assignment ID
+	/**
+	 * Get all tasks assigned to an assignment using the assignment ID
+	 * 
+	 * @param assignmentId
+	 *            ID of the assignment
+	 * @return List of tasks
+	 */
 	public List<Task> getTasksByAssignmentId(String assignmentId) {
 		List<Task> taskList = new ArrayList<Task>();
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_TASKS + " WHERE " + T_COLUMN_PK + " = " + "'" + assignmentId + "'";
@@ -488,7 +593,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return taskList;
 	}
 
-	// Get a Task by its TaskId
+	/**
+	 * Get a task by its task ID
+	 * 
+	 * @param taskId
+	 *            ID of the task
+	 * @return Task object
+	 */
 	public Task getTaskById(String taskId) {
 		Task task = new Task();
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_TASKS + " WHERE " + T_COLUMN_TASK_ID + " = " + "'" + taskId + "'";
@@ -505,13 +616,18 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 			task.setAssignmentId(c.getString(c.getColumnIndex(T_COLUMN_PK)));
 			task.setErrorDescription(c.getString(c.getColumnIndex(T_COLUMN_ERROR_DESCRIPTION)));
 		}
-		
+
 		db.close();
 		return task;
 	}
 
-	// Update a task
-	public int updateTask(Task task) {
+	/**
+	 * Update a task
+	 * 
+	 * @param task
+	 *            The new version of the task
+	 */
+	public void updateTask(Task task) {
 		SQLiteDatabase database = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -522,18 +638,32 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.T_COLUMN_PK, task.getAssignmentId());
 		values.put(MySQLiteHelper.T_COLUMN_ERROR_DESCRIPTION, task.getErrorDescription());
 
-		return database.update(TABLE_TASKS, values, T_COLUMN_TASK_ID + " = ?", new String[] { String.valueOf(task.getId()) });
+		database.update(TABLE_TASKS, values, T_COLUMN_TASK_ID + " = ?", new String[] { String.valueOf(task.getId()) });
+		database.close();
 	}
 
-	// Delete a task
+	/**
+	 * Delete a task
+	 * 
+	 * @param taskId
+	 *            ID of the task to be deleted
+	 */
 	public void deleteTask(String taskId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_TASKS, T_COLUMN_TASK_ID + " = ?", new String[] { String.valueOf(taskId) });
 		db.close();
 	}
 
-	// RUD-Methods for Attachment
-	// Read an attachment by a given task ID
+	// Methods for attachments
+	// ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+	/**
+	 * Read an attachment by a given task ID
+	 * 
+	 * @param taskId
+	 *            ID of the task
+	 * @return The attachment object attached to the task
+	 */
 	public Attachment getAttachmentsByTaskId(String taskId) {
 
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ATTACHMENTS + " WHERE " + AT_COLUMN_FK_TASK_ID + " = " + "'" + taskId + "'";
@@ -552,8 +682,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return attachment;
 	}
 
-	// Read an attachment photo by a given task ID
-	// Returns a byteArray[]
+	/**
+	 * Read an attachment photo by given task ID
+	 * 
+	 * @param taskId
+	 *            ID of the task
+	 * @return The byte array of the attached photo
+	 */
 	public byte[] getAttachmentPhotoByTaskId(String taskId) {
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ATTACHMENTS + " WHERE " + AT_COLUMN_FK_TASK_ID + " = " + "'" + taskId + "'";
 
@@ -567,8 +702,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 	}
 
-	// Read all attachments by a given assignment ID
-	// Returns a list with all attachments assigned to the assignment
+	/**
+	 * Read all attachments by a given assignment ID
+	 * 
+	 * @param assignmentId
+	 *            ID of the assignment
+	 * @return List of attachments
+	 */
 	public List<Attachment> getAttachmentsByAssignmentId(String assignmentId) {
 		List<Attachment> attachmentList = new ArrayList<Attachment>();
 		String selectQuery = "SELECT * FROM " + MySQLiteHelper.TABLE_ATTACHMENTS + " WHERE " + AT_COLUMN_FK_ASSIGNMENT_ID + " = " + "'" + assignmentId + "'";
@@ -594,8 +734,13 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return attachmentList;
 	}
 
-	// Update an attachment
-	public int updateAttachment(Attachment attachment) {
+	/**
+	 * Update an attachment
+	 * 
+	 * @param attachment
+	 *            The new version of the attachment
+	 */
+	public void updateAttachment(Attachment attachment) {
 		SQLiteDatabase database = this.getWritableDatabase();
 
 		ContentValues values = new ContentValues();
@@ -605,29 +750,39 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		values.put(MySQLiteHelper.AT_COLUMN_FK_TASK_ID, attachment.getTaskId());
 		values.put(MySQLiteHelper.AT_COLUMN_FK_ASSIGNMENT_ID, attachment.getAssignmentId());
 
-		return database.update(TABLE_ATTACHMENTS, values, AT_COLUMN_ATTACHMENT_ID + " = ?", new String[] { String.valueOf(attachment.getId()) });
+		database.update(TABLE_ATTACHMENTS, values, AT_COLUMN_ATTACHMENT_ID + " = ?", new String[] { String.valueOf(attachment.getId()) });
+		database.close();
 	}
 
-	// Delete an attachment
+	/**
+	 * Delete an attachment
+	 * 
+	 * @param attachmentId
+	 *            ID of the attachment to be deleted
+	 */
 	public void deleteAttachment(String attachmentId) {
 		SQLiteDatabase db = this.getWritableDatabase();
 		db.delete(TABLE_ATTACHMENTS, AT_COLUMN_ATTACHMENT_ID + " = ?", new String[] { String.valueOf(attachmentId) });
 		db.close();
 	}
-	
-	// Clean the database (delete everything inside)
-		public void cleanDatabase() {
-			SQLiteDatabase db = this.getWritableDatabase();
-			db.delete(TABLE_USERS, null, null);
-			db.delete(TABLE_ASSIGNMENTS, null, null);
-			db.delete(TABLE_ATTACHMENTS, null, null);
-			db.delete(TABLE_INSPECTIONOBJECTS, null, null);
-			db.delete(TABLE_TASKS, null, null);
-			
-			db.close();
-		}
 
-	// closing database
+	/**
+	 * Clean the database (delete everything in the local database)
+	 */
+	public void cleanDatabase() {
+		SQLiteDatabase db = this.getWritableDatabase();
+		db.delete(TABLE_USERS, null, null);
+		db.delete(TABLE_ASSIGNMENTS, null, null);
+		db.delete(TABLE_ATTACHMENTS, null, null);
+		db.delete(TABLE_INSPECTIONOBJECTS, null, null);
+		db.delete(TABLE_TASKS, null, null);
+
+		db.close();
+	}
+
+	/**
+	 * Close the database connection after usage
+	 */
 	public void closeDB() {
 		SQLiteDatabase database = this.getReadableDatabase();
 		if (database != null && database.isOpen())

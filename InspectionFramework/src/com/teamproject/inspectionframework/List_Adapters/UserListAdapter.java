@@ -12,6 +12,10 @@ import android.widget.TextView;
 import com.teamproject.inspectionframework.R;
 import com.teamproject.inspectionframework.Entities.User;
 
+/**
+ * Creates and handles the action bar tabs in TaskDetails.java
+ *
+ */
 public class UserListAdapter extends BaseAdapter {
 
 	List<User> userList;

@@ -1,66 +1,71 @@
 package com.teamproject.inspectionframework.Entities;
 
+/**
+ * InspectionObject object with attributes and methods for inspection objects
+ *
+ */
 public class InspectionObject {
 
-    String id;
-    String objectName;
-    String description;
-    String location;
-    String customerName;
+	// VAR-Declaration
+	String id;
+	String objectName;
+	String description;
+	String location;
+	String customerName;
 
-    //Constructor
-    public InspectionObject() {
-    }
+	// Constructor
+	public InspectionObject() {
+	}
 
-    public InspectionObject(String id, String name, String description, String location, String customerName) {
-    	this.id=id;
-    	this.objectName=name;
-    	this.description=description;
-    	this.location=location;
-    	this.customerName=customerName;
-    }
-    
-    //Setter
+	public InspectionObject(String id, String name, String description, String location, String customerName) {
+		this.id = id;
+		this.objectName = name;
+		this.description = description;
+		this.location = location;
+		this.customerName = customerName;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	// Setter
 
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setObjectName(String objectName) {
+		this.objectName = objectName;
+	}
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
+	public void setLocation(String location) {
+		this.location = location;
+	}
 
-    //Getter
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
 
-    public String getId() {
-        return id;
-    }
+	// Getter
 
-    public String getObjectName() {
-        return objectName;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getObjectName() {
+		return objectName;
+	}
 
-    public String getLocation() {
-        return location;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public String getCustomerName() {
-        return customerName;
-    }
+	public String getLocation() {
+		return location;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
 }

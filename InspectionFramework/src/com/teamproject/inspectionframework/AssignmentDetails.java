@@ -1,6 +1,7 @@
 package com.teamproject.inspectionframework;
 
 import java.sql.Date;
+
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -17,6 +18,11 @@ import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.Constants;
 import com.vuzix.speech.VoiceControl;
 
+/**
+ * Creates the screen displaying the details of an assignment
+ * 
+ *
+ */
 public class AssignmentDetails extends Activity {
 
 	// VAR-Declaration
@@ -55,7 +61,7 @@ public class AssignmentDetails extends Activity {
 
 		Assignment assignment = myApp.getAssignment();
 		TextView buildElement = new TextView(this);
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy",Locale.GERMANY);
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
 		Date startDate = new Date(assignment.getStartDate());
 		Date dueDate = new Date(assignment.getDueDate());
 
@@ -88,13 +94,11 @@ public class AssignmentDetails extends Activity {
 		return true;
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
-		int menuItem = item.getItemId();
 
 		return super.onOptionsItemSelected(item);
 	}

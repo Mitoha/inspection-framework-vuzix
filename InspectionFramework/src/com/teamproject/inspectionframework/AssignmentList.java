@@ -13,17 +13,22 @@ import android.widget.ListView;
 
 import com.teamproject.inspectionframework.Application_Layer.SynchronizationHelper;
 import com.teamproject.inspectionframework.Entities.Assignment;
-import com.teamproject.inspectionframework.List_Adapters.AssignmentAdapter;
+import com.teamproject.inspectionframework.List_Adapters.AssignmentListAdapter;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
 import com.vuzix.speech.Constants;
 import com.vuzix.speech.VoiceControl;
 
+/**
+ * Creates the screen displaying the list of assignments per user
+ * 
+ *
+ */
 public class AssignmentList extends ListActivity {
 
 	// VAR-declaration
 	private MySQLiteHelper datasource;
-	private AssignmentAdapter adapter;
+	private AssignmentListAdapter adapter;
 	private SynchronizationHelper syncHelper;
 	private VoiceControl vc;
 	private MyApplication myApp;
@@ -63,11 +68,14 @@ public class AssignmentList extends ListActivity {
 		return true;
 	}
 
+	/**
+	 * Creates the list of assignments
+	 */
 	public void createOutputList() {
 		datasource = new MySQLiteHelper(getApplicationContext());
 		List<Assignment> listWithAllAssignmentsByUser = datasource.getAssignmentsByUserId(myApp.getUser().getUserId());
 
-		adapter = new AssignmentAdapter(this, listWithAllAssignmentsByUser);
+		adapter = new AssignmentListAdapter(this, listWithAllAssignmentsByUser);
 		setListAdapter(adapter);
 
 		datasource.close();
@@ -87,8 +95,7 @@ public class AssignmentList extends ListActivity {
 	};
 
 	/**
-	 * This makes sure that when pressing the BACK-Button, the User List is
-	 * up-to-date
+	 * Updates the list of users when pressing BACK
 	 */
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {

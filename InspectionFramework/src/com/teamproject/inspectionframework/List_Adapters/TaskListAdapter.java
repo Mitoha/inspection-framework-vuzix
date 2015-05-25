@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.teamproject.inspectionframework.R;
 import com.teamproject.inspectionframework.Entities.Task;
 
+/**
+ * Creates and handles the action bar tabs in MainActivity.java
+ *
+ */
 public class TaskListAdapter extends BaseAdapter {
 
 	List<Task> taskList;
