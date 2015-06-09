@@ -77,7 +77,6 @@ public class AssignmentList extends ListActivity {
 
 		adapter = new AssignmentListAdapter(this, listWithAllAssignmentsByUser);
 		setListAdapter(adapter);
-
 		datasource.close();
 	}
 

@@ -2,17 +2,18 @@ package com.teamproject.inspectionframework.Application_Layer;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
-import android.annotation.SuppressLint;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
+import android.content.Intent;
 import android.widget.Toast;
+
+import com.teamproject.inspectionframework.AssignmentList;
 import com.teamproject.inspectionframework.R;
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.Attachment;
@@ -32,9 +33,10 @@ public class SynchronizationHelper {
 	private HttpCustomClient putrestInstance;
 	private InternetConnectionDetector icd;
 	private ParseJSON parser = new ParseJSON();
-	private boolean mResult = false;
-	private boolean uploadReady;
-	private boolean downloadReady;
+	private Context ctx;
+	private List<String> versionErrorList;
+	private String userId;
+	private Activity activity;
 
 	public SynchronizationHelper() {
 
@@ -56,10 +58,11 @@ public class SynchronizationHelper {
 		restInstance = new HttpCustomClient();
 		putrestInstance = new HttpCustomClient();
 		icd = new InternetConnectionDetector(ctx);
-		uploadReady = false;
-		downloadReady = false;
+		this.ctx = ctx;
+		this.userId = userId;
+		this.activity = activity;
 
-		List<String> noSyncList = new ArrayList<String>();
+		versionErrorList = new ArrayList<String>();
 
 		if (icd.isConnectedToInternet() == true) {
 
@@ -77,29 +80,15 @@ public class SynchronizationHelper {
 					InspectionObject inspectionObject = datasource.getInspectionObjectById(assignment.getInspectionObjectId());
 
 					List<Task> taskList = datasource.getTasksByAssignmentId(assignment.getId());
+
 					// Upload the assignment with all related tasks
 					putJObject = parser.completeAssignmentToJson(assignment, taskList, user, inspectionObject);
-					System.out.println(putJObject);
-					System.out.println(assignment.getState());
+
 					Integer statusResponse = restInstance.putToHerokuServer("assignment", putJObject, assignment.getId());
-					System.out.println("PUT:" + statusResponse);
 
-					// Gives the user to the choice to delete or keep the local
-					// version if upload is not possible due to version problems
+					// Records version errors
 					if (statusResponse == 400) {
-
-						boolean userChoice = alertDialogHandler(assignment.getAssignmentName() + ": Version error", "Download new version and overwrite local or keep local?", activity);
-
-						// Keep local version
-						if (userChoice == true) {
-							noSyncList.add(assignment.getId());
-
-						}
-
-						// Download remote version
-						if (userChoice == false) {
-							// Continue with program
-						}
+						versionErrorList.add(assignment.getId());
 					}
 
 					if (statusResponse == 204) {
@@ -111,42 +100,29 @@ public class SynchronizationHelper {
 							for (int j = 0; j < attachmentList.size(); j++) {
 								Attachment attachment = attachmentList.get(j);
 								putrestInstance.postAttachmentToHerokuServer(assignment.getId(), attachment.getTaskId(), attachment.getBinaryObject());
-								System.out.println("Attachments uploaded!");
 							}
 						}
-						uploadReady = true;
-					}
 
-					// Deletes all local instances in the database only when the
-					// assignment is final (state 2)
-					if (assignment.getState() == 2) {
 						datasource.deleteInspectionObject(assignment.getInspectionObjectId());
-						System.out.println("IO gelöscht!");
 						datasource.deleteAssignment(assignment.getId());
 
-						System.out.println("Assignment deleted!");
 						for (int j = 0; j < taskList.size(); j++) {
 							Task task = taskList.get(j);
 							datasource.deleteTask(task.getId());
-							System.out.println("Task:" + j);
 						}
 					}
-
 				}
-				System.out.println("Nicht gesynct: " + noSyncList);
-
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 			restInstance.client.getConnectionManager().closeExpiredConnections();
+
 			// DOWNLOAD-PART
 			// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 			String inputAssignment = restInstance.readHerokuServer("assignment?user_id=" + userId);
-			if (inputAssignment != null) {
-				downloadReady = true;
-			}
+
 			try {
 				JSONArray jArray = new JSONArray(inputAssignment);
 
@@ -154,16 +130,14 @@ public class SynchronizationHelper {
 					Assignment assignment = new Assignment();
 					JSONObject jObject = jArray.getJSONObject(i);
 
-					JSONObject jObjectUser = new JSONObject(jObject.get("user").toString());
-
 					// Filters the input stream: Don't pick templates,
-					// finished assignments and assignments that don't get
-					// updated
-					if (jObject.get("isTemplate").toString() == "true" || jObject.getInt("state") == 2) {
+					// finished assignments and assignments where a local
+					// version error occurred
+					if (jObject.get("isTemplate").toString().equals("true") || jObject.getInt("state") == 2 || versionErrorList.contains(jObject.get("id").toString())) {
 						continue;
 					}
 
-					// get and set the values for the table assignments
+					// Set values for an assignment
 					assignment.setDescription(jObject.get("description").toString());
 					assignment.setAssignmentName(jObject.get("assignmentName").toString());
 					assignment.setId(jObject.get("id").toString());
@@ -174,10 +148,7 @@ public class SynchronizationHelper {
 					assignment.setState(jObject.getInt("state"));
 					assignment.setVersion(jObject.getInt("version"));
 
-					// Download all tasks assigned to an assignment from the
-					// server
-					// jArrayTask gets the SubJSONObject "tasks"
-
+					// Set values for all tasks
 					JSONArray jArrayTask = new JSONArray(jObject.get("tasks").toString());
 
 					for (int j = 0; j < jArrayTask.length(); j++) {
@@ -186,28 +157,9 @@ public class SynchronizationHelper {
 						task.setId(jObjectTask.get("id").toString());
 						task.setDescription(jObjectTask.get("description").toString());
 						task.setAssignmentId(assignment.getId());
-
-						// Checks if Task state is set
-						if (jObjectTask.isNull("state")) {
-							task.setState(0);
-						} else {
-							task.setState(jObjectTask.getInt("state"));
-						}
-
+						task.setState(jObjectTask.getInt("state"));
 						task.setTaskName(jObjectTask.get("taskName").toString());
 						task.setErrorDescription(jObjectTask.get("errorDescription").toString());
-
-						// Store all assigned tasks into the database
-						List<Task> taskList = new ArrayList<Task>();
-						taskList = datasource.getTasksByAssignmentId(assignment.getId());
-						for (int m = 0; m < taskList.size(); m++) {
-							Task task1 = new Task();
-							task1 = taskList.get(m);
-							if (task.getId().equals(task1.getId())) {
-								datasource.deleteTask(task1.getId());
-
-							}
-						}
 
 						datasource.createTask(task);
 					}
@@ -223,65 +175,125 @@ public class SynchronizationHelper {
 					// Store the inspection object into the database
 					datasource.createInspectionObject(inspectionObject);
 
-					assignment.setUserId(jObjectUser.get("id").toString());
+					assignment.setUserId(userId);
 					assignment.setInspectionObjectId(inspectionObject.getId());
 
 					// Store all assignments into the database
-					// Store all assigned tasks into the database
-					List<Assignment> assignmentList = new ArrayList<Assignment>();
-					assignmentList = datasource.getAllAssignments();
-					int state = 0;
-					System.out.println("Status: 0");
-
-					for (int m = 0; m < assignmentList.size(); m++) {
-						Assignment assignment1 = new Assignment();
-						assignment1 = assignmentList.get(m);
-
-						if (assignment.getId().equals(assignment1.getId())) {
-							state = 1;
-							System.out.println("Status: 1");
-							for (int b = 0; b < noSyncList.size(); b++) {
-								String noSyncedId = noSyncList.get(b);
-								if (assignment.getId().equals(noSyncedId)) {
-									assignment1.setVersion(assignment.getVersion());
-									datasource.updateAssignment(assignment1);
-									state = 2;
-
-								}
-								if (state == 2) {
-									System.out.println("Status: 2");
-									break;
-								}
-							}
-
-						}
-						// Handles accorcing to the state
-						if (state == 1) {
-							datasource.updateAssignment(assignment);
-							break;
-						}
-					}
-					if (state == 0) {
-						datasource.createAssignment(assignment);
-					}
+					datasource.createAssignment(assignment);
+					datasource.close();
 				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
-		} else {
-			Toast errorToast = Toast.makeText(ctx, R.string.toast_no_internet, Toast.LENGTH_SHORT);
-			errorToast.show();
-		}
+			// A user prompt will be shown if version error(s) occurred
+			if (versionErrorList.size() > 0) {
+				for (int j = 0; j < versionErrorList.size(); j++) {
 
-		Toast errorToast = Toast.makeText(ctx, R.string.toast_sync_success, Toast.LENGTH_SHORT);
-		errorToast.show();
+					Assignment assignment = datasource.getAssignmentById(versionErrorList.get(j));
+					alertDialogHandler(assignment.getAssignmentName() + ": Version error", "Download new version and overwrite local or keep local?\nWarning: Assignments having the status 'finished' on the server will be removed from this device!", activity, j, assignment);
+				}
+
+			} else {
+				Toast toast = Toast.makeText(ctx, R.string.toast_sync_success, Toast.LENGTH_SHORT);
+				toast.show();
+			}
+
+		} else {
+			Toast toast = Toast.makeText(ctx, R.string.toast_no_internet, Toast.LENGTH_SHORT);
+			toast.show();
+		}
 
 	}
 
 	/**
-	 * Handles the alert dialogue that occurs when a versioning error occures
+	 * Downloads assignments and associated object for assignments where a
+	 * version error occurred
+	 * 
+	 */
+	private void syncAssignmentWithVersionError(Assignment assignment) {
+
+		// Remove version from local database
+		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+		datasource.deleteInspectionObject(assignment.getInspectionObjectId());
+		datasource.deleteAssignment(assignment.getId());
+
+		List<Task> taskList = datasource.getTasksByAssignmentId(assignment.getId());
+
+		for (int j = 0; j < taskList.size(); j++) {
+			Task task = taskList.get(j);
+			datasource.deleteTask(task.getId());
+		}
+
+		// Download updated assignment version and related items
+		// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+		String inputAssignment = restInstance.readHerokuServer("assignment/" + assignment.getId());
+
+		try {
+			JSONObject jObject = new JSONObject(inputAssignment);
+			Assignment downloadedAssignment = new Assignment();
+
+			// Filters the input stream: Don't pick templates and finished
+			// assignments
+			if (jObject.get("isTemplate").toString().equals("true") || jObject.getInt("state") == 2) {
+				;
+			} else {
+
+				// Set values for an assignment
+				downloadedAssignment.setDescription(jObject.get("description").toString());
+				downloadedAssignment.setAssignmentName(jObject.get("assignmentName").toString());
+				downloadedAssignment.setId(jObject.get("id").toString());
+				downloadedAssignment.setIsTemplate((jObject.get("isTemplate").toString()));
+				downloadedAssignment.setStartDate(jObject.getLong("startDate"));
+				downloadedAssignment.setDueDate(jObject.getLong("endDate"));
+				downloadedAssignment.setInspectionObjectId(jObject.get("isTemplate").toString());
+				downloadedAssignment.setState(jObject.getInt("state"));
+				downloadedAssignment.setVersion(jObject.getInt("version"));
+
+				// Set values for all tasks
+				JSONArray jArrayTask = new JSONArray(jObject.get("tasks").toString());
+
+				for (int j = 0; j < jArrayTask.length(); j++) {
+					Task task = new Task();
+					JSONObject jObjectTask = jArrayTask.getJSONObject(j);
+					task.setId(jObjectTask.get("id").toString());
+					task.setDescription(jObjectTask.get("description").toString());
+					task.setAssignmentId(downloadedAssignment.getId());
+					task.setState(jObjectTask.getInt("state"));
+					task.setTaskName(jObjectTask.get("taskName").toString());
+					task.setErrorDescription(jObjectTask.get("errorDescription").toString());
+
+					datasource.createTask(task);
+				}
+
+				JSONObject jObjectInspectionObject = new JSONObject(jObject.get("inspectionObject").toString());
+				InspectionObject inspectionObject = new InspectionObject();
+				inspectionObject.setId(jObjectInspectionObject.get("id").toString());
+				inspectionObject.setObjectName(jObjectInspectionObject.get("objectName").toString());
+				inspectionObject.setCustomerName(jObjectInspectionObject.get("customerName").toString());
+				inspectionObject.setDescription(jObjectInspectionObject.get("description").toString());
+				inspectionObject.setLocation(jObjectInspectionObject.get("location").toString());
+
+				// Store the inspection object into the database
+				datasource.createInspectionObject(inspectionObject);
+
+				downloadedAssignment.setUserId(userId);
+				downloadedAssignment.setInspectionObjectId(inspectionObject.getId());
+
+				// Store all assignments into the database
+				datasource.createAssignment(downloadedAssignment);
+				datasource.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Handles the alert dialogue that occurs when a version error occurs
 	 * 
 	 * @param title
 	 *            Title of the error message
@@ -291,43 +303,43 @@ public class SynchronizationHelper {
 	 *            The activity object of the invoking activity
 	 * @return The user's decision
 	 */
-	@SuppressLint("HandlerLeak")
-	public boolean alertDialogHandler(String title, String message, Activity activity) {
-		// make a handler that throws a runtime exception when a message is
-		// received
-
-		final Handler handler = new Handler() {
-			@Override
-			public void handleMessage(Message mesg) {
-				throw new RuntimeException();
-			}
-		};
+	public void alertDialogHandler(String title, String message, Activity activity, int itemNumber, Assignment assignment) {
+		final int ITEM = itemNumber;
+		final Assignment ASSIGNMENT = assignment;
+		final Activity act = this.activity;
 
 		// make a text input dialog and show it
 		AlertDialog.Builder alert = new AlertDialog.Builder(activity);
 		alert.setTitle(title);
 		alert.setMessage(message);
-		alert.setPositiveButton("Keep", new DialogInterface.OnClickListener() {
+		alert.setPositiveButton("Keep Local", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				mResult = true;
-				handler.sendMessage(handler.obtainMessage());
+				// ...
+
+				if (ITEM == 0) {
+					Intent updateList = new Intent(ctx, AssignmentList.class);
+					act.startActivity(updateList);
+					Toast toast = Toast.makeText(ctx, R.string.toast_sync_success, Toast.LENGTH_SHORT);
+					toast.show();
+				}
 			}
 		});
 		alert.setNegativeButton("Download", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int whichButton) {
-				mResult = false;
-				handler.sendMessage(handler.obtainMessage());
+
+				// Remove local version from database and download new version
+				// from server
+				syncAssignmentWithVersionError(ASSIGNMENT);
+
+				if (ITEM == 0) {
+					Intent updateList = new Intent(ctx, AssignmentList.class);
+					act.startActivity(updateList);
+					Toast toast = Toast.makeText(ctx, R.string.toast_sync_success, Toast.LENGTH_SHORT);
+					toast.show();
+				}
 			}
 		});
 		alert.show();
-
-		// loop till a runtime exception is triggered.
-		try {
-			Looper.loop();
-		} catch (RuntimeException e2) {
-		}
-
-		return mResult;
 	}
 
 	/**
