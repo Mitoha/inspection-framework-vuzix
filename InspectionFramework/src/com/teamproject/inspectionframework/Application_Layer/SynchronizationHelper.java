@@ -99,7 +99,8 @@ public class SynchronizationHelper {
 						if (attachmentList != null) {
 							for (int j = 0; j < attachmentList.size(); j++) {
 								Attachment attachment = attachmentList.get(j);
-								putrestInstance.postAttachmentToHerokuServer(assignment.getId(), attachment.getTaskId(), attachment.getBinaryObject());
+
+								putrestInstance.postAttachmentToHerokuServer(assignment.getId(), attachment.getTaskId(), attachment.getBinaryObject(), attachment.getFile_type());
 							}
 						}
 

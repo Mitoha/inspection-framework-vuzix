@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -96,18 +97,29 @@ public class AttachmentHandler {
 			try {
 				Bitmap bitmap = BitmapFactory.decodeFile(photoPath);
 				ByteArrayOutputStream stream = new ByteArrayOutputStream();
-				bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream);
 				byte[] array = stream.toByteArray();
+
+				// Search in DB if task has already a photo attachment
+				List<String> attachmentList = datasource.getAttachmentIds(assignment.getId(), task.getId(), "Photo");
+				for (int i = 0; i < attachmentList.size(); i++) {
+					String oldAttachment = attachmentList.get(i);
+					if (oldAttachment != null) {
+						datasource.deleteAttachment(oldAttachment);
+					}
+				}
 
 				Attachment attachment = new Attachment();
 				attachment.setTaskId(task.getId());
 				attachment.setAssignmentId(assignment.getId());
 				attachment.setFile_type("Photo");
 				attachment.setBinaryObject(array);
+				attachment.setId(assignment.getId() + task.getId()+"_photo");
 
 				datasource.createAttachment(attachment);
 				datasource.close();
 				result = true;
+
 			} catch (Exception e) {
 				Log.e("IF", "An error occurec!", e);
 			}
@@ -197,12 +209,22 @@ public class AttachmentHandler {
 			fis.close();
 
 			byte[] array = bos.toByteArray();
+			
+			//Search in DB if task has already an audio attachment
+			List<String> attachmentList = datasource.getAttachmentIds(assignment.getId(), task.getId(), "Audio");
+			for (int i = 0; i < attachmentList.size(); i++) {
+				String oldAttachment = attachmentList.get(i);
+				if (oldAttachment != null) {
+					datasource.deleteAttachment(oldAttachment);
+				}
+			}
 
 			Attachment attachment = new Attachment();
 			attachment.setTaskId(task.getId());
 			attachment.setAssignmentId(assignment.getId());
 			attachment.setFile_type("Audio");
 			attachment.setBinaryObject(array);
+			attachment.setId(assignment.getId() + task.getId()+"_audio");
 
 			datasource.createAttachment(attachment);
 			datasource.close();

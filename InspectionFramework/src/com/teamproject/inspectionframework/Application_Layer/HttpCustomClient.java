@@ -175,9 +175,10 @@ public class HttpCustomClient {
 	 * @param imageByte
 	 *            Byte array of the image that is sent to the server
 	 */
-	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] imageByte) {
+	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] imageByte, String type) {
 		// declaration
 		StringBuilder stringBuilder = new StringBuilder();
+		InputStreamBody inputStreamBody = null;
 
 		// Allow internet connection
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -192,8 +193,13 @@ public class HttpCustomClient {
 
 		// Create a new inputStreamBody and add the bytearray(picture) to it
 		// Give names for the picture
-		InputStreamBody inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Pic.jpg");
+		if (type.equals("Photo")) {
+			inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Pic.jpg");
 
+		}
+		if (type.equals("Audio")) {
+			inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Audio.3gp");
+		}
 		// Add the filebody to the multipartEntity
 		// Specified from serverside it must be "fileUpload"
 		multipartEntity.addPart("fileUpload", inputStreamBody);
@@ -220,7 +226,7 @@ public class HttpCustomClient {
 					stringBuilder.append(line);
 					System.out.println(line);
 				}
-				client.getConnectionManager().shutdown();
+//				client.getConnectionManager().shutdown();
 			} else {
 				Log.e(ParseJSON.class.toString(), "Upload not possible!");
 
