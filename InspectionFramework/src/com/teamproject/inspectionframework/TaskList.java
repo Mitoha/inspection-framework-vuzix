@@ -15,9 +15,6 @@ import android.widget.Toast;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.List_Adapters.TaskListAdapter;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
-import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
-import com.vuzix.speech.Constants;
-import com.vuzix.speech.VoiceControl;
 
 /**
  * Creates the screen displaying the task list per assignment
@@ -28,19 +25,18 @@ public class TaskList extends ListActivity {
 	// VAR-declaration
 	private MySQLiteHelper datasource;
 	private TaskListAdapter adapter;
-	private VoiceControl vc;
 	private MyApplication myApp;
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		vc.on();
+		myApp.vc.on();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		vc.off();
+		myApp.vc.off();
 	}
 
 	@Override
@@ -48,10 +44,6 @@ public class TaskList extends ListActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_task_list);
 		myApp = (MyApplication) getApplicationContext();
-
-		// START VC ACTIVITY
-		vc = new VuzixVoiceControl(getApplicationContext());
-		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Adjust Action Bar title
 		ActionBar actionBar = getActionBar();
@@ -86,16 +78,12 @@ public class TaskList extends ListActivity {
 
 		Intent gotToTaskDetailsIntent = new Intent(this, TaskDetails.class);
 		myApp.setTask(clickedTask);
-		if (vc != null)
-			vc.destroy();
 		startActivity(gotToTaskDetailsIntent);
 	};
 
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if ((keyCode == KeyEvent.KEYCODE_BACK)) {
 			Intent goToAssignmentList = new Intent(this, AssignmentList.class);
-			if (vc != null)
-				vc.destroy();
 			startActivity(goToAssignmentList);
 		}
 
@@ -119,8 +107,6 @@ public class TaskList extends ListActivity {
 		case R.id.action_show_assignment_details:
 
 			Intent goToAssignmentDetailsIntent = new Intent(this, AssignmentDetails.class);
-			if (vc != null)
-				vc.destroy();
 			startActivity(goToAssignmentDetailsIntent);
 
 			break;

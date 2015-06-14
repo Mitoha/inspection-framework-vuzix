@@ -1,7 +1,6 @@
 package com.teamproject.inspectionframework;
 
 import java.sql.Date;
-
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -14,9 +13,6 @@ import android.widget.TextView;
 
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
-import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
-import com.vuzix.speech.Constants;
-import com.vuzix.speech.VoiceControl;
 
 /**
  * Creates the screen displaying the details of an assignment
@@ -28,18 +24,17 @@ public class AssignmentDetails extends Activity {
 	// VAR-Declaration
 	private MySQLiteHelper datasource;
 	private MyApplication myApp;
-	private VoiceControl vc;
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		vc.on();
+		myApp.vc.on();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		vc.off();
+		myApp.vc.off();
 	}
 
 	@Override
@@ -51,10 +46,6 @@ public class AssignmentDetails extends Activity {
 		// Adjust Action Bar title
 		ActionBar actionBar = getActionBar();
 		actionBar.setTitle(getString(R.string.title_activity_assignment_details) + ": " + myApp.getAssignment().getAssignmentName());
-
-		// START VC ACTIVITY
-		vc = new VuzixVoiceControl(getApplicationContext());
-		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Create output
 		datasource = new MySQLiteHelper(getApplicationContext());

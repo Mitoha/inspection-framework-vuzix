@@ -165,24 +165,20 @@ public class AttachmentHandler {
 		Log.i("IF", "StartRecording__Audiofile created!");
 		try {
 			recorder.prepare();
-			
-			//Short break necessary because of slow Vuzix processor
-            Thread.sleep(1000);
-            
+
+			// Short break necessary because of slow Vuzix processor
+			Thread.sleep(1000);
+
 			recorder.start();
-			Log.i("IF", "StartRecording_PREPARED!");
 
 		} catch (IOException e) {
 			// prepare() fails
 			e.printStackTrace();
-			Log.e("IF", "StartRecording__PrepareStartFAIL!");
-
 		} catch (IllegalStateException e) {
 			// start() before prepare; prepare() after start() or before
 			// setOutputFormat()
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		result = true;

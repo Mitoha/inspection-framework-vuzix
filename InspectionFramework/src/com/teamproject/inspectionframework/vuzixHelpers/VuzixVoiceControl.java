@@ -29,7 +29,7 @@ public class VuzixVoiceControl extends VoiceControl {
 	 */
 	@Override
 	protected void onRecognition(String voiceCommand) {
-		Log.i("IF", voiceCommand);
+		Log.i("IF_voiceCommand", voiceCommand);
 		cmd = voiceCommand;
 
 		new Thread(new Runnable() {

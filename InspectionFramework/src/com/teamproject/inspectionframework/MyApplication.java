@@ -1,12 +1,15 @@
 package com.teamproject.inspectionframework;
 
+import android.app.Application;
+import android.content.res.Configuration;
+
 import com.teamproject.inspectionframework.Entities.Assignment;
 import com.teamproject.inspectionframework.Entities.Task;
 import com.teamproject.inspectionframework.Entities.User;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
-
-import android.app.Application;
-import android.content.res.Configuration;
+import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
+import com.vuzix.speech.Constants;
+import com.vuzix.speech.VoiceControl;
 
 /**
  * This class stores application-wide used values
@@ -17,6 +20,7 @@ public class MyApplication extends Application {
 	private User user;
 	private Assignment assignment;
 	private Task task;
+	public VoiceControl vc;
 
 	private MySQLiteHelper datasource;
 
@@ -28,6 +32,8 @@ public class MyApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		vc = new VuzixVoiceControl(getApplicationContext());
+		vc.addGrammar(Constants.GRAMMAR_BASIC);
 	}
 
 	@Override
@@ -38,6 +44,8 @@ public class MyApplication extends Application {
 	@Override
 	public void onTerminate() {
 		super.onTerminate();
+		if (vc != null)
+			vc.destroy();
 	}
 
 	// Getter and Setter

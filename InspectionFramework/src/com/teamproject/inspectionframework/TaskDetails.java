@@ -20,9 +20,6 @@ import android.widget.Toast;
 import com.teamproject.inspectionframework.List_Adapters.TabAdapterTaskDetails;
 import com.teamproject.inspectionframework.Persistence_Layer.MySQLiteHelper;
 import com.teamproject.inspectionframework.vuzixHelpers.AttachmentHandler;
-import com.teamproject.inspectionframework.vuzixHelpers.VuzixVoiceControl;
-import com.vuzix.speech.Constants;
-import com.vuzix.speech.VoiceControl;
 
 /**
  * Creates the screen displaying the details of a task (state setter and
@@ -37,20 +34,19 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 	private ActionBar actionBar;
 	private String[] tabs = { "Details", "Attachments" };
 	private MyApplication myApp;
-	private VoiceControl vc;
 	private AttachmentHandler attHandler;
 	private Button soundRecordingButton;
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		vc.on();
+		myApp.vc.on();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		vc.off();
+		myApp.vc.off();
 	}
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +55,6 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 
 		myApp = (MyApplication) getApplicationContext();
 		attHandler = new AttachmentHandler(getApplicationContext(), this);
-
-		// START VC ACTIVITY
-		vc = new VuzixVoiceControl(getApplicationContext());
-		vc.addGrammar(Constants.GRAMMAR_BASIC);
 
 		// Adjust Action Bar title
 		actionBar = getActionBar();
@@ -183,8 +175,6 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 
 		// Go back to task list
 		Intent goToTaskList = new Intent(this, TaskList.class);
-		if (vc != null)
-			vc.destroy();
 		startActivity(goToTaskList);
 	}
 
@@ -205,9 +195,10 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 		Boolean startTrigger = false;
 
 		if (soundRecordingButton.getTag().equals("START")) {
-			if (vc != null)
-				vc.off();
-			vc.destroy();
+			if (myApp.vc != null) {
+				myApp.vc.off();
+			}
+//			vc.destroy();
 			boolean result = attHandler.startAudioRecording();
 			if (result == true) {
 				// Changes button layout
@@ -226,11 +217,7 @@ public class TaskDetails extends FragmentActivity implements ActionBar.TabListen
 
 		if (soundRecordingButton.getTag().equals("STOP") && startTrigger == false) {
 			boolean result = attHandler.stopAudioRecording();
-
-			// START VC ACTIVITY
-			vc = new VuzixVoiceControl(getApplicationContext());
-			vc.addGrammar(Constants.GRAMMAR_BASIC);
-			vc.on();
+			myApp.vc.on();
 
 			// Changes button layout
 			soundRecordingButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_play, 0, 0, 0);
