@@ -734,9 +734,20 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return attachmentList;
 	}
 
+	/**
+	 * Get the attachment IDs for a given assignment, task and filetype
+	 * 
+	 * @param assignmentId
+	 *            Assignment-ID
+	 * @param taskId
+	 *            Task-ID
+	 * @param filetype
+	 *            Filetype (Photo or Audio)
+	 * @return The list of Attachment-IDs
+	 */
 	public List<String> getAttachmentIds(String assignmentId, String taskId, String filetype) {
 		List<String> attachmentList = new ArrayList<String>();
-		String selectQuery = "SELECT " + AT_COLUMN_ATTACHMENT_ID + " FROM " + MySQLiteHelper.TABLE_ATTACHMENTS + " WHERE " + AT_COLUMN_FK_ASSIGNMENT_ID + " = " + "'" + assignmentId + "' AND " + AT_COLUMN_FK_TASK_ID + " = " + "'" + taskId + "' AND "+ AT_COLUMN_FILE_TYPE + " = '" + filetype + "'";
+		String selectQuery = "SELECT " + AT_COLUMN_ATTACHMENT_ID + " FROM " + MySQLiteHelper.TABLE_ATTACHMENTS + " WHERE " + AT_COLUMN_FK_ASSIGNMENT_ID + " = " + "'" + assignmentId + "' AND " + AT_COLUMN_FK_TASK_ID + " = " + "'" + taskId + "' AND " + AT_COLUMN_FILE_TYPE + " = '" + filetype + "'";
 
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(selectQuery, null);

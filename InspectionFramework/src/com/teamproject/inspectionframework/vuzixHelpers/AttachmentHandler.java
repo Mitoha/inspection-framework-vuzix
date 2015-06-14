@@ -42,8 +42,8 @@ public class AttachmentHandler {
 	private Task task;
 	private Assignment assignment;
 	private String photoPath;
-	private MediaRecorder recorder;
-	private File audiofile;
+	MediaRecorder recorder;
+	File audiofile;
 	private static final int REQUEST_TAKE_PHOTO = 1;
 
 	public AttachmentHandler(Context ctx, Activity activity) {
@@ -114,7 +114,7 @@ public class AttachmentHandler {
 				attachment.setAssignmentId(assignment.getId());
 				attachment.setFile_type("Photo");
 				attachment.setBinaryObject(array);
-				attachment.setId(assignment.getId() + task.getId()+"_photo");
+				attachment.setId(assignment.getId() + task.getId() + "_photo");
 
 				datasource.createAttachment(attachment);
 				datasource.close();
@@ -161,15 +161,28 @@ public class AttachmentHandler {
 	public boolean startAudioRecording() throws IOException {
 		boolean result = false;
 		audiofile = createAudioFile();
+
+		Log.i("IF", "StartRecording__Audiofile created!");
 		try {
 			recorder.prepare();
+			
+			//Short break necessary because of slow Vuzix processor
+            Thread.sleep(1000);
+            
 			recorder.start();
+			Log.i("IF", "StartRecording_PREPARED!");
+
 		} catch (IOException e) {
 			// prepare() fails
 			e.printStackTrace();
+			Log.e("IF", "StartRecording__PrepareStartFAIL!");
+
 		} catch (IllegalStateException e) {
 			// start() before prepare; prepare() after start() or before
 			// setOutputFormat()
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		result = true;
@@ -209,8 +222,8 @@ public class AttachmentHandler {
 			fis.close();
 
 			byte[] array = bos.toByteArray();
-			
-			//Search in DB if task has already an audio attachment
+
+			// Search in DB if task has already an audio attachment
 			List<String> attachmentList = datasource.getAttachmentIds(assignment.getId(), task.getId(), "Audio");
 			for (int i = 0; i < attachmentList.size(); i++) {
 				String oldAttachment = attachmentList.get(i);
@@ -224,7 +237,7 @@ public class AttachmentHandler {
 			attachment.setAssignmentId(assignment.getId());
 			attachment.setFile_type("Audio");
 			attachment.setBinaryObject(array);
-			attachment.setId(assignment.getId() + task.getId()+"_audio");
+			attachment.setId(assignment.getId() + task.getId() + "_audio");
 
 			datasource.createAttachment(attachment);
 			datasource.close();

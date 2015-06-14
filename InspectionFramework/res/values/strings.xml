@@ -13,7 +13,7 @@
     <string name="list_noItemsAvailable">No Items Available!</string>
     <string name="tab_user_login">Login</string>
     <string name="tab_user_list">User list</string>
-    <string name="text_pair_smartphone">In order to login, please pair the device with a compatible Android smartphone.\nOtherwise, select a user from the user list.</string>
+    <string name="text_pair_smartphone">Login via paired smartphone or Vuzix virtual keyboard\n(OS 2.3 or higher required).\nOtherwise, select a user from the user list.</string>
     <string name="text_userlogin_button">Login</string>
     <string name="title_activity_fragment_task_attachment">FragmentTaskAttachment</string>
     <string name="AttachmentButton_voice">Voice Recording</string>

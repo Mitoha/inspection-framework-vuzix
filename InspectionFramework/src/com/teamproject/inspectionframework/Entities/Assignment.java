@@ -124,6 +124,6 @@ public class Assignment {
 
     @Override
     public String toString() {
-        return description;
+        return assignmentName;
     }
 }

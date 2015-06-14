@@ -172,10 +172,10 @@ public class HttpCustomClient {
 	 *            ID of the corresponding assignment
 	 * @param taskId
 	 *            ID of the corresponding task
-	 * @param imageByte
+	 * @param byteArray
 	 *            Byte array of the image that is sent to the server
 	 */
-	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] imageByte, String type) {
+	public void postAttachmentToHerokuServer(String assignmentId, String taskId, byte[] byteArray, String type) {
 		// declaration
 		StringBuilder stringBuilder = new StringBuilder();
 		InputStreamBody inputStreamBody = null;
@@ -194,11 +194,11 @@ public class HttpCustomClient {
 		// Create a new inputStreamBody and add the bytearray(picture) to it
 		// Give names for the picture
 		if (type.equals("Photo")) {
-			inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Pic.jpg");
+			inputStreamBody = new InputStreamBody(new ByteArrayInputStream(byteArray), "Pic.jpg");
 
 		}
 		if (type.equals("Audio")) {
-			inputStreamBody = new InputStreamBody(new ByteArrayInputStream(imageByte), "Audio.3gp");
+			inputStreamBody = new InputStreamBody(new ByteArrayInputStream(byteArray), "Audio.3gp");
 		}
 		// Add the filebody to the multipartEntity
 		// Specified from serverside it must be "fileUpload"
